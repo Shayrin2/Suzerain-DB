@@ -47,7 +47,7 @@ And must be placed inside of /data.
 Suzerain and all associated content are the property of their respective owners.
 
 This project provides tools for inspecting and analyzing Suzerain game data.
-For convenience, extracted text-based data files may be made available separately.
+For convenience, extracted text-based data files may be made available separately or within the repository.
 
 These files contain copyrighted material and are provided solely for
 personal research, analysis, and educational purposes.

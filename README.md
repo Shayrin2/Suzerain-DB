@@ -40,3 +40,29 @@ The file can be downloaded from here : https://fileport.io/k7vq6Y6MpLGV
 
 And must be placed inside of /data.
 
+---
+
+## Legal / Disclaimer
+
+Suzerain and all associated content are the property of their respective owners.
+
+This project provides tools for inspecting and analyzing Suzerain game data.
+For convenience, extracted text-based data files may be made available separately.
+
+These files contain copyrighted material and are provided solely for
+personal research, analysis, and educational purposes.
+
+If you are the copyright holder and believe this distribution is inappropriate,
+please contact the repository owner and the files will be removed.
+
+This project is non-commercial and not affiliated with the developers or publishers of Suzerain.
+
+---
+
+## Status
+
+This project is under active development and refactoring.  
+Some sections may be incomplete or subject to redesign.
+
+Expect rough edges.
+

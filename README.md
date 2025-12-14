@@ -36,6 +36,10 @@ This repository **does not include Suzerain.txt** as it is too big (560MB) for G
 
 I will provide a way for the full file to be downloaded; or I'll split the file in 90MB chunks with a script provided to reconstruct it as a single file.
 
+For legal reasons, I may also have to forgo this approach and instead opt to make a script which extracts the data directly from your game's folders.
+
+Otherwise, once the project is complete I am opened to hosting a permanent web-site instead of the "local" format.
+
 The file can be downloaded from here : https://fileport.io/k7vq6Y6MpLGV
 
 And must be placed inside of /data.

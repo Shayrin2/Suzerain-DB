@@ -1,0 +1,130 @@
+/* ---- Choice cards ---- */
+
+.card {
+    border-radius: var(--radius-md);
+    background: radial-gradient(circle at top left, var(--bg-card-soft), var(--bg-card));
+    border: 1px solid rgba(68, 84, 132, 0.55);
+    box-shadow: var(--shadow-subtle);
+    padding: 10px 12px 8px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* subtle glow strip at the top */
+.card::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 2px;
+    background: linear-gradient(90deg, rgba(79, 125, 255, 0.35), rgba(226, 184, 107, 0.55));
+    opacity: 0.7;
+}
+
+/* Mutually exclusive highlight */
+.card-footer {
+    margin-top: 8px;
+    padding-top: 6px;
+    border-top: 1px dashed rgba(84, 92, 140, 0.7);
+    font-size: 0.78rem;
+    color: var(--text-soft);
+}
+
+.card-footer::before {
+    content: "⊕ ";
+    color: var(--text-accent);
+}
+
+/* Header */
+
+.card-header {
+    margin-bottom: 6px;
+}
+
+.card-title {
+    font-size: 0.98rem;
+    margin: 0;
+    font-weight: 600;
+    color: var(--text-main);
+}
+
+.card-subtitle {
+    margin: 2px 0 0;
+    font-size: 0.8rem;
+    color: var(--text-soft);
+}
+
+.card-meta {
+    display: inline-block;
+    margin-top: 3px;
+    padding: 2px 7px;
+    font-size: 0.72rem;
+    border-radius: 999px;
+    background: rgba(79, 125, 255, 0.12);
+    color: var(--text-accent);
+}
+
+/* Body */
+
+.card-body {
+    margin-top: 4px;
+}
+
+.card-columns {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 10px 14px;
+}
+
+.card-column {
+    font-size: 0.8rem;
+}
+
+.card-column-title {
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-soft);
+    margin: 0 0 2px;
+}
+
+.card-list {
+    list-style: disc;
+    padding-left: 18px;
+    margin: 0;
+    max-height: 180px;
+    overflow-y: auto;
+}
+
+.card-list li {
+    margin: 0 0 2px;
+    color: var(--text-muted);
+    word-break: break-word;
+}
+
+/* Slight color hints */
+
+.card-column-title:nth-child(1),
+.card-column-title:first-of-type {
+    color: var(--text-bad);
+}
+
+.card-column-title + .card-list li {
+    /* first column entries a bit brighter */
+}
+
+/* Scrollbar styling for lists */
+
+.card-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.card-list::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.card-list::-webkit-scrollbar-thumb {
+    background: rgba(98, 108, 158, 0.9);
+    border-radius: 4px;
+}

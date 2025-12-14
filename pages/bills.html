@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Bills – Suzerain Viewer</title>
+  <link rel="stylesheet" href="../css/main.css" />
+  <link rel="stylesheet" href="../css/panels.css" />
+  <link rel="stylesheet" href="../css/cards.css" />
+</head>
+<body>
+  <section class="page">
+    <header class="page-header">
+      <h2>Bills</h2>
+    </header>
+
+<div class="toolbar">
+  <label>
+    Search
+    <input
+      type="text"
+      id="billSearchInput"
+      placeholder="Bill name / condition / variable"
+    />
+  </label>
+
+  <label>
+    Game
+    <select id="billGameFilter">
+      <option value="">(All)</option>
+      <option value="Base">Base game</option>
+      <option value="RiziaDLC">Rizia DLC</option>
+    </select>
+  </label>
+
+  <div class="spacer"></div>
+  <span class="count-info" id="billCountInfo"></span>
+</div>
+
+    <section id="billRoot" class="panel-group">
+      <details open class="panel">
+        <summary class="panel-title">
+          Bills
+          <span id="billSummaryCount" class="panel-meta"></span>
+        </summary>
+        <div id="billList" class="cards-container">
+          <!-- JS will inject bill cards here -->
+        </div>
+      </details>
+    </section>
+  </section>
+
+  <script src="../js/core/loader.js"></script>
+  <script src="../js/core/filter.js"></script>
+  <script src="../js/core/ui.js"></script>
+  <script src="../js/bills.js"></script>
+</body>
+</html>

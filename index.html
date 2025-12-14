@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Suzerain – Dialogue Database Viewer</title>
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/panels.css" />
+</head>
+<body>
+  <header class="site-header">
+    <h1>Suzerain – Database</h1>
+
+  </header>
+
+  <nav class="main-nav">
+    <button type="button" onclick="loadSection('pages/conversations.html')">
+      Conversations
+    </button>
+    <button type="button" onclick="loadSection('pages/bills.html')">
+      Bills
+    </button>
+    <button type="button" onclick="loadSection('pages/decisions.html')">
+      Decisions
+    </button>
+    <button type="button" onclick="loadSection('pages/decrees.html')">
+      Decrees
+    </button>
+    <button type="button" onclick="loadSection('pages/triggers.html')">
+      Triggers / Events
+    </button>
+        <button type="button" onclick="loadSection('pages/panels.html')">
+      Prologue / Panels
+    </button>
+  </nav>
+
+  <main class="main-content">
+    <!-- This is where child pages are shown -->
+    <iframe
+      id="contentFrame"
+      src="pages/conversations.html"
+      title="Suzerain data viewer"
+      frameborder="0"
+    ></iframe>
+  </main>
+
+  <script>
+    function loadSection(path) {
+      const frame = document.getElementById('contentFrame');
+      frame.src = path;
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Decisions – Suzerain Viewer</title>
+  <link rel="stylesheet" href="../css/main.css" />
+  <link rel="stylesheet" href="../css/panels.css" />
+  <link rel="stylesheet" href="../css/cards.css" />
+</head>
+<body>
+  <section class="page">
+    <header class="page-header">
+      <h2>Decisions</h2>
+    </header>
+
+  <div class="toolbar">
+    <label>
+      Search
+      <input
+        type="text"
+        id="decisionSearchInput"
+        placeholder="Decision name / condition / variable"
+      />
+    </label>
+
+    <label>
+      Game
+      <select id="decisionGameFilter">
+        <option value="">(All)</option>
+        <option value="Base">Base game</option>
+        <option value="RiziaDLC">Rizia DLC</option>
+      </select>
+    </label>
+
+    <div class="spacer"></div>
+    <span class="count-info" id="decisionCountInfo"></span>
+  </div>
+
+    <section id="decisionRoot" class="panel-group">
+      <details open class="panel">
+        <summary class="panel-title">
+          Decisions
+          <span id="decisionSummaryCount" class="panel-meta"></span>
+        </summary>
+        <div id="decisionList" class="cards-container">
+          <!-- JS will inject decision cards here -->
+        </div>
+      </details>
+    </section>
+  </section>
+
+  <script src="../js/core/loader.js"></script>
+  <script src="../js/core/filter.js"></script>
+  <script src="../js/core/ui.js"></script>
+  <script src="../js/decisions.js"></script>
+</body>
+</html>

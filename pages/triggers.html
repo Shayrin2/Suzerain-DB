@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Triggers & Events – Suzerain Viewer</title>
+  <link rel="stylesheet" href="../css/main.css" />
+  <link rel="stylesheet" href="../css/panels.css" />
+  <link rel="stylesheet" href="../css/cards.css" />
+</head>
+<body>
+  <section class="page">
+    <header class="page-header">
+      <h2>Triggers & Background Events</h2>
+    </header>
+
+    <div class="toolbar">
+      <label>
+        Search
+        <input
+          type="text"
+          id="triggerSearchInput"
+          placeholder="Variable / flag / condition"
+        />
+
+<div class="filters-group">
+  <span class="filters-label">Game</span>
+  <select id="triggerGameFilter">
+    <option value="">(All)</option>
+    <option value="Base">Base game</option>
+    <option value="RiziaDLC">Rizia DLC</option>
+  </select>
+</div>
+
+      </label>
+
+      <div class="spacer"></div>
+      <span class="count-info" id="triggerCountInfo"></span>
+    </div>
+
+    <section id="triggerRoot" class="panel-group">
+      <details open class="panel">
+        <summary class="panel-title">
+          Triggers
+          <span id="triggerSummaryCount" class="panel-meta"></span>
+        </summary>
+        <div id="triggerList" class="cards-container">
+          <!-- JS will inject trigger cards here -->
+        </div>
+      </details>
+    </section>
+  </section>
+
+<script src="../js/core/loader.js"></script>
+<script src="../js/core/filter.js"></script>
+<script src="../js/core/ui.js"></script>
+<script src="../js/core/suzerainParser.js"></script>
+<script src="../js/triggers.js"></script>
+
+</body>
+</html>

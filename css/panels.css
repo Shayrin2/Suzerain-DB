@@ -1,0 +1,62 @@
+/* Conversation panels (outer accordions) */
+
+.panel {
+    margin-bottom: 14px;
+    border-radius: var(--radius-lg);
+    background: linear-gradient(145deg, rgba(8, 10, 24, 0.96), rgba(5, 7, 18, 0.98));
+    border: 1px solid var(--border-soft);
+    box-shadow: var(--shadow-soft);
+    overflow: hidden;
+}
+
+.panel > summary {
+    list-style: none;
+}
+
+.panel[open] {
+    border-color: var(--border-strong);
+}
+
+.panel-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 14px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--text-main);
+}
+
+.panel-title::marker,
+.panel-title::-webkit-details-marker {
+    display: none;
+}
+
+.panel-title::before {
+    content: "▸";
+    font-size: 0.8rem;
+    margin-right: 8px;
+    color: var(--text-soft);
+    transition: transform 0.15s ease;
+}
+
+.panel[open] .panel-title::before {
+    transform: rotate(90deg);
+}
+
+.panel-meta {
+    font-size: 0.8rem;
+    color: var(--text-soft);
+    margin-left: auto;
+    margin-right: 6px;
+}
+
+/* Inner container for cards */
+
+.conv-cards {
+    padding: 10px 12px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}

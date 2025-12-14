@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Conversations – Suzerain Viewer</title>
+  <link rel="stylesheet" href="../css/main.css" />
+  <link rel="stylesheet" href="../css/panels.css" />
+  <link rel="stylesheet" href="../css/cards.css" />
+</head>
+<body>
+  <section class="page">
+    <header class="page-header">
+      <h2>Conversations – Player Choices</h2>
+    </header>
+
+    <div class="toolbar">
+      <label>
+        Search
+        <input
+          type="text"
+          id="searchInput"
+          placeholder="Text in Menu / Dialogue / Title / en"
+        />
+      </label>
+
+      <label>
+        Speaker
+        <select id="speakerFilter">
+          <option value="">(Any)</option>
+        </select>
+      </label>
+
+      <label>
+        Game
+        <select id="gameFilter">
+          <option value="">(All)</option>
+          <option value="RiziaDLC">Rizia DLC</option>
+          <option value="Base">Base game</option>
+        </select>
+      </label>
+
+      <label>
+        <input type="checkbox" id="onlyPlayerRomus" />
+        Hide Narrator
+      </label>
+
+      <label>
+        <input type="checkbox" id="onlyConsequential" />
+        Consequential only
+      </label>
+
+      <div class="spacer"></div>
+
+      <span class="count-info" id="countInfo"></span>
+      <button id="exportConversationsBtn" class="btn-secondary">
+        Export as .txt
+      </button>
+    </div>
+
+
+    <!-- This wraps all conversation groups so we can hide/show globally -->
+    <section id="conversationRoot" class="panel-group">
+      <details open class="panel">
+        <summary class="panel-title">
+          Conversations
+          <span id="conversationSummaryCount" class="panel-meta"></span>
+        </summary>
+        <div id="results" class="cards-container">
+          <!-- JS will inject conversation cards here -->
+        </div>
+      </details>
+    </section>
+  </section>
+
+  <script src="../js/core/loader.js"></script>
+  <script src="../js/core/filter.js"></script>
+  <script src="../js/core/ui.js"></script>
+  <script src="../js/core/suzerainParser.js"></script>
+  <script src="../js/conversations.js"></script>
+
+</body>
+</html>

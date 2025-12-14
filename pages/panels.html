@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Prologue & Panels – Suzerain Viewer</title>
+  <link rel="stylesheet" href="../css/main.css" />
+  <link rel="stylesheet" href="../css/cards.css" />
+</head>
+<body>
+  <section class="page">
+    <header class="page-header">
+      <h2>Prologue & Term Panels</h2>
+      <p class="intro">
+        Prologue origin choices and global decision panels (promises, budget, privatization,
+        nationalization, etc.), with their mechanical effects.
+      </p>
+    </header>
+
+    <!-- Filters -->
+    <section class="filters">
+      <div class="filters-group">
+        <span class="filters-label">Search</span>
+        <input
+          type="text"
+          id="panelSearchInput"
+          placeholder="Title / variable / condition / instruction"
+        />
+      </div>
+
+      <div class="filters-group">
+        <span class="filters-label">Section</span>
+        <select id="panelSectionFilter">
+          <option value="">(All)</option>
+          <option value="Prologue">Prologue</option>
+          <option value="DecisionsBudget">Decisions &amp; Budget</option>
+        </select>
+      </div>
+
+      <div class="filters-group">
+        <span class="filters-label">Game</span>
+        <select id="panelGameFilter">
+          <option value="">(All)</option>
+          <option value="Base">Base game</option>
+          <option value="RiziaDLC">Rizia DLC</option>
+        </select>
+      </div>
+
+      <div class="spacer"></div>
+
+      <span class="count-info" id="panelCountInfo"></span>
+    </section>
+
+    <!-- Results -->
+    <section class="results-wrapper">
+      <div id="panelResults" class="cards-container">
+        <!-- JS injects cards -->
+      </div>
+    </section>
+  </section>
+
+  <script src="../js/panels.js"></script>
+</body>
+</html>

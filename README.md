@@ -36,3 +36,7 @@ This repository **does not include Suzerain.txt** as it is too big (560MB) for G
 
 I will provide a way for the full file to be downloaded; or I'll split the file in 90MB chunks with a script provided to reconstruct it as a single file.
 
+The file can be downloaded from here : https://fileport.io/k7vq6Y6MpLGV
+
+And must be placed inside of /data.
+

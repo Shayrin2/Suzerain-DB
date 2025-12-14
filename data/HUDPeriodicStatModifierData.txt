@@ -1,0 +1,1528 @@
+{
+    "items": [
+        {
+            "Id": "0x0100008E000031A4",
+            "NameInDatabase": "Rizia_Authority_Modifier_LosingMyTradition",
+            "Path": "Rizia/HUD Panel/Modifiers/Authority",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Authority_Modifier_LosingMyTradition",
+                "Condition": "RiziaDLCSetup.CurrentTurn >= 4 && RiziaDLC.PersonalValue_BrokeTradition >= 3 && RiziaDLC.Reform_Path == false && RiziaDLC.HouseElections_RNCWinsSeats == false",
+                "Description": "{0} per turn from Weakening Traditions"
+            }
+        },
+        {
+            "Id": "0x0100008E000031E4",
+            "NameInDatabase": "Rizia_Authority_Modifier_SmallProvincialProtest",
+            "Path": "Rizia/HUD Panel/Modifiers/Authority",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Authority_Modifier_SmallProvincialProtest",
+                "Condition": "RiziaDLC.Situation_Order_SmallProvincialProtest == true",
+                "Description": "{0} per turn from Small Provincial Protests"
+            }
+        },
+        {
+            "Id": "0x0100008E000031EB",
+            "NameInDatabase": "Rizia_Authority_Modifier_LargeProvincialProtest",
+            "Path": "Rizia/HUD Panel/Modifiers/Authority",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Authority_Modifier_LargeProvincialProtest",
+                "Condition": "RiziaDLC.Situation_Order_LargeProvincialProtest == true && RiziaDLC.Situation_Order_Unrest_NationalDestabilization == false",
+                "Description": "{0} per turn from Large Provincial Protests"
+            }
+        },
+        {
+            "Id": "0x0100008E000031F2",
+            "NameInDatabase": "Rizia_Authority_Modifier_ProvincialObstruction",
+            "Path": "Rizia/HUD Panel/Modifiers/Authority",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Authority_Modifier_MultiProvincialProtest",
+                "Condition": "RiziaDLCSetup.CurrentTurn >= 7 && RiziaDLCSetup.CurrentTurn <= 11 && RiziaDLC.Country_PublicOpinion <= -8 && RiziaDLC.Country_HouseAzaro_Enemy == true && RiziaDLC.Country_HouseSazon_Enemy == true && RiziaDLC.Country_HouseToras_Enemy == true && RiziaDLC.HouseAzaro_Conquered == false && RiziaDLC.HouseSazon_Conquered == false && RiziaDLC.HouseToras_Conquered == false",
+                "Description": "{0} per turn from Provincial Obstruction"
+            }
+        },
+        {
+            "Id": "0x0100008E000031F9",
+            "NameInDatabase": "Rizia_Authority_Modifier_NationalDestabilization",
+            "Path": "Rizia/HUD Panel/Modifiers/Authority",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Authority_Modifier_NationWideProtest",
+                "Condition": "RiziaDLC.Situation_Order_Unrest_NationalDestabilization == true",
+                "Description": "{0} per turn from Nationwide Violent Protests"
+            }
+        },
+        {
+            "Id": "0x0100008E0000320B",
+            "NameInDatabase": "Rizia_Authority_Modifier_LostTerritorialIntegrity",
+            "Path": "Rizia/HUD Panel/Modifiers/Authority",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Authority_Modifier_TerritorialIntegrityLost",
+                "Condition": "RiziaDLCSetup.CurrentTurn >= 1 && RiziaDLC.Situation_Diplomacy_TerritorialIntegrity_Lost == true",
+                "Description": "{0} per turn from Lost Territorial Integrity"
+            }
+        },
+        {
+            "Id": "0x0100006500009CE9",
+            "NameInDatabase": "Rizia_Authority_Modifier_Intermerkopum",
+            "Path": "Rizia/HUD Panel/Modifiers/Authority",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Authority_Modifier_Intermerkopum",
+                "Condition": "RiziaDLC.Intermerkopum_Efforts == true && RiziaDLCSetup.CurrentTurn >= 8 && RiziaDLC.Decision_Turn08_IntermerkopumFounding_None == false",
+                "Description": "{0} per turn for Intermerkopum Organization"
+            }
+        },
+        {
+            "Id": "0x0100006500009CF2",
+            "NameInDatabase": "Rizia_Authority_Modifier_TerritorialReclaimation",
+            "Path": "Rizia/HUD Panel/Modifiers/Authority",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Authority_Modifier_TerritorialReclaimation",
+                "Condition": "RiziaDLC.Situation_Diplomacy_TerritorialIntegrity_PartiallyRestored == true || RiziaDLC.Situation_Diplomacy_TerritorialIntegrity_Reclaimed == true",
+                "Description": "{0} per turn from Reclaimed Territories"
+            }
+        },
+        {
+            "Id": "0x0100006500009D17",
+            "NameInDatabase": "Rizia_Authority_Modifier_WruhecistDisapproval",
+            "Path": "Rizia/HUD Panel/Modifiers/Authority",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Authority_Modifier_WruhecistDisapproval",
+                "Condition": "RiziaDLCSetup.CurrentTurn >= 5 && RiziaDLC.Situation_Order_Unrest_NationalDestabilization == false && RiziaDLC.Situation_Order_WruhecistCommunity_Dissatisfied == true",
+                "Description": "{0} per turn from Angered Wruhecist Groups"
+            }
+        },
+        {
+            "Id": "0x010000650000A16F",
+            "NameInDatabase": "Rizia_Authority_Modifier_BaseMonarchRomus",
+            "Path": "Rizia/HUD Panel/Modifiers/Authority",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Authority_Modifier_BaseMonarchRomus",
+                "Condition": "RiziaDLC.ModifierCountryStat_Authority == true",
+                "Description": "{0} per turn from Monarch Romus Toras"
+            }
+        },
+        {
+            "Id": "0x010000650000CC04",
+            "NameInDatabase": "Rizia_Authority_Modifier_StopCheating",
+            "Path": "Rizia/HUD Panel/Modifiers/Authority",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Authority_Modifier_Retrograde",
+                "Condition": "RiziaDLC.Resources_AuthorityModifiersTotal >= 50",
+                "Description": "{0} per turn from Vercuria Planet in Retrograde"
+            }
+        },
+        {
+            "Id": "0x0100008E00006E73",
+            "NameInDatabase": "Rizia_Authority_Modifier_MalenyevistRevolutionaries",
+            "Path": "Rizia/HUD Panel/Modifiers/Authority",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Authority_Modifier_MalenyevistRevolutionaries",
+                "Condition": "RiziaDLCSetup.CurrentTurn >= 5 && RiziaDLC.Situation_Order_Unrest_NationalDestabilization == false && RiziaDLC.Reform_Movement_Leader_Adarfo == false && RiziaDLC.Decision_Turn09_ValgslandAid_Accepted == false && RiziaDLC.Morella_Funds_Revolutionaries == true",
+                "Description": "{0} per turn from Malenyevist Revolutionaries"
+            }
+        },
+        {
+            "Id": "0x010000650000DAFA",
+            "NameInDatabase": "Rizia_Authority_Modifier_PowerProjection",
+            "Path": "Rizia/HUD Panel/Modifiers/Authority",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Authority_Modifier_PowerProjection",
+                "Condition": "RiziaDLCSetup.CurrentTurn >= 3 && RiziaDLC.ModifierCountryStat_Authority == true",
+                "Description": "{0} per turn from Power Projection"
+            }
+        },
+        {
+            "Id": "0x010000650000DB21",
+            "NameInDatabase": "Rizia_Authority_Modifier_GoldenGuard",
+            "Path": "Rizia/HUD Panel/Modifiers/Authority",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Authority_Modifier_GoldenGuard",
+                "Condition": "RiziaDLC.Policy_Order_GoldenGuard_Expanded == true && RiziaDLC.Army_Unit_GoldenGuard_Dead == 0",
+                "Description": "{0} per turn from Golden Guard"
+            }
+        },
+        {
+            "Id": "0x010000650000DB28",
+            "NameInDatabase": "Rizia_Authority_Modifier_IntelligenceServices",
+            "Path": "Rizia/HUD Panel/Modifiers/Authority",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Authority_Modifier_IntelligenceServices",
+                "Condition": "RiziaDLC.Policy_Order_RizianForeignIntelligence_Expanded == true && RiziaDLC.Ending_Coup_Azaro == false && RiziaDLC.Country_HouseAzaro_Enemy == false &&(RiziaDLC.Situation_Order_ForeignIntelligence_Effective == true || RiziaDLC.Situation_Order_ForeignIntelligence_Adequate == true)",
+                "Description": "{0} per turn from Intelligence Services"
+            }
+        },
+        {
+            "Id": "0x010000650000DB11",
+            "NameInDatabase": "Rizia_Authority_Modifier_SuOminaSupports",
+            "Path": "Rizia/HUD Panel/Modifiers/Authority",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Authority_Modifier_SuOminaSupports",
+                "Condition": "RiziaDLCSetup.CurrentTurn >= 2 && RiziaDLC.Situation_Order_SuOmina_AlliedToCrown == true",
+                "Description": "{0} per turn from Su Omina Support"
+            }
+        },
+        {
+            "Id": "0x010000650000DB19",
+            "NameInDatabase": "Rizia_Authority_Modifier_WruhecsGuardians",
+            "Path": "Rizia/HUD Panel/Modifiers/Authority",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Authority_Modifier_WruhecsGuardians",
+                "Condition": "RiziaDLC.Religious_WruhecsGuardians_Sal == true && RiziaDLC.Sal_Arrested == false",
+                "Description": "{0} per turn from Wruhec's Guardians"
+            }
+        },
+        {
+            "Id": "0x010000650000DB35",
+            "NameInDatabase": "Rizia_Authority_Modifier_CentralizedSecurity",
+            "Path": "Rizia/HUD Panel/Modifiers/Authority",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Authority_Modifier_CentralizedSecurity",
+                "Condition": "RiziaDLCSetup.CurrentTurn >= 2 && RiziaDLC.Situation_Order_CentralizedSecurity == true && RiziaDLC.Situation_Diplomacy_PowerProjection_Weak == false",
+                "Description": "{0} per turn from Centralized Security"
+            }
+        },
+        {
+            "Id": "0x0100008E00007728",
+            "NameInDatabase": "Rizia_Authority_Modifier_HighPopularity",
+            "Path": "Rizia/HUD Panel/Modifiers/Authority",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Authority_Modifier_HighPopularity",
+                "Condition": "RiziaDLCSetup.CurrentTurn >= 2 && RiziaDLC.Country_PublicOpinion >= 10 && RiziaDLC.Situation_Welfare_LivingStandards_Horrible == false && RiziaDLC.Situation_Welfare_WorkersRights_Horrible == false && RiziaDLC.Situation_Welfare_LivingStandards_Bad == false && RiziaDLC.Situation_Order_MultiProvincialProtest == false && RiziaDLC.Situation_Order_LargeProvincialProtest == false && RiziaDLC.Situation_Order_ViolentProtests_RiziaImperii == false && RiziaDLC.Situation_Order_Unrest_NationalDestabilization == false && RiziaDLC.Unrest_Nationalist_Grows == false && RiziaDLC.Reform_Movement_Grows == false && RiziaDLC.Unrest_Religious_Grows == false && RiziaDLC.Situation_Order_WruhecistCommunity_Dissatisfied == false",
+                "Description": "{0} per turn from High Popularity"
+            }
+        },
+        {
+            "Id": "0x0100008E0000775A",
+            "NameInDatabase": "Rizia_Authority_Modifier_LowPopularity",
+            "Path": "Rizia/HUD Panel/Modifiers/Authority",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Authority_Modifier_LowPopularity",
+                "Condition": "RiziaDLCSetup.CurrentTurn >= 4 && RiziaDLC.Country_PublicOpinion <= -3 || (RiziaDLC.Situation_Order_MultiProvincialProtest == true || RiziaDLC.Situation_Order_LargeProvincialProtest == true || RiziaDLC.Situation_Order_ViolentProtests_RiziaImperii == true || RiziaDLC.Situation_Order_Unrest_NationalDestabilization == true || RiziaDLC.Unrest_Nationalist_Grows == true || RiziaDLC.Reform_Movement_Grows == true || RiziaDLC.Unrest_Religious_Grows == true || RiziaDLC.Situation_Order_WruhecistCommunity_Dissatisfied == true)",
+                "Description": "{0} per turn from Low Popularity"
+            }
+        },
+        {
+            "Id": "0x0100008E00007823",
+            "NameInDatabase": "Rizia_Authority_Modifier_RNCHouse",
+            "Path": "Rizia/HUD Panel/Modifiers/Authority",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Authority_Modifier_RNCHouse",
+                "Condition": "RiziaDLC.HouseElections_RNCWinsSeats == true && RiziaDLC.HouseOfDelegates_Abolished == false",
+                "Description": "{0} per turn from RNC Leading House"
+            }
+        },
+        {
+            "Id": "0x0100008E00007815",
+            "NameInDatabase": "Rizia_Authority_Modifier_RPPHouse",
+            "Path": "Rizia/HUD Panel/Modifiers/Authority",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Authority_Modifier_RPPHouse",
+                "Condition": "RiziaDLC.HouseElections_RPPWinsSeats == true && RiziaDLC.HouseOfDelegates_Abolished == false",
+                "Description": "{0} per turn from RPP Leading House"
+            }
+        },
+        {
+            "Id": "0x010000650000E436",
+            "NameInDatabase": "Rizia_Authority_Modifier_DastnuristDisapproval",
+            "Path": "Rizia/HUD Panel/Modifiers/Authority",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Authority_Modifier_DastnuristDisapproval",
+                "Condition": "RiziaDLCSetup.CurrentTurn >= 4 && RiziaDLC.Situation_Order_Unrest_NationalDestabilization == false && RiziaDLC.Situation_Order_DastnuristCommunity_Dissatisfied == true",
+                "Description": "{0} per turn from Angered Dastnurist Groups"
+            }
+        },
+        {
+            "Id": "0x010000650000E447",
+            "NameInDatabase": "Rizia_Authority_Modifier_DastnuristApproval",
+            "Path": "Rizia/HUD Panel/Modifiers/Authority",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Authority_Modifier_DastnuristApproval",
+                "Condition": "RiziaDLCSetup.CurrentTurn >= 2 && RiziaDLC.Situation_Order_Unrest_NationalDestabilization == false && RiziaDLC.Situation_Order_DastnuristCommunity_Happy == true",
+                "Description": "{0} per turn from Supportive Dastnurist Groups"
+            }
+        },
+        {
+            "Id": "0x010000650000E440",
+            "NameInDatabase": "Rizia_Authority_Modifier_WruhecistApproval",
+            "Path": "Rizia/HUD Panel/Modifiers/Authority",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Authority_Modifier_WruhecistApproval",
+                "Condition": "RiziaDLCSetup.CurrentTurn >= 3 && RiziaDLC.Situation_Order_Unrest_NationalDestabilization == false && RiziaDLC.Situation_Order_WruhecistCommunity_Happy == true",
+                "Description": "{0} per turn from Supportive Wruhecist Groups"
+            }
+        },
+        {
+            "Id": "0x0100008E0000831E",
+            "NameInDatabase": "Rizia_Authority_Modifier_OrganizedCrimeRise",
+            "Path": "Rizia/HUD Panel/Modifiers/Authority",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Authority_Modifier_OrganizedCrime",
+                "Condition": "RiziaDLCSetup.CurrentTurn >= 3 &&(RiziaDLC.Situation_Order_DrugTrade_Vibrant == true || RiziaDLC.Situation_Order_DrugTrade_Persisting == true)",
+                "Description": "{0} per turn from Organized Crime"
+            }
+        },
+        {
+            "Id": "0x010000C6000002E3",
+            "NameInDatabase": "Rizia_Authority_Modifier_SecterianViolence",
+            "Path": "Rizia/HUD Panel/Modifiers/Authority",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Authority_Modifier_SectarianViolence",
+                "Condition": "RiziaDLC.Situation_Order_SectarianViolence == true",
+                "Description": "{0} per turn from Secterian Violence"
+            }
+        },
+        {
+            "Id": "0x010000C60000044E",
+            "NameInDatabase": "Rizia_Authority_Modifier_ExpandedAdministration",
+            "Path": "Rizia/HUD Panel/Modifiers/Authority",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Authority_Modifier_ExpandedAdministration",
+                "Condition": "RiziaDLC.Policy_RD_Order_ExpandedGovernmentCapacityOne_Completed == true",
+                "Description": "{0} per turn from Expanded Administration"
+            }
+        },
+        {
+            "Id": "0x010000C600000457",
+            "NameInDatabase": "Rizia_Authority_Modifier_PalantorPMC",
+            "Path": "Rizia/HUD Panel/Modifiers/Authority",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Authority_Modifier_PalantorPMC",
+                "Condition": "RiziaDLC.Rusty_PalantorPMCAvailable == true",
+                "Description": "{0} per turn from Palantor PMC Services"
+            }
+        },
+        {
+            "Id": "0x010000C600000461",
+            "NameInDatabase": "Rizia_Authority_Modifier_TorasHouseLevies",
+            "Path": "Rizia/HUD Panel/Modifiers/Authority",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Authority_Modifier_TorasLevies",
+                "Condition": "RiziaDLC.Country_HouseToras_Enemy == false && RiziaDLC.Policy_RD_Order_RemoveProvincialLevies == false && RiziaDLC.Army_Unit_Toras_Total >= 1 && RiziaDLC.Army_Unit_Toras_Dead == 0",
+                "Description": "{0} per turn from Toras Levies"
+            }
+        },
+        {
+            "Id": "0x010000C60000046B",
+            "NameInDatabase": "Rizia_Authority_Modifier_GolcondistDisapproval",
+            "Path": "Rizia/HUD Panel/Modifiers/Authority",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Authority_Modifier_GolcondistDisapproval",
+                "Condition": "RiziaDLCSetup.CurrentTurn >= 3 &&  RiziaDLC.Situation_Order_GolcondistCommunity_Dissatisfied == true",
+                "Description": "{0} per turn from Angered Golcondists"
+            }
+        },
+        {
+            "Id": "0x010000C600000474",
+            "NameInDatabase": "Rizia_Authority_Modifier_ProvincialPolice",
+            "Path": "Rizia/HUD Panel/Modifiers/Authority",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Authority_Modifier_ProvincialPolice",
+                "Condition": "RiziaDLC.Policy_Order_ProvincialPoliceForces_Default == true && RiziaDLC.Country_HouseSazon_Enemy == false && RiziaDLC.Country_HouseToras_Enemy == false  && RiziaDLC.Country_HouseAzaro_Enemy == false",
+                "Description": "{0} per turn from Provincial Police"
+            }
+        },
+        {
+            "Id": "0x010000C6000006B5",
+            "NameInDatabase": "Rizia_Authority_Modifier_RumburgianBond",
+            "Path": "Rizia/HUD Panel/Modifiers/Authority",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Authority_Modifier_RumburgianBond",
+                "Condition": "RiziaDLCSetup.CurrentTurn >= 1 && RiziaDLC.Diplomacy_Rumburg_NegotiatingPower >= 1 && RiziaDLC.Policy_Diplomacy_GRACEMember == true",
+                "Description": "{0} per turn from Rumburgian Sovereign Ties"
+            }
+        },
+        {
+            "Id": "0x010000C600000790",
+            "NameInDatabase": "Rizia_Authority_Modifier_SuOminaDestabilizes",
+            "Path": "Rizia/HUD Panel/Modifiers/Authority",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Authority_Modifier_SuOminaDestabilizes",
+                "Condition": "RiziaDLCSetup.CurrentTurn >= 7 && RiziaDLC.Situation_Order_SuOmina_Destabilizing == true && RiziaDLC.Situation_Order_CentralizedSecurity == false",
+                "Description": "{0} per turn from Su Omina Destabilization"
+            }
+        },
+        {
+            "Id": "0x0100009A00001151",
+            "NameInDatabase": "Rizia_Budget_Modifier_LegalDrugTax",
+            "Path": "Rizia/HUD Panel/Modifiers/Budget",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Budget_Modifier_DrugTax",
+                "Condition": "RiziaDLC.Policy_RD_Welfare_LegalizedIllegalSubstances == true",
+                "Description": "{0} per turn from Legal Drug Taxes"
+            }
+        },
+        {
+            "Id": "0x0100008E00003175",
+            "NameInDatabase": "Rizia_Budget_Modifier_InheritenceTax",
+            "Path": "Rizia/HUD Panel/Modifiers/Budget",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Budget_Modifier_InheritanceTax",
+                "Condition": "RiziaDLC.Policy_RD_Economy_EnactInheritanceTax == true",
+                "Description": "{0} per turn from Inheritance Tax"
+            }
+        },
+        {
+            "Id": "0x0100008E00003192",
+            "NameInDatabase": "Rizia_Budget_Modifier_NonWruhecistReligiousTax",
+            "Path": "Rizia/HUD Panel/Modifiers/Budget",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Budget_Modifier_NonWruhecistReligiousTax",
+                "Condition": "RiziaDLC.Policy_RD_Economy_NonWruhecistReligiousTax == true",
+                "Description": "{0} per turn from Non-Wruhecist Religious Tax"
+            }
+        },
+        {
+            "Id": "0x0100008E0000318B",
+            "NameInDatabase": "Rizia_Budget_Modifier_WarProfitsTax",
+            "Path": "Rizia/HUD Panel/Modifiers/Budget",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Budget_Modifier_WarProfitsTax",
+                "Condition": "RiziaDLC.Policy_RD_Economy_WarProfitsTax == true",
+                "Description": "{0} per turn from Imposed War Tax"
+            }
+        },
+        {
+            "Id": "0x0100006500006D60",
+            "NameInDatabase": "Rizia_Budget_Modifier_QalusGoldMine",
+            "Path": "Rizia/HUD Panel/Modifiers/Budget",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Budget_Modifier_QalusGoldMine",
+                "Condition": "RiziaDLC.Policy_RD_Economy_QalusGoldMine_Completed == true",
+                "Description": "{0} per turn from Qalus Gold Mine"
+            }
+        },
+        {
+            "Id": "0x0100006500006D7B",
+            "NameInDatabase": "Rizia_Budget_Modifier_WorkRegulationCost",
+            "Path": "Rizia/HUD Panel/Modifiers/Budget",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Budget_Modifier_WorkRegulationCost",
+                "Condition": "RiziaDLC.Policy_RD_Welfare_WorkersRightsAllIndustries == true || RiziaDLC.MITZ_Concession_Regulations == true || RiziaDLC.Policy_RD_Welfare_WorkersRightsAllExceptMining == true",
+                "Description": "{0} per turn from Stricter Worker Regulations"
+            }
+        },
+        {
+            "Id": "0x0100008E000031CA",
+            "NameInDatabase": "Rizia_Budget_Modifier_BaseIncomeTax",
+            "Path": "Rizia/HUD Panel/Modifiers/Budget",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Budget_Modifier_IncomeTax",
+                "Condition": "RiziaDLC.Policy_Economy_IncomeTax10 == true || RiziaDLC.Policy_RD_Economy_IncreaseIncomeTax == true",
+                "Description": "{0} per turn from Income Tax"
+            }
+        },
+        {
+            "Id": "0x0100008E000031DA",
+            "NameInDatabase": "Rizia_Budget_Modifier_RizianGoldIndustry",
+            "Path": "Rizia/HUD Panel/Modifiers/Budget",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Budget_Modifier_RizianGoldIndustry",
+                "Condition": "RiziaDLC.Policy_Economy_RizianGoldIndustry == true",
+                "Description": "{0} per turn from RRG Revenues"
+            }
+        },
+        {
+            "Id": "0x0100008E000031D2",
+            "NameInDatabase": "Rizia_Budget_Modifier_GRACETrade",
+            "Path": "Rizia/HUD Panel/Modifiers/Budget",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Budget_Modifier_GRACETradeSurplus",
+                "Condition": "RiziaDLC.Policy_Diplomacy_GRACEMember == true && RiziaDLC.GRACETrade_Ends == false",
+                "Description": "{0} per turn from GRACE Trade"
+            }
+        },
+        {
+            "Id": "0x0100008E00003310",
+            "NameInDatabase": "Rizia_Budget_Modifier_DerdiaPipeline",
+            "Path": "Rizia/HUD Panel/Modifiers/Budget",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Budget_Modifier_DerdiaPipelineConstruction",
+                "Condition": "RiziaDLC.Policy_Economy_DerdiaPipeline_Project == true",
+                "Description": "{0} per turn from Derdia Pipeline Construction"
+            }
+        },
+        {
+            "Id": "0x0100008E00003348",
+            "NameInDatabase": "Rizia_Budget_Modifier_DerdiaTrade",
+            "Path": "Rizia/HUD Panel/Modifiers/Budget",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Budget_Modifier_DerdiaTrade",
+                "Condition": "(RiziaDLC.Policy_Economy_DerdiaPipeline_Completed == true || RiziaDLC.Derdia_EnergyShippingAgreement == true) && RiziaDLC.Situation_Diplomacy_EnergyCommitment_Derdia_Failed == false",
+                "Description": "{0} per turn from Derdia Trade"
+            }
+        },
+        {
+            "Id": "0x010000740000802D",
+            "NameInDatabase": "Rizia_Budget_Modifier_MorellaPipeline",
+            "Path": "Rizia/HUD Panel/Modifiers/Budget",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Budget_Modifier_MorellaPipelineConstruction",
+                "Condition": "RiziaDLC.Policy_Economy_MorellaPipeline_Project == true",
+                "Description": "{0} per turn from Morella Pipeline Construction"
+            }
+        },
+        {
+            "Id": "0x0100008E00003341",
+            "NameInDatabase": "Rizia_Budget_Modifier_MorellaTrade",
+            "Path": "Rizia/HUD Panel/Modifiers/Budget",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Budget_Modifier_MorellaTrade",
+                "Condition": "(RiziaDLC.Policy_Diplomacy_TradeDeal_Morella == true && RiziaDLC.Policy_Economy_MorellaPipeline_Completed == true) && RiziaDLC.Situation_Diplomacy_EnergyCommitment_Morella_Failed == false",
+                "Description": "{0} per turn from Morella Trade"
+            }
+        },
+        {
+            "Id": "0x0100008E00003309",
+            "NameInDatabase": "Rizia_Budget_Modifier_PalesPipeline",
+            "Path": "Rizia/HUD Panel/Modifiers/Budget",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Budget_Modifier_PalesPipelineConstruction",
+                "Condition": "RiziaDLC.Policy_Economy_PalesPipeline_Project == true",
+                "Description": "{0} per turn from Pales Pipeline Construction"
+            }
+        },
+        {
+            "Id": "0x0100006500007267",
+            "NameInDatabase": "Rizia_Budget_Modifier_PalesTrade",
+            "Path": "Rizia/HUD Panel/Modifiers/Budget",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Budget_Modifier_PalesTrade",
+                "Condition": "RiziaDLC.Policy_Diplomacy_TradeDeal_Pales == true && RiziaDLC.Policy_Economy_PalesPipeline_Completed == true && RiziaDLC.Pales_Rizia_Unification == false\n&& RiziaDLC.Pales_War == false",
+                "Description": "{0} per turn from Pales Trade"
+            }
+        },
+        {
+            "Id": "0x0100008E0000332C",
+            "NameInDatabase": "Rizia_Budget_Modifier_SordlandGasomProfit",
+            "Path": "Rizia/HUD Panel/Modifiers/Budget",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Budget_Modifier_GasomProfit",
+                "Condition": "RiziaDLC.Situation_Diplomacy_Sordland_GasomHighOutput == true",
+                "Description": "{0} per turn from Gasom Annual Profits"
+            }
+        },
+        {
+            "Id": "0x0100008E00003364",
+            "NameInDatabase": "Rizia_Budget_Modifier_TaxCredits",
+            "Path": "Rizia/HUD Panel/Modifiers/Budget",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Budget_Modifier_BusinessTaxCredits",
+                "Condition": "RiziaDLC.Policy_RD_Economy_BusinessTaxCredits == true",
+                "Description": "{0} per turn from Tax Credits for Businesses"
+            }
+        },
+        {
+            "Id": "0x010000650000726E",
+            "NameInDatabase": "Rizia_Budget_Modifier_WarExpenditures",
+            "Path": "Rizia/HUD Panel/Modifiers/Budget",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Budget_Modifier_WarExpenditures",
+                "Condition": "RiziaDLC.Pales_War == true",
+                "Description": "{0} per turn from War Expenditures"
+            }
+        },
+        {
+            "Id": "0x010000650000729A",
+            "NameInDatabase": "Rizia_Budget_Modifier_WehlenPipeline",
+            "Path": "Rizia/HUD Panel/Modifiers/Budget",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Budget_Modifier_WehlenPipelineConstruction",
+                "Condition": "RiziaDLC.Policy_Economy_WehlenPipeline_Project == true",
+                "Description": "{0} per turn from Wehlen Pipeline Construction"
+            }
+        },
+        {
+            "Id": "0x0100006500007413",
+            "NameInDatabase": "Rizia_Budget_Modifier_WehlenTrade",
+            "Path": "Rizia/HUD Panel/Modifiers/Budget",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Budget_Modifier_WehlenTrade",
+                "Condition": "RiziaDLC.Policy_Diplomacy_TradeDeal_Wehlen == true",
+                "Description": "{0} per turn from Wehlen Trade"
+            }
+        },
+        {
+            "Id": "0x01000065000075AF",
+            "NameInDatabase": "Rizia_Budget_Modifier_IncreasedHealthEducationFunds",
+            "Path": "Rizia/HUD Panel/Modifiers/Budget",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Budget_Modifier_HigherWelfareExpenditures",
+                "Condition": "RiziaDLC.Policy_RD_Welfare_IncreasedHealthEducationFunds == true",
+                "Description": "{0} per turn from Higher Welfare Expenditures"
+            }
+        },
+        {
+            "Id": "0x010000650000765B",
+            "NameInDatabase": "Rizia_Budget_Modifier_PublicTransportSubsidies",
+            "Path": "Rizia/HUD Panel/Modifiers/Budget",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Budget_Modifier_PublicTransportSubsidies",
+                "Condition": "RiziaDLC.Policy_RD_Economy_PublicSeaTransportSubsidies == true || RiziaDLC.Policy_RD_Economy_PublicRailTransportSubsidies == true",
+                "Description": "{0} per turn from Public Transportation Subsidies"
+            }
+        },
+        {
+            "Id": "0x0100006500007BBA",
+            "NameInDatabase": "Rizia_Budget_Modifier_EqualPay",
+            "Path": "Rizia/HUD Panel/Modifiers/Budget",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Budget_Modifier_EqualPay",
+                "Condition": "RiziaDLC.Policy_RD_Welfare_EqualPayMenWomen == true",
+                "Description": "{0} per turn from Equal Pay Costs"
+            }
+        },
+        {
+            "Id": "0x010000740000D07D",
+            "NameInDatabase": "Rizia_Budget_Modifier_LesPowerImports",
+            "Path": "Rizia/HUD Panel/Modifiers/Budget",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Budget_Modifier_LesPowerImports",
+                "Condition": "RiziaDLC.Policy_Economy_LesPower_Buy_HighPrices == true || RiziaDLC.Policy_Economy_LesPower_Buy_CheapPrices == true",
+                "Description": "{0} per turn from Gas Import Costs from LesPower"
+            }
+        },
+        {
+            "Id": "0x0100006500009CCD",
+            "NameInDatabase": "Rizia_Budget_Modifier_ANSanctions",
+            "Path": "Rizia/HUD Panel/Modifiers/Budget",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Budget_Modifier_ANSanctions",
+                "Condition": "RiziaDLC.Situation_Diplomacy_ANSanctions_Heavy == true || RiziaDLC.Situation_Diplomacy_ANSanctions_Weak == true",
+                "Description": "{0} per turn from AN Financial Sanctions"
+            }
+        },
+        {
+            "Id": "0x0100006500009CD4",
+            "NameInDatabase": "Rizia_Budget_Modifier_IntermerkopumCosts",
+            "Path": "Rizia/HUD Panel/Modifiers/Budget",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Budget_Modifier_IntermerkopumCosts",
+                "Condition": "RiziaDLC.Policy_Diplomacy_Intermerkopum == true && RiziaDLCSetup.CurrentTurn >= 9 && RiziaDLCIsolated.Turn09_IntermerkopumPromises_BudgetPerTurn == true",
+                "Description": "{0} per turn from Intermerkopum Costs"
+            }
+        },
+        {
+            "Id": "0x0100008E00004C1E",
+            "NameInDatabase": "Rizia_Budget_Modifier_LaborHandsLegalized",
+            "Path": "Rizia/HUD Panel/Modifiers/Budget",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Budget_Modifier_LaborHandsLegalized",
+                "Condition": "RiziaDLC.Policy_RD_Welfare_LaborHandsLegalized == true",
+                "Description": "{0} per turn from Legalized Labor Hands"
+            }
+        },
+        {
+            "Id": "0x010000650000A2F7",
+            "NameInDatabase": "Rizia_Budget_Modifier_EconomicInstability",
+            "Path": "Rizia/HUD Panel/Modifiers/Budget",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Budget_Modifier_EconomicInstability",
+                "Condition": "RiziaDLCSetup.CurrentTurn >= 6 &&(RiziaDLC.Situation_Economy_NewBusiness_Collapse == true || RiziaDLC.Situation_Order_Unrest_NationalDestabilization == true)",
+                "Description": "{0} per turn from Business Exodus"
+            }
+        },
+        {
+            "Id": "0x0100008E00004FEB",
+            "NameInDatabase": "Rizia_Budget_Modifier_MITZRevenues",
+            "Path": "Rizia/HUD Panel/Modifiers/Budget",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Budget_Modifier_MITZRevenues",
+                "Condition": "RiziaDLC.Policy_Diplomacy_MITZBoardMember == true",
+                "Description": "{0} per turn from MITZ Revenues"
+            }
+        },
+        {
+            "Id": "0x0100008E00004FF2",
+            "NameInDatabase": "WIP_Rizia_Budget_Modifier_LespiaSanctions",
+            "Path": "Rizia/HUD Panel/Modifiers/Budget",
+            "IsWIP": true,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Budget_Modifier_LespiaSanctions",
+                "Condition": "RiziaDLC.Situation_Diplomacy_Lespia_SanctionsRizia",
+                "Description": "{0} per turn from Lespian Sanctions"
+            }
+        },
+        {
+            "Id": "0x010000650000BB16",
+            "NameInDatabase": "Rizia_Budget_Modifier_AdministrativeCosts",
+            "Path": "Rizia/HUD Panel/Modifiers/Budget",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Budget_Modifier_AdministrativeBalanceSheet",
+                "Condition": "RiziaDLC.ModifierCountryStat_Budget == true",
+                "Description": "{0} per turn from Administrative Balance"
+            }
+        },
+        {
+            "Id": "0x0100009E00009C1F",
+            "NameInDatabase": "Rizia_Budget_Modifier_WarReparations",
+            "Path": "Rizia/HUD Panel/Modifiers/Budget",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Budget_Modifier_Pales_Reparation",
+                "Condition": "RiziaDLC.ReparationsAccepted_Installments == true",
+                "Description": "{0} per turn from War Reparations"
+            }
+        },
+        {
+            "Id": "0x010000650000CB13",
+            "NameInDatabase": "Rizia_Budget_Modifier_EnergyStorageCosts",
+            "Path": "Rizia/HUD Panel/Modifiers/Budget",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Budget_Modifier_EnergyStorageCost",
+                "Condition": "RiziaDLC.Policy_RD_Economy_EnergyStorageFacilities_Completed == false && (RiziaDLC.Resources_Energy >= 14 || RiziaDLC.Resources_EnergyModifiersTotal >= 14)",
+                "Description": "{0} per turn from Energy Storage Costs"
+            }
+        },
+        {
+            "Id": "0x010000650000CBFD",
+            "NameInDatabase": "Rizia_Budget_Modifier_EastTradeReduced",
+            "Path": "Rizia/HUD Panel/Modifiers/Budget",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Budget_Modifier_EastTradeReduced",
+                "Condition": "RiziaDLCSetup.CurrentTurn >= 5 &&\nRiziaDLC.Policy_Diplomacy_Caleqabiz_ValgslandCSP == false &&\nRiziaDLC.Trait_CommieKing == false && ((RiziaDLC.CountryRelation_Valgsland_Hostile == true || RiziaDLC.CountryRelation_Valgsland_Unfriendly == true) &&(RiziaDLC.Situation_Order_Revolutionaries_Dangerous == true || RiziaDLC.CountryRelation_Morella_Hostile == true || RiziaDLC.CountryRelation_Morella_Unfriendly == true))",
+                "Description": "{0} per turn from Reduced Trade from the CSP"
+            }
+        },
+        {
+            "Id": "0x0100008E00006C54",
+            "NameInDatabase": "Rizia_Budget_Modifier_MilitaryExpenditures",
+            "Path": "Rizia/HUD Panel/Modifiers/Budget",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Budget_Modifier_MilitaryExpenditures",
+                "Condition": "RiziaDLC.ModifierCountryStat_Budget == true",
+                "Description": "{0} per turn from Military Expenditures"
+            }
+        },
+        {
+            "Id": "0x0100008E00008349",
+            "NameInDatabase": "Rizia_Budget_Modifier_UniversalBasicIncome",
+            "Path": "Rizia/HUD Panel/Modifiers/Budget",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Budget_Modifier_UniversalBasicIncome",
+                "Condition": "RiziaDLC.Policy_RD_Welfare_UniversalBasicIncome == true",
+                "Description": "{0} per turn from Universal Basic Income"
+            }
+        },
+        {
+            "Id": "0x0100008E00008326",
+            "NameInDatabase": "Rizia_Budget_Modifier_ReligiousRevenues",
+            "Path": "Rizia/HUD Panel/Modifiers/Budget",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Budget_Modifier_ReligiousRevenues",
+                "Condition": "RiziaDLC.ModifierCountryStat_Budget == true",
+                "Description": "{0} per turn from Religious Fiscal Balance"
+            }
+        },
+        {
+            "Id": "0x0100008E00008342",
+            "NameInDatabase": "Rizia_Budget_Modifier_KingsCars",
+            "Path": "Rizia/HUD Panel/Modifiers/Budget",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Budget_Modifier_KingsCars",
+                "Condition": "RiziaDLC.Policy_RD_Welfare_KingsCars == true",
+                "Description": "{0} per turn from Kings Cars Programme"
+            }
+        },
+        {
+            "Id": "0x0100008E00008334",
+            "NameInDatabase": "Rizia_Budget_Modifier_FreePublicTransportation",
+            "Path": "Rizia/HUD Panel/Modifiers/Budget",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Budget_Modifier_FreePublicTransportation",
+                "Condition": "RiziaDLC.Policy_RD_Welfare_FreePublicTransportation == true",
+                "Description": "{0} per turn from Free Public Transportation"
+            }
+        },
+        {
+            "Id": "0x0100008E0000833B",
+            "NameInDatabase": "Rizia_Budget_Modifier_FreeMedicine",
+            "Path": "Rizia/HUD Panel/Modifiers/Budget",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Budget_Modifier_FreeMedicine",
+                "Condition": "RiziaDLC.Policy_RD_Welfare_FreeMedicine == true",
+                "Description": "{0} per turn from Free Medicine"
+            }
+        },
+        {
+            "Id": "0x010000650000EC92",
+            "NameInDatabase": "Rizia_Budget_Modifier_BusinessInflux",
+            "Path": "Rizia/HUD Panel/Modifiers/Budget",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Budget_Modifier_BusinessInflux",
+                "Condition": "RiziaDLCSetup.CurrentTurn >= 3 && RiziaDLC.Situation_Economy_NewBusiness_Collapse == false && RiziaDLC.Situation_Order_Unrest_NationalDestabilization == false && RiziaDLC.LeaningValue_ProBusiness >= 8",
+                "Description": "{0} per turn from Business Influx"
+            }
+        },
+        {
+            "Id": "0x010000B400000962",
+            "NameInDatabase": "Rizia_Budget_Modifier_PalesReconstruction",
+            "Path": "Rizia/HUD Panel/Modifiers/Budget",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Budget_Modifier_Pales_Reconstruction",
+                "Condition": "RiziaDLC.Pales_Reconstruction_Installments == true",
+                "Description": "{0} per turn from Pales Reconstruction"
+            }
+        },
+        {
+            "Id": "0x010000C6000005A6",
+            "NameInDatabase": "Rizia_Budget_Modifier_InternalSecurityCosts",
+            "Path": "Rizia/HUD Panel/Modifiers/Budget",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Budget_Modifier_InternalSecurityCosts",
+                "Condition": "RiziaDLC.Situation_Order_CentralizedSecurity == true && (RiziaDLC.Policy_Order_GoldenGuard_Expanded == true || RiziaDLC.Policy_Order_RizianForeignIntelligence_Expanded == true)",
+                "Description": "{0} per turn from Internal Security Costs"
+            }
+        },
+        {
+            "Id": "0x010000C6000007A1",
+            "NameInDatabase": "Rizia_Budget_Modifier_RumburgTrade",
+            "Path": "Rizia/HUD Panel/Modifiers/Budget",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Budget_Modifier_RumburgTrade",
+                "Condition": "(RiziaDLC.Situation_Diplomacy_Rumburg_AverageEnergyExport == true || RiziaDLC.Situation_Diplomacy_Rumburg_HighEnergyExport == true || RiziaDLC.Diplomacy_Rumburg_SellPortOfMonqiz == true) && RiziaDLC.Situation_Diplomacy_EnergyCommitment_Rumburg_Failed == false",
+                "Description": "{0} per turn from Rumburg Direct Trade"
+            }
+        },
+        {
+            "Id": "0x010000C6000007D5",
+            "NameInDatabase": "Rizia_Budget_Modifier_ForeignGoodsReliance",
+            "Path": "Rizia/HUD Panel/Modifiers/Budget",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Budget_Modifier_ForeignGoodsReliance",
+                "Condition": "RiziaDLCSetup.CurrentTurn >= 8 && RiziaDLC.Situation_Economy_ProductionCapacity_Low == true && (RiziaDLC.Situation_Economy_SelfSufficiency_Dependent == true || (RiziaDLC.Policy_RD_Economy_InvestInTimberIndustry == false && RiziaDLC.Policy_RD_Economy_InvestInPharmaceuticals == false))",
+                "Description": "{0} per turn from Foreign Goods Reliance Cost"
+            }
+        },
+        {
+            "Id": "0x010000C6000008D5",
+            "NameInDatabase": "Rizia_Budget_Modifier_TourismIncome",
+            "Path": "Rizia/HUD Panel/Modifiers/Budget",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Budget_Modifier_TourismIncome",
+                "Condition": "RiziaDLC.ModifierCountryStat_Budget == true && RiziaDLC.Situation_Order_Unrest_NationalDestabilization == false && RiziaDLC.Country_Tourism >= 2",
+                "Description": "{0} per turn from Tourism"
+            }
+        },
+        {
+            "Id": "0x010000C600000A8E",
+            "NameInDatabase": "Rizia_Budget_Modifier_SordlandTrade",
+            "Path": "Rizia/HUD Panel/Modifiers/Budget",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Budget_Modifier_SordlandTrade",
+                "Condition": "RiziaDLC.CountryRelation_Sordland_Friendly == true || RiziaDLC.CountryRelation_Sordland_Allied == true",
+                "Description": "{0} per turn from Sordland Trade"
+            }
+        },
+        {
+            "Id": "0x0100006500006D40",
+            "NameInDatabase": "Rizia_Energy_Modifier_ROGStakeSold",
+            "Path": "Rizia/HUD Panel/Modifiers/Energy",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Energy_Modifier_SoldROGStake",
+                "Condition": "RiziaDLC.Rusty_GrantROGStake == true",
+                "Description": "{0} per turn from ROG Privatization"
+            }
+        },
+        {
+            "Id": "0x0100006500006D52",
+            "NameInDatabase": "Rizia_Energy_Modifier_EsqirisGasFieldExpansion",
+            "Path": "Rizia/HUD Panel/Modifiers/Energy",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Energy_Modifier_EsqirisGasFieldExpansion",
+                "Condition": "RiziaDLC.Policy_RD_Economy_EsqirisGasFieldExpansion_Completed == true",
+                "Description": "{0} per turn from Esqiris Gas Field Expansion"
+            }
+        },
+        {
+            "Id": "0x0100006500006D59",
+            "NameInDatabase": "Rizia_Energy_Modifier_HavasCoalMine",
+            "Path": "Rizia/HUD Panel/Modifiers/Energy",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Energy_Modifier_HavasCoalMine",
+                "Condition": "RiziaDLC.Policy_RD_Economy_HavasCoalMine_Completed == true",
+                "Description": "{0} per turn from Havas Coal Mine"
+            }
+        },
+        {
+            "Id": "0x0100006500006D74",
+            "NameInDatabase": "Rizia_Energy_Modifier_HeatingSubsidiesForCitizens",
+            "Path": "Rizia/HUD Panel/Modifiers/Energy",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Energy_Modifier_GasHeatingSubsidiesForCitizens",
+                "Condition": "RiziaDLC.Policy_RD_Economy_GasHeatingSubsidiesForCitizens == true",
+                "Description": "{0} per turn from Heating Subsidies for Citizens"
+            }
+        },
+        {
+            "Id": "0x0100008E000031B5",
+            "NameInDatabase": "Rizia_Energy_Modifier_EsqirisGasField",
+            "Path": "Rizia/HUD Panel/Modifiers/Energy",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Energy_Modifier_EsqirisGasField",
+                "Condition": "RiziaDLC.Policy_Economy_EsqirisGasField == true",
+                "Description": "{0} per turn from Base Esqiris Gas Field"
+            }
+        },
+        {
+            "Id": "0x0100008E000031BC",
+            "NameInDatabase": "Rizia_Energy_Modifier_NelvisarOilField",
+            "Path": "Rizia/HUD Panel/Modifiers/Energy",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Energy_Modifier_NelvisarOilField",
+                "Condition": "RiziaDLC.Policy_Economy_NelvisarOilField == true",
+                "Description": "{0} per turn from Nelvisar Oil Field"
+            }
+        },
+        {
+            "Id": "0x0100008E000031C3",
+            "NameInDatabase": "Rizia_Energy_Modifier_BaseEnergy",
+            "Path": "Rizia/HUD Panel/Modifiers/Energy",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Energy_Modifier_BaseEnergy",
+                "Condition": "RiziaDLC.ModifierCountryStat_Energy == true",
+                "Description": "{0} per turn from Rizian Energy Industry"
+            }
+        },
+        {
+            "Id": "0x01000065000071C1",
+            "NameInDatabase": "Rizia_Energy_Modifier_IndustrialProduction",
+            "Path": "Rizia/HUD Panel/Modifiers/Energy",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Energy_Modifier_IndustrialProduction",
+                "Condition": "RiziaDLC.ModifierCountryStat_Energy_IndustrialProduction == true",
+                "Description": "{0} per turn from Industrial Production"
+            }
+        },
+        {
+            "Id": "0x0100008E000032FB",
+            "NameInDatabase": "Rizia_Energy_Modifier_WehlenGasExport",
+            "Path": "Rizia/HUD Panel/Modifiers/Energy",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Energy_Modifier_WehlenGasExport",
+                "Condition": "RiziaDLC.Situation_Diplomacy_Wehlen_ExportGas == true",
+                "Description": "{0} per turn from Wehlen Gas Exports"
+            }
+        },
+        {
+            "Id": "0x0100008E00003302",
+            "NameInDatabase": "Rizia_Energy_Modifier_WehlenOilImport",
+            "Path": "Rizia/HUD Panel/Modifiers/Energy",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Energy_Modifier_WehlenOilImport",
+                "Condition": "RiziaDLC.Situation_Diplomacy_Wehlen_OilImport == true",
+                "Description": "{0} per turn from Wehlen Oil Imports"
+            }
+        },
+        {
+            "Id": "0x0100008E0000322A",
+            "NameInDatabase": "Rizia_Energy_Modifier_RumburgGasExport",
+            "Path": "Rizia/HUD Panel/Modifiers/Energy",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Energy_Modifier_RumburgEnergyExport",
+                "Condition": "RiziaDLC.Situation_Diplomacy_Rumburg_HighEnergyExport == true || RiziaDLC.Situation_Diplomacy_Rumburg_AverageEnergyExport == true",
+                "Description": "{0} per turn from Rumburg Energy Exports"
+            }
+        },
+        {
+            "Id": "0x0100008E00003325",
+            "NameInDatabase": "Rizia_Energy_Modifier_SordlandGasomImport",
+            "Path": "Rizia/HUD Panel/Modifiers/Energy",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Energy_Modifier_GasomImports",
+                "Condition": "RiziaDLC.Situation_Diplomacy_Sordland_GasomHighOutput == true || RiziaDLC.Situation_Diplomacy_Sordland_GasomAverageOutput == true",
+                "Description": "{0} per turn from Gasom Energy Imports"
+            }
+        },
+        {
+            "Id": "0x0100008E0000335D",
+            "NameInDatabase": "Rizia_Energy_Modifier_EnergySubsidiesForIndustries",
+            "Path": "Rizia/HUD Panel/Modifiers/Energy",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Energy_Modifier_EnergySubsidiesForIndustries",
+                "Condition": "RiziaDLC.Policy_RD_Economy_EnergySubsidiesForIndustries == true",
+                "Description": "{0} per turn from Energy Subsidies for Industries"
+            }
+        },
+        {
+            "Id": "0x0100008E00003333",
+            "NameInDatabase": "Rizia_Energy_Modifier_MorellaGasExport",
+            "Path": "Rizia/HUD Panel/Modifiers/Energy",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Energy_Modifier_MorellaGasExport",
+                "Condition": "RiziaDLC.Situation_Diplomacy_Morella_GasExport == true && RiziaDLC.Policy_Economy_MorellaPipeline_Completed == true",
+                "Description": "{0} per turn from Morella Gas Exports"
+            }
+        },
+        {
+            "Id": "0x0100008E0000331E",
+            "NameInDatabase": "Rizia_Energy_Modifier_IntermerkopumEnergyExports",
+            "Path": "Rizia/HUD Panel/Modifiers/Energy",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Energy_Modifier_IntermerkopumEnergyExports",
+                "Condition": "RiziaDLC.Policy_Diplomacy_Intermerkopum == true && RiziaDLCSetup.CurrentTurn >= 9 && RiziaDLC.Decision_Turn08_IntermerkopumFounding_None == false",
+                "Description": "{0} per turn from Intermerkopum Energy Exports"
+            }
+        },
+        {
+            "Id": "0x0100008E0000333A",
+            "NameInDatabase": "Rizia_Energy_Modifier_DerdiaEnergyExport",
+            "Path": "Rizia/HUD Panel/Modifiers/Energy",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Energy_Modifier_DerdiaEnergyExport",
+                "Condition": "RiziaDLC.Policy_Economy_DerdiaPipeline_Completed == true || RiziaDLC.Derdia_EnergyShippingAgreement == true",
+                "Description": "{0} per turn from Derdia Energy Export"
+            }
+        },
+        {
+            "Id": "0x0100008E00003317",
+            "NameInDatabase": "Rizia_Energy_Modifier_AureusGasField",
+            "Path": "Rizia/HUD Panel/Modifiers/Energy",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Energy_Modifier_AureusGasField",
+                "Condition": "RiziaDLC.Policy_Economy_AureusField_Extractions == true",
+                "Description": "{0} per turn from Aureus Gas Field"
+            }
+        },
+        {
+            "Id": "0x010000650000780B",
+            "NameInDatabase": "Rizia_Energy_Modifier_PublicTransitInfraExpansion",
+            "Path": "Rizia/HUD Panel/Modifiers/Energy",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Energy_Modifier_PublicTransportInfraExpansion",
+                "Condition": "RiziaDLC.Policy_RD_Economy_PublicTransportInfraInvestment == true",
+                "Description": "{0} per turn from Public Transportation Expansion"
+            }
+        },
+        {
+            "Id": "0x010000740000D076",
+            "NameInDatabase": "Rizia_Energy_Modifier_LesPowerImports",
+            "Path": "Rizia/HUD Panel/Modifiers/Energy",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Energy_Modifier_LesPowerImports",
+                "Condition": "RiziaDLC.Policy_Economy_LesPower_Buy_HighPrices == true || RiziaDLC.Policy_Economy_LesPower_Buy_CheapPrices == true",
+                "Description": "{0} per turn from Gas Imports from LesPower"
+            }
+        },
+        {
+            "Id": "0x010000650000CB0B",
+            "NameInDatabase": "Rizia_Energy_Modifier_GenerationCurtailment",
+            "Path": "Rizia/HUD Panel/Modifiers/Energy",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Energy_Modifier_GenerationCurtailment",
+                "Condition": "RiziaDLC.Policy_RD_Economy_EnergyStorageFacilities_Completed == false && (RiziaDLC.Resources_Energy >= 14 || RiziaDLC.Resources_EnergyModifiersTotal >= 14)",
+                "Description": "{0} per turn from Energy Generation Curtailment"
+            }
+        },
+        {
+            "Id": "0x010000650000CBF6",
+            "NameInDatabase": "Rizia_Energy_Modifier_StopCheating",
+            "Path": "Rizia/HUD Panel/Modifiers/Energy",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Energy_Modifier_Retrograde",
+                "Condition": "RiziaDLC.Resources_Energy >= 40 || RiziaDLC.Resources_EnergyModifiersTotal >= 40",
+                "Description": "{0} per turn from Vercuria Planet in Retrograde"
+            }
+        },
+        {
+            "Id": "0x010000650000CFA0",
+            "NameInDatabase": "Rizia_Energy_Modifier_FreeElectricity",
+            "Path": "Rizia/HUD Panel/Modifiers/Energy",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Energy_Modifier_FreeElectricity",
+                "Condition": "RiziaDLC.Decision_Turn09_NationalDestabilizationTwo_FreeElectricity == true || RiziaDLC.Policy_RD_Welfare_FreeElectricity == true",
+                "Description": "{0} per turn from Free Electricity for People"
+            }
+        },
+        {
+            "Id": "0x010000650000D485",
+            "NameInDatabase": "Rizia_Energy_Modifier_ANSanctions",
+            "Path": "Rizia/HUD Panel/Modifiers/Energy",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Energy_Modifier_ANSanctions",
+                "Condition": "RiziaDLC.Situation_Diplomacy_ANSanctions_Heavy == true || RiziaDLC.Situation_Diplomacy_ANSanctions_Weak == true",
+                "Description": "{0} per turn from AN Energy Sanctions"
+            }
+        },
+        {
+            "Id": "0x0100008E00007869",
+            "NameInDatabase": "Rizia_Energy_Modifier_GRACEEnergyContribution",
+            "Path": "Rizia/HUD Panel/Modifiers/Energy",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Energy_Modifier_GRACEEnergyContribution",
+                "Condition": "RiziaDLC.Policy_Diplomacy_GRACEMember == true && RiziaDLC.GRACETrade_Weakened == false && RiziaDLC.GRACETrade_Ends == false",
+                "Description": "{0} per turn from GRACE Energy Contribution"
+            }
+        },
+        {
+            "Id": "0x010000520005FEAC",
+            "NameInDatabase": "Rizia_Energy_Modifier_ZpanaHydroelectricDam",
+            "Path": "Rizia/HUD Panel/Modifiers/Energy",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Energy_Modifier_ZpanaHydroelectricDam",
+                "Condition": "RiziaDLC.Policy_RD_Economy_ZpanaHydroelectricDam_Completed == true",
+                "Description": "{0} per turn from Zpana Hydroelectric Dam"
+            }
+        },
+        {
+            "Id": "0x0100008E00008317",
+            "NameInDatabase": "Rizia_Energy_Modifier_FuelSubsidies",
+            "Path": "Rizia/HUD Panel/Modifiers/Energy",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Energy_Modifier_FuelSubsidies",
+                "Condition": "RiziaDLC.Policy_RD_Welfare_FuelSubsidies == true",
+                "Description": "{0} per turn from Fuel Subsidies"
+            }
+        },
+        {
+            "Id": "0x0100008E00008310",
+            "NameInDatabase": "Rizia_Energy_Modifier_FreePublicTransportation",
+            "Path": "Rizia/HUD Panel/Modifiers/Energy",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Energy_Modifier_FreePublicTransportation",
+                "Condition": "RiziaDLC.Policy_RD_Welfare_FreePublicTransportation == true",
+                "Description": "{0} per turn from Free Public Transportation"
+            }
+        },
+        {
+            "Id": "0x010000BD00000972",
+            "NameInDatabase": "Rizia_Energy_Modifier_MaveNortusOilfield",
+            "Path": "Rizia/HUD Panel/Modifiers/Energy",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Energy_Modifier_MaveNortusOilfield",
+                "Condition": "RiziaDLC.Policy_RD_Economy_MaveNortusOilfield_Completed == true",
+                "Description": "{0} per turn from Mave Nortus Oilfield"
+            }
+        },
+        {
+            "Id": "0x010000C6000004F6",
+            "NameInDatabase": "Rizia_Energy_Modifier_HeightenedConsumption",
+            "Path": "Rizia/HUD Panel/Modifiers/Energy",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Energy_Modifier_HeightenedConsumption",
+                "Condition": "RiziaDLCSetup.CurrentTurn >= 8 && RiziaDLC.Situation_Economy_NewBusiness_MassiveRise == true && (RiziaDLC.Situation_Welfare_LivingStandards_Great == true || RiziaDLC.Situation_Welfare_LivingStandards_Good == true)",
+                "Description": "{0} per turn from Heightened Consumption"
+            }
+        },
+        {
+            "Id": "0x010000C6000004FF",
+            "NameInDatabase": "Rizia_Energy_Modifier_ArmyRefuelCosts",
+            "Path": "Rizia/HUD Panel/Modifiers/Energy",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Energy_Modifier_ArmyRefuelCosts",
+                "Condition": "RiziaDLC.Situation_Military_MobileForces_Large == true && (RiziaDLC.Situation_Military_Manpower_Massive == true || RiziaDLC.Situation_Military_Manpower_High == true)",
+                "Description": "{0} per turn from Army Refuel Costs"
+            }
+        },
+        {
+            "Id": "0x010000C600000507",
+            "NameInDatabase": "Rizia_Energy_Modifier_NavyRefuelCosts",
+            "Path": "Rizia/HUD Panel/Modifiers/Energy",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Energy_Modifier_NavyRefuelCosts",
+                "Condition": "RiziaDLC.Situation_Military_RiziaFleet_Large == true",
+                "Description": "{0} per turn from Navy Refuel Costs"
+            }
+        },
+        {
+            "Id": "0x010000C60000050E",
+            "NameInDatabase": "Rizia_Energy_Modifier_AirforceRefuelCosts",
+            "Path": "Rizia/HUD Panel/Modifiers/Energy",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Energy_Modifier_AirforceRefuelCosts",
+                "Condition": "RiziaDLC.Situation_Military_Airforce_Total_Large == true",
+                "Description": "{0} per turn from Airforce Refuel Costs"
+            }
+        },
+        {
+            "Id": "0x010000C60000059E",
+            "NameInDatabase": "Rizia_Energy_Modifier_LocalRenewables",
+            "Path": "Rizia/HUD Panel/Modifiers/Energy",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Energy_Modifier_LocalRenewables",
+                "Condition": "RiziaDLC.Decision_Turn08_NewManufacturing_Renewable == true",
+                "Description": "{0} per turn from Local Renewable Energy"
+            }
+        },
+        {
+            "Id": "0x01000065000077EE",
+            "NameInDatabase": "Rizia_Manpower_Modifier_Recruitment",
+            "Path": "Rizia/HUD Panel/Modifiers/Military/Manpower",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Manpower_Modifier_Recruitment",
+                "Condition": "RiziaDLC.ModifierCountryStat_Authority == true",
+                "Description": "{0} per turn from Recruitment"
+            }
+        },
+        {
+            "Id": "0x0100008E0000832D",
+            "NameInDatabase": "Rizia_Manpower_Modifier_GolcondistSignups",
+            "Path": "Rizia/HUD Panel/Modifiers/Military/Manpower",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Manpower_Modifier_GolcondistSignups",
+                "Condition": "RiziaDLC.Situation_Order_GolcondistCommunity_Happy == true",
+                "Description": "{0} per turn from Golcondist Volunteers"
+            }
+        },
+        {
+            "Id": "0x010000C600000552",
+            "NameInDatabase": "Rizia_Manpower_Modifier_SuOminaSignups",
+            "Path": "Rizia/HUD Panel/Modifiers/Military/Manpower",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Manpower_Modifier_SuOminaSignups",
+                "Condition": "RiziaDLC.Situation_Order_SuOmina_AlliedToCrown == true",
+                "Description": "{0} per turn from Su Omina Volunteers"
+            }
+        },
+        {
+            "Id": "0x010000C60000055B",
+            "NameInDatabase": "Rizia_Manpower_Modifier_GRACEVolunteers",
+            "Path": "Rizia/HUD Panel/Modifiers/Military/Manpower",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Manpower_Modifier_GRACEVolunteers",
+                "Condition": "RiziaDLC.Policy_Diplomacy_GRACEMember == true && RiziaDLC.Vendonesam_Victory == true && RiziaDLC.Pales_War == true && (RiziaDLC.Diplomacy_Rumburg_NegotiatingPower >= 4 || RiziaDLC.CountryRelation_Rumburg_Allied == true)",
+                "Description": "{0} per turn from GRACE Volunteers"
+            }
+        },
+        {
+            "Id": "0x01000065000077E7",
+            "NameInDatabase": "Rizia_Equipment_Modifier_Factory",
+            "Path": "Rizia/HUD Panel/Modifiers/Military/Equipment",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Equipment_Modifier_Factory",
+                "Condition": "RiziaDLC.Policy_RD_Order_MilitaryEquipmentFactory_Completed == true",
+                "Description": "{0} per turn from Military Equipment Production"
+            }
+        },
+        {
+            "Id": "0x010000C6000005D5",
+            "NameInDatabase": "Rizia_Equipment_Modifier_WehlenArmsExports",
+            "Path": "Rizia/HUD Panel/Modifiers/Military/Equipment",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Equipment_Modifier_WehlenArmsExports",
+                "Condition": "RiziaDLC.Situation_Diplomacy_Wehlen_ExportArms == true",
+                "Description": "{0} per turn from Exports to Wehlen"
+            }
+        },
+        {
+            "Id": "0x01000065000077FC",
+            "NameInDatabase": "Rizia_Tank_Modifier_Factory",
+            "Path": "Rizia/HUD Panel/Modifiers/Military/Tank",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Tank_Modifier_Factory",
+                "Condition": "RiziaDLC.Policy_RD_Order_TankFactory_Completed == true",
+                "Description": "{0} per turn from Tank Factory Production"
+            }
+        },
+        {
+            "Id": "0x01000065000077F5",
+            "NameInDatabase": "Rizia_SupportVehicle_Modifier_Factory",
+            "Path": "Rizia/HUD Panel/Modifiers/Military/Support Vehicle",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.SupportVehicle_Modifier_Factory",
+                "Condition": "RiziaDLC.Policy_RD_Order_SupportVehicleFactory_Completed == true",
+                "Description": "{0} per turn from Support Vehicle Production"
+            }
+        },
+        {
+            "Id": "0x0100006500009CFC",
+            "NameInDatabase": "Rizia_Ship_Modifier_Dockyards",
+            "Path": "Rizia/HUD Panel/Modifiers/Military/Battle Ship",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Ship_Modifier_Dockyards",
+                "Condition": "RiziaDLC.Policy_RD_Order_ExpandFortAlesNavalBase_Completed == true || RiziaDLC.Policy_RD_Economy_MonqizPortShipyardExpansion_Completed == true",
+                "Description": "{0} per turn from Ship Production"
+            }
+        },
+        {
+            "Id": "0x0100006500009D03",
+            "NameInDatabase": "Rizia_Submarines_Modifier_Dockyards",
+            "Path": "Rizia/HUD Panel/Modifiers/Military/Submarine",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Submarines_Modifier_Dockyards",
+                "Condition": "RiziaDLC.Policy_RD_Economy_MonqizPortShipyardExpansion_Completed == true",
+                "Description": "{0} per turn from Submarine Production"
+            }
+        },
+        {
+            "Id": "0x010000B400000D79",
+            "NameInDatabase": "Rizia_Bomber_Modifier_Factory",
+            "Path": "Rizia/HUD Panel/Modifiers/Military/Aircraft",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.BomberPlane_Modifier_Factory",
+                "Condition": "RiziaDLC.Policy_RD_Order_BomberPlaneFactory_Completed == true",
+                "Description": "{0} per turn from Bomber Plane Production"
+            }
+        },
+        {
+            "Id": "0x010000B400000D80",
+            "NameInDatabase": "Rizia_Fighter_Modifier_Factory",
+            "Path": "Rizia/HUD Panel/Modifiers/Military/Aircraft",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.FighterPlane_Modifier_Factory",
+                "Condition": "RiziaDLC.Policy_RD_Order_FighterPlaneFactory_Completed == true",
+                "Description": "{0} per turn from Fighter Plane Production"
+            }
+        },
+        {
+            "Id": "0xD8A67816F93D7C87",
+            "NameInDatabase": "Rizia_Budget_Modifier_WestTradeReduced",
+            "Path": "Rizia/HUD Panel/Modifiers/Budget",
+            "IsWIP": false,
+            "Notes": "",
+            "HUDPeriodicStatModifierProperties": {
+                "Variable": "RiziaDLC.Budget_Modifier_WestTradeReduced",
+                "Condition": "RiziaDLCSetup.CurrentTurn >= 6 && (RiziaDLC.CountryRelation_Lespia_Hostile == true || RiziaDLC.CountryRelation_Lespia_Unfriendly == true)",
+                "Description": "{0} per turn from Reduced Trade from the ATO"
+            }
+        }
+    ]
+}

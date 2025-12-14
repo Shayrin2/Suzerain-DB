@@ -1,0 +1,888 @@
+{
+    "items": [
+        {
+            "Id": "0x010000460001CEA2",
+            "NameInDatabase": "Turn01_Bill_CampaignFinance",
+            "Path": "Sordland/Bills",
+            "IsWIP": false,
+            "Notes": "",
+            "AssignedTokenProperties": {
+                "AssignedToken": "Sordland_City_Holsord"
+            },
+            "StoryFragmentProperties": {
+                "IsDone": false,
+                "StoryFragmentCondition": "",
+                "OnStoryFragmentEndInstruction": "",
+                "OnStoryFragmentBeginInstruction": ""
+            },
+            "BillProperties": {
+                "Title": "Electoral Campaign Finance Bill",
+                "Description": "Section I of this bill stipulates a significant change in the methodology of public funds allocation to political parties. The new measure replaces the previous system, based on the number of votes won in the general election, with a system reliant on the proportion of seats secured by a political party in the Assembly.\n\nSection II sets the annual financial allocation to political parties at 500,000 Ren per each Member of Assembly. This shift ensures that financial support from public funds aligns more closely with a party's representative influence within the legislative body.\n\nSection III, a consequential effect of these amendments, will effectively lead to a substantial increase in the election budget for the USP and a minor augmentation for other parties present in the Assembly. This restructuring of funding fosters a more proportional representation of party presence within the Assembly.\n\nSection IV highlights an important consequence of this reallocation. Parties that do not meet the 10% election threshold will see their public funding effectively curtailed. This measure ensures that public resources are concentrated towards parties with a significant representation in the Assembly.",
+                "HubTitle": "Campaign Finance Bill",
+                "HubDescription": "The CFB bill has been passed by the GNA.",
+                "SignVariables": "BaseGame.Bill_Turn01_CampaignFinance_Signed = true;\nBaseGameSupport.News_Turn01_HP_ElectoralReform = true;\nBaseGameSupport.News_Turn01_R_HijackedElections = true;\nBaseGame.Policy_Law_ElectoralFundingReform = true;\nBaseGame.Situation_Law_UnfairElectoralFunding = true;\nBaseGameSupport.Journal_Turn01_ElectionFunding_Passed = true;\nBaseGame.Democratic -= 3;\nBaseGame.Malenyevist -= 2;\nBaseGame.Sollist += 1;\nBaseGame.Public_Opinion += 1;\nBaseGame.Bludish_Opinion -= 2;\nBaseGame.SignedBillCount += 1;",
+                "VetoVariables": "BaseGame.Bill_Turn01_CampaignFinance_Vetoed = true;\nBaseGameSupport.News_Turn01_HP_BillVetoed = true;\nBaseGameSupport.News_Turn01_R_BillCrushed = true;\nBaseGameSupport.Journal_Turn01_ElectionFunding_Vetoed = true;\nBaseGame.Bludish_Opinion += 1;\nBaseGame.Democratic += 2;\nBaseGame.Sollist -= 1;\nBaseGame.VetoedBillCount += 1;",
+                "IsVetoDisabledCondition": "BaseGame.Policy_Law_Veto_Removed == true"
+            },
+            "AppBundleProperties": {
+                "AppBundle": "AppBundle_Main",
+                "StoryPacks": [
+                    "StoryPack_Main"
+                ]
+            },
+            "TagsProperties": {
+                "Tags": ""
+            }
+        },
+        {
+            "Id": "0x010000460001CEAA",
+            "NameInDatabase": "Turn05_Bill_ReligiousHarmony",
+            "Path": "Sordland/Bills",
+            "IsWIP": false,
+            "Notes": "",
+            "AssignedTokenProperties": {
+                "AssignedToken": "Sordland_City_Holsord"
+            },
+            "StoryFragmentProperties": {
+                "IsDone": false,
+                "StoryFragmentCondition": "",
+                "OnStoryFragmentEndInstruction": "",
+                "OnStoryFragmentBeginInstruction": ""
+            },
+            "BillProperties": {
+                "Title": "Religious Harmony Bill",
+                "Description": "In an endeavor to promote religious harmony and unity, the Grand National Assembly introduces the Religious Harmony Bill (R.H.B.), establishing regulations for religious affairs across Sordland.\n\nSection I of the R.H.B. mandates that all sermons conducted during the Day of Descension ceremony at the Arch-sanctuary of Deyr will henceforth be held in the Sordish language. This move is aimed at promoting inclusivity and common understanding among worshippers.\n\nSection II of the R.H.B. regulates the language of sermons in other sanctuaries across Sordland. It prohibits the use of Bludish for sermons unless explicit approval has been obtained from the Archpriest of Sordland. This measure ensures consistency and unity in religious practices across the country.\n\nSection III of the R.H.B. sets forth new regulations for priests seeking state-sanctioned positions. It requires that all applicants must have Sordish lineage to be eligible for their salaries and pensions. This criterion ensures a deeper connection with Sordland's cultural heritage among the religious leaders of the country.",
+                "HubTitle": "Religious Harmony Bill",
+                "HubDescription": "The RHB bill has been passed by the GNA.",
+                "SignVariables": "BaseGame.Bill_Turn05_ReligiousHarmony_Signed = true;\nBaseGame.Policy_Law_ReligiousHarmony = true;\nBaseGameSupport.Journal_Turn05_ReligiousHarmony_Signed = true;\nBaseGame.Situation_Law_RestrictiononReligious = true;\nBaseGameSupport.News_Turn05_HP_ReligionBill_Signed = true;\nBaseGameSupport.News_Turn05_R_ReligionBill_Signed = true;\nBaseGame.Situation_Law_BludishOppression = true;\nBaseGame.Situation_Law_BludishReconciliation = false;\nBaseGame.Situation_Law_BludishProblem = false;\nBaseGame.Democratic -= 2;\nBaseGame.Sollist += 2;\nBaseGame.Public_Opinion += 1;\nBaseGame.Bludish_Opinion -= 5;\nBaseGame.SignedBillCount += 1;",
+                "VetoVariables": "BaseGame.Bill_Turn05_ReligiousHarmony_Vetoed = true;\nBaseGameSupport.Journal_Turn05_ReligiousHarmony_Vetoed = true;\nBaseGameSupport.News_Turn05_R_ReligionBill_Vetoed = true;\nBaseGame.Public_Opinion -= 1;\nBaseGame.Bludish_Opinion += 2;\nBaseGame.Sollist -= 1;\nBaseGame.Democratic += 1;\nBaseGame.VetoedBillCount += 1;",
+                "IsVetoDisabledCondition": "BaseGame.Policy_Law_Veto_Removed == true"
+            },
+            "AppBundleProperties": {
+                "AppBundle": "AppBundle_Main",
+                "StoryPacks": [
+                    "StoryPack_Main"
+                ]
+            },
+            "TagsProperties": {
+                "Tags": ""
+            }
+        },
+        {
+            "Id": "0x010000460001CEAE",
+            "NameInDatabase": "Turn07_Bill_LanguageBill",
+            "Path": "Sordland/Bills",
+            "IsWIP": false,
+            "Notes": "",
+            "AssignedTokenProperties": {
+                "AssignedToken": "Sordland_City_Holsord"
+            },
+            "StoryFragmentProperties": {
+                "IsDone": false,
+                "StoryFragmentCondition": "",
+                "OnStoryFragmentEndInstruction": "",
+                "OnStoryFragmentBeginInstruction": ""
+            },
+            "BillProperties": {
+                "Title": "Unified Education Language Act",
+                "Description": "The Grand National Assembly advances the Unified Education Language Act (U.E.L.A.) to strengthen national unity and facilitate consistent, comprehensive learning across Sordland.\n\nSection I of the U.E.L.A. stipulates that all educational institutions in Sordland are required to conduct their teaching in the country's official language, except in the case of foreign language instruction. To offer courses in any language other than Sordish, institutions must obtain explicit approval from the Ministry of Education. Any universities, technical colleges, or other educational institutions found to be non-compliant will face a temporary suspension of operations until they apply for and receive the necessary approval.\n\nSection II of the U.E.L.A. establishes the enforcement procedures of the Act. Schools found to be in violation of these guidelines may face penalties, which may include reduction or withdrawal of funding. In severe cases or cases of persistent non-compliance, total shutdowns may be enforced. \n\nThis enforcement mechanism reinforces a unified language policy, ensuring a cohesive educational experience across the nation.",
+                "HubTitle": "Unified Education Language Act",
+                "HubDescription": "The UELA bill has been passed by the GNA.",
+                "SignVariables": "BaseGame.Bill_Turn07_LanguageBill_Signed = true;\nBaseGameSupport.Journal_Turn07_SignedLanguageAct = true;\nBaseGame.Policy_Law_EducationUnification = true;\nBaseGame.Situation_Law_BludishOppression = true;\nBaseGame.Situation_Law_BludishReconciliation = false;\nBaseGame.Situation_Law_BludishProblem = false;\nBaseGame.Public_Opinion += 1;\nBaseGame.Bludish_Opinion -= 5;\nBaseGame.Democratic -= 3;\nBaseGame.Sollist += 3;\nBaseGame.SignedBillCount += 1;",
+                "VetoVariables": "BaseGame.Bill_Turn07_LanguageBill_Vetoed = true;\nBaseGameSupport.Journal_Turn07_VetoedLanguageAct = true;\nBaseGame.Bludish_Opinion += 2;\nBaseGame.Democratic += 1;\nBaseGame.Sollist -= 1;\nBaseGame.Public_Opinion -= 1;\nBaseGame.VetoedBillCount += 1;",
+                "IsVetoDisabledCondition": "BaseGame.Policy_Law_Veto_Removed == true"
+            },
+            "AppBundleProperties": {
+                "AppBundle": "AppBundle_Main",
+                "StoryPacks": [
+                    "StoryPack_Main"
+                ]
+            },
+            "TagsProperties": {
+                "Tags": ""
+            }
+        },
+        {
+            "Id": "0x010000460001CEB2",
+            "NameInDatabase": "Turn08_Bill_DisabilityBenefit",
+            "Path": "Sordland/Bills",
+            "IsWIP": false,
+            "Notes": "",
+            "AssignedTokenProperties": {
+                "AssignedToken": "Sordland_City_Holsord"
+            },
+            "StoryFragmentProperties": {
+                "IsDone": false,
+                "StoryFragmentCondition": "BaseGame.Enable_DisabilityBenefit == true",
+                "OnStoryFragmentEndInstruction": "",
+                "OnStoryFragmentBeginInstruction": ""
+            },
+            "BillProperties": {
+                "Title": "Equal Ability Bill",
+                "Description": "Recognizing the need to extend social benefits to all citizens, the Grand National Assembly has approved the Equal Ability Bill (E.A.B.).\n\nSection I of the E.A.B. proposes an amendment to the 1933 compensatory veterans and state employees' disability benefits program. The amendment expands Subsection III to include an earnings replacement benefit applicable to all non-state employed citizens.\n\nUnder this newly expanded program, any employees who suffer severe illness or become disabled, thereby losing their capacity to work, will be provided a steady income by the state. This income will be set at 50% of their monthly salary, ensuring a measure of financial security for these citizens in their time of need. <b>[-1 Government Budget]</b>",
+                "HubTitle": "Equal Ability Bill",
+                "HubDescription": "The EABA bill has been passed by the GNA.",
+                "SignVariables": "BaseGame.Bill_Turn08_DisabilityBenefit_Signed = true;\nBaseGameSupport.Journal_Turn08_EqualAbility_Signed = true;\nBaseGameSupport.News_Turn08_HP_Disability_Bill_Passed = true;\nBaseGame.Policy_Welfare_EqualAbilityBill = true;\nBaseGame.Situation_Welfare_DisabilityBenefits = true;\nBaseGame.GovernmentBudget -= 1;\nBaseGame.Public_Opinion += 2;\nBaseGame.Malenyevist += 1;\nBaseGame.SignedBillCount += 1;",
+                "VetoVariables": "BaseGame.Bill_Turn08_DisabilityBenefit_Vetoed = true;\nBaseGameSupport.Journal_Turn08_EqualAbility_Vetoed = true;\nBaseGameSupport.News_Turn08_R_Disability_Bill_Vetoed = true;\nBaseGameSupport.News_Turn08_HP_Disability_Bill_Vetoed = true;\nBaseGame.Malenyevist -= 1;\nBaseGame.Public_Opinion -= 1;\nBaseGame.VetoedBillCount += 1;",
+                "IsVetoDisabledCondition": "BaseGame.Policy_Law_Veto_Removed == true"
+            },
+            "AppBundleProperties": {
+                "AppBundle": "AppBundle_Main",
+                "StoryPacks": [
+                    "StoryPack_Main"
+                ]
+            },
+            "TagsProperties": {
+                "Tags": ""
+            }
+        },
+        {
+            "Id": "0x010000460001CEB6",
+            "NameInDatabase": "Turn08_Bill_TobaccoTax",
+            "Path": "Sordland/Bills",
+            "IsWIP": false,
+            "Notes": "",
+            "AssignedTokenProperties": {
+                "AssignedToken": "Sordland_City_Holsord"
+            },
+            "StoryFragmentProperties": {
+                "IsDone": false,
+                "StoryFragmentCondition": "BaseGame.Enable_TobaccoTaxBill == true",
+                "OnStoryFragmentEndInstruction": "",
+                "OnStoryFragmentBeginInstruction": ""
+            },
+            "BillProperties": {
+                "Title": "Less Smoke Bill",
+                "Description": "The assembly passes an amendment to the Tax Bill of 1944 in order to increase tax revenue and reduce the excessive amount of tobacco consumption in the general populace. \n\nSection I of the T.B of '44 which had imposed a 10% tax on all tobacco packages, will be increased to 30% on all tobacco products sold in the country. \n\nSection II will protect local industries by giving them a full tax exemption if the products are destined for export to other countries. <b>[+1 Government Budget]</b>",
+                "HubTitle": "Less Smoke Bill",
+                "HubDescription": "The LSBA bill has been passed by the GNA.",
+                "SignVariables": "BaseGame.Bill_Turn08_TobaccoTax_Signed = true;\nBaseGameSupport.Journal_Turn08_LessSmoke_Signed = true;\nBaseGameSupport.News_Turn08_HP_Tobaco_Tax_Signed = true;\nBaseGameSupport.News_Turn08_LT_Tobaco_Tax_Signed = true;\nBaseGame.Policy_Economy_TobaccoTax = true;\nBaseGame.Situation_Welfare_TobaccoConsumptionReduced = true;\nBaseGame.GovernmentBudget += 1;\nBaseGame.Economy -= 1;\nBaseGame.Public_Opinion -= 3;\nBaseGame.Capitalist -= 1;\nBaseGame.SignedBillCount += 1;",
+                "VetoVariables": "BaseGame.Bill_Turn08_TobaccoTax_Vetoed = true;\nBaseGameSupport.Journal_Turn08_LessSmoke_Vetoed = true;\nBaseGame.Capitalist += 1;\nBaseGame.Public_Opinion += 1;\nBaseGame.VetoedBillCount += 1;",
+                "IsVetoDisabledCondition": "BaseGame.Policy_Law_Veto_Removed == true"
+            },
+            "AppBundleProperties": {
+                "AppBundle": "AppBundle_Main",
+                "StoryPacks": [
+                    "StoryPack_Main"
+                ]
+            },
+            "TagsProperties": {
+                "Tags": ""
+            }
+        },
+        {
+            "Id": "0x010000460001CEBA",
+            "NameInDatabase": "Turn08_Bill_HarsherSecurity",
+            "Path": "Sordland/Bills",
+            "IsWIP": false,
+            "Notes": "",
+            "AssignedTokenProperties": {
+                "AssignedToken": "Sordland_City_Holsord"
+            },
+            "StoryFragmentProperties": {
+                "IsDone": false,
+                "StoryFragmentCondition": "BaseGame.Enable_HarsherSecurityBill == true",
+                "OnStoryFragmentEndInstruction": "",
+                "OnStoryFragmentBeginInstruction": ""
+            },
+            "BillProperties": {
+                "Title": "Security Act",
+                "Description": "In response to the heightened need for security due to the ongoing social unrest, the Grand National Assembly (GNA) presents the Security Act (S.A.) to fortify public safety measures.\n\nSection I of the S.A. grants security forces the discretion to use force as deemed necessary to uphold law and order. This provision is designed to enable quick and decisive responses in situations where public safety is at risk.\n\nSection II of the S.A. authorizes suspicion-based arrests and confiscations without the prerequisite of a warrant. This measure seeks to expedite law enforcement's response to potential threats, thereby enhancing overall security.\n\nSection III of the S.A. allows security forces to exercise their authority beyond standard legal limits if such action is deemed essential for maintaining state security and protecting the general public. This clause reinforces the commitment to safeguarding national security and upholding public safety in the face of increasing unrest.",
+                "HubTitle": "Security Act",
+                "HubDescription": "A SA bill has been passed by the GNA.",
+                "SignVariables": "BaseGame.Bill_Turn08_HarsherSecurity_Signed = true;\nBaseGameSupport.Journal_Turn08_SecurityBill_Signed = true;\nBaseGameSupport.News_Turn08_HP_Security_Signed = true;\nBaseGame.Situation_Law_LimitedHumanRights = true;\nBaseGame.Situation_Law_SomeHumanRights = false;\nBaseGame.Situation_Law_ExpandedHumanRights = false;\nBaseGame.Policy_Order_SecurityAct = false;\nBaseGame.Economy -= 1;\nBaseGame.Public_Opinion += 1;\nBaseGame.Bludish_Opinion -= 1;\nBaseGame.Democratic -= 3;\nBaseGame.Sollist += 1;\nBaseGame.SignedBillCount += 1;",
+                "VetoVariables": "BaseGame.Bill_Turn08_HarsherSecurity_Vetoed = true;\nBaseGameSupport.Journal_Turn08_SecurityBill_Vetoed = true;\nBaseGame.Public_Opinion -= 1;\nBaseGame.Bludish_Opinion += 1;\nBaseGame.Democratic += 1;\nBaseGame.Sollist -= 1;\nBaseGame.VetoedBillCount += 1;",
+                "IsVetoDisabledCondition": "BaseGame.Policy_Law_Veto_Removed == true"
+            },
+            "AppBundleProperties": {
+                "AppBundle": "AppBundle_Main",
+                "StoryPacks": [
+                    "StoryPack_Main"
+                ]
+            },
+            "TagsProperties": {
+                "Tags": ""
+            }
+        },
+        {
+            "Id": "0x010000460001CEBE",
+            "NameInDatabase": "Turn09_Bill_WomensRights",
+            "Path": "Sordland/Bills",
+            "IsWIP": false,
+            "Notes": "",
+            "AssignedTokenProperties": {
+                "AssignedToken": "Sordland_City_Holsord"
+            },
+            "StoryFragmentProperties": {
+                "IsDone": false,
+                "StoryFragmentCondition": "BaseGame.Enable_WomensRightsBill_Weak == true",
+                "OnStoryFragmentEndInstruction": "",
+                "OnStoryFragmentBeginInstruction": ""
+            },
+            "BillProperties": {
+                "Title": "Protect Women Act",
+                "Description": "In collaboration with the Commission on the Status of Women, and acknowledging the pressing issue of high domestic violence rates, the Grand National Assembly puts forth the Protect Women Act (P.W.A.) to address these unacceptable conditions.\n\nSection I of the P.W.A. categorically criminalizes domestic violence against women. This vital step strengthens the country's stance against such heinous acts, reinforcing the nation's commitment to upholding the rights and dignity of all women.\n\nSubsection I.A of the P.W.A. takes a proactive approach towards the safety of victims. It establishes a robust witness protection program specifically designed for women who have suffered domestic abuse. This program will provide these women with the necessary security and support, helping to ensure their safety and well-being as they participate in legal proceedings against their aggressors. <b>[-1 Government Budget]</b>",
+                "HubTitle": "Protect Women Act",
+                "HubDescription": "The PWA bill has been passed by the GNA.",
+                "SignVariables": "BaseGame.Bill_Turn09_WeakWomensRights_Signed = true;\nBaseGameSupport.Journal_Turn09_ProtectWomen_Signed = true;\nBaseGame.Policy_Law_ProtectWomen = true;\nBaseGame.Situation_Law_AverageWomenRights = true;\nBaseGame.Situation_Law_LimitedWomenRights = false;\nBaseGame.Situation_Law_ExcellentWomenRights = false;\nBaseGame.Democratic += 2;\nBaseGame.GovernmentBudget -= 1;\nBaseGame.Malenyevist += 1;\nBaseGame.Sollist -= 1;\nBaseGame.SignedBillCount += 1;",
+                "VetoVariables": "BaseGame.Bill_Turn09_WeakWomensRights_Vetoed = true;\nBaseGameSupport.Journal_Turn09_ProtectWomen_Vetoed = true;\nBaseGame.Democratic -= 1;\nBaseGame.Malenyevist -= 1;\nBaseGame.Public_Opinion -= 1;\nBaseGame.Sollist += 1;\nBaseGame.VetoedBillCount += 1;",
+                "IsVetoDisabledCondition": "BaseGame.Policy_Law_Veto_Removed == true"
+            },
+            "AppBundleProperties": {
+                "AppBundle": "AppBundle_Main",
+                "StoryPacks": [
+                    "StoryPack_Main"
+                ]
+            },
+            "TagsProperties": {
+                "Tags": ""
+            }
+        },
+        {
+            "Id": "0x010000460001CEC2",
+            "NameInDatabase": "Turn09_Bill_StrongWomensRights",
+            "Path": "Sordland/Bills",
+            "IsWIP": false,
+            "Notes": "",
+            "AssignedTokenProperties": {
+                "AssignedToken": "Sordland_City_Holsord"
+            },
+            "StoryFragmentProperties": {
+                "IsDone": false,
+                "StoryFragmentCondition": "BaseGame.Enable_WomensRightsBill_Strong == true",
+                "OnStoryFragmentEndInstruction": "",
+                "OnStoryFragmentBeginInstruction": ""
+            },
+            "BillProperties": {
+                "Title": "Women's Liberation Act",
+                "Description": "In collaboration with the Commission on the Status of Women, the Grand National Assembly presents the Women's Liberation Act (W.L.A.), aimed at promoting gender equality and women's rights across Sordland.\n\nSection I of the W.L.A. takes decisive action against domestic violence perpetrated against women. It unequivocally criminalizes such acts, strengthening the legal framework for the protection of women's rights.\n\nSubsection I.A of the W.L.A. establishes a system of state protection for victims of domestic abuse. This includes counseling, temporary shelter arrangements, and legal support, ensuring a comprehensive safety net for affected women.\n\nSection II of the W.L.A. addresses the issue of wage disparity. It mandates equal pay for women, and to support this transition, it provides subsidies to businesses to offset any resulting expenditure differences. Further, it mandates the adjustment of salaries for all female government personnel to ensure pay parity.\n\nSection III of the W.L.A. highlights the importance of education in fostering equality. It mandates that the education system must provide equal treatment to both genders, supporting an environment of fairness and mutual respect from an early age.\n\nSection IV of the W.L.A. makes significant strides towards supporting working mothers. It introduces state-paid maternity leave and establishes state-subsidized daycare centers, ensuring mothers receive the support they need to balance their professional and familial responsibilities. <b>[-2 Government Budget]</b>",
+                "HubTitle": "Women's Liberation Act",
+                "HubDescription": "The WLA bill has been passed by the GNA.",
+                "SignVariables": "BaseGame.Bill_Turn09_StrongWomensRights_Signed = true;\nBaseGameSupport.Journal_Turn09_WomensLiberation_Signed = true;\nBaseGame.Policy_Law_WomenLiberation = true;\nBaseGame.Situation_Welfare_GenderEqualityInEducation = true;\nBaseGame.Situation_Law_AverageWomenRights = false;\nBaseGame.Situation_Law_LimitedWomenRights = false;\nBaseGame.Situation_Law_ExcellentWomenRights = true;\nBaseGame.GovernmentBudget -= 2;\nBaseGame.Economy -= 1;\nBaseGame.Public_Opinion -= 1;\nBaseGame.Democratic += 2;\nBaseGame.Malenyevist += 1;\nBaseGame.Sollist -= 1;\nBaseGame.SignedBillCount += 1;",
+                "VetoVariables": "BaseGame.Bill_Turn09_StrongWomensRights_Vetoed = true;\nBaseGameSupport.Journal_Turn09_WomensLiberation_Vetoed = true;\nBaseGame.Democratic -= 1;\nBaseGame.Malenyevist -= 1;\nBaseGame.Public_Opinion += 1;\nBaseGame.VetoedBillCount += 1;\nBaseGame.Sollist += 1;",
+                "IsVetoDisabledCondition": "BaseGame.Policy_Law_Veto_Removed == true"
+            },
+            "AppBundleProperties": {
+                "AppBundle": "AppBundle_Main",
+                "StoryPacks": [
+                    "StoryPack_Main"
+                ]
+            },
+            "TagsProperties": {
+                "Tags": ""
+            }
+        },
+        {
+            "Id": "0x010000460001CEC6",
+            "NameInDatabase": "Turn09_Bill_BanProstitution",
+            "Path": "Sordland/Bills",
+            "IsWIP": false,
+            "Notes": "",
+            "AssignedTokenProperties": {
+                "AssignedToken": "Sordland_City_Holsord"
+            },
+            "StoryFragmentProperties": {
+                "IsDone": false,
+                "StoryFragmentCondition": "",
+                "OnStoryFragmentEndInstruction": "",
+                "OnStoryFragmentBeginInstruction": ""
+            },
+            "BillProperties": {
+                "Title": "Human Dignity Bill",
+                "Description": "The Human Dignity Bill (H.D.B.) has been presented to the assembly to address an unintended consequence of the 1923 Legal Transactions Act.\n\nSection I of the H.D.B. revises and amends Section III of the 1923 Act, which previously permitted transactions involving non-registered businesses or other entities, including individuals, to be legalized if proper documentation was submitted to the financial authority. The H.D.B. specifically nullifies the legality of such transactions if they pertain to activities that violate public morality.\n\nSection II addresses the loophole inadvertently created by the 1923 Act, which allowed for the unregulated continuation of prostitution. This section of the H.D.B. explicitly declares prostitution an illegal activity, regardless of whether it occurs within a registered or non-registered entity, thereby reinforcing our dedication to preserving societal decency and moral standards.\n\nSection III outlines penalties for violations of the bill's provisions. It classifies prostitution as an illegal offense subject to penalties, including fines, imprisonment, or both, depending on the nature and frequency of the offense.",
+                "HubTitle": "Human Dignity Bill",
+                "HubDescription": "The HDBA bill has been passed by the GNA.",
+                "SignVariables": "BaseGame.Bill_Turn09_BanProstitution_Signed = true;\nBaseGameSupport.Journal_Turn09_HumanDignity_Signed = true;\nBaseGameSupport.News_Turn09_HP_HumanDignity_Signed = true;\nBaseGame.Policy_Law_Prostitution_Illegal = true;\nBaseGame.Public_Opinion -= 1;\nBaseGame.Economy -= 1;\nBaseGame.Democratic -= 1;\nBaseGame.Sollist += 1;\nBaseGame.SignedBillCount += 1;",
+                "VetoVariables": "BaseGame.Bill_Turn09_BanProstitution_Vetoed = true;\nBaseGameSupport.Journal_Turn09_HumanDignity_Vetoed = true;\nBaseGameSupport.News_Turn09_R_HumanDignity_Vetoed = true;\nBaseGame.Sollist -= 1;\nBaseGame.Democratic += 1;\nBaseGame.VetoedBillCount += 1;",
+                "IsVetoDisabledCondition": "BaseGame.Policy_Law_Veto_Removed == true"
+            },
+            "AppBundleProperties": {
+                "AppBundle": "AppBundle_Main",
+                "StoryPacks": [
+                    "StoryPack_Main"
+                ]
+            },
+            "TagsProperties": {
+                "Tags": ""
+            }
+        },
+        {
+            "Id": "0x010000460001CECA",
+            "NameInDatabase": "Turn09_Bill_ChildBenefit",
+            "Path": "Sordland/Bills",
+            "IsWIP": false,
+            "Notes": "",
+            "AssignedTokenProperties": {
+                "AssignedToken": "Sordland_City_Holsord"
+            },
+            "StoryFragmentProperties": {
+                "IsDone": false,
+                "StoryFragmentCondition": "BaseGame.Enable_ChildBenefitAct == true",
+                "OnStoryFragmentEndInstruction": "",
+                "OnStoryFragmentBeginInstruction": ""
+            },
+            "BillProperties": {
+                "Title": "Children for Future Act",
+                "Description": "In continuation of the efforts to promote social progress and upliftment, the parliament introduces the Children for Future Act (C.F.A.). This act focuses on providing tangible support to families in need, with particular attention to the welfare of children.\n\nSection I of the C.F.A. outlines a direct financial support mechanism for families not falling within the medium or high-income brackets. The state will issue a fixed payment for every child in these families, offering much-needed financial relief and ensuring that the welfare of the child is not compromised due to economic circumstances.\n\nSection II of the C.F.A. unlocks additional state support specifically aimed at the children of unemployed families. It provides financing for each child's education and any special healthcare needs that may arise. This proactive approach aims to create a safety net for the most vulnerable, ensuring that every child, regardless of their family's employment status, has access to education and healthcare. <b>[-1 Government Budget]</b>",
+                "HubTitle": "Children for Future Act",
+                "HubDescription": "The CFA bill has been passed by the GNA.",
+                "SignVariables": "BaseGame.Bill_Turn09_ChildBenefit_Signed = true;\nBaseGameSupport.Journal_Turn09_ChildrenForFuture_Signed = true;\nBaseGameSupport.News_Turn09_ST_ChildrenFuture_Passed = true;\nBaseGame.Situation_Welfare_ChildrenBenefits = true;\nBaseGame.Policy_Welfare_ChildrenBenefits = true;\nBaseGame.GovernmentBudget -= 1;\nBaseGame.Public_Opinion += 2;\nBaseGame.Malenyevist += 1;\nBaseGame.SignedBillCount += 1;",
+                "VetoVariables": "BaseGame.Bill_Turn09_ChildBenefit_Vetoed = true;\nBaseGameSupport.Journal_Turn09_ChildrenForFuture_Vetoed = true;\nBaseGameSupport.News_Turn09_R_ChildrenFuture_Vetoed = true;\nBaseGame.Malenyevist -= 1;\nBaseGame.Public_Opinion -= 1;\nBaseGame.VetoedBillCount += 1;",
+                "IsVetoDisabledCondition": "BaseGame.Policy_Law_Veto_Removed == true"
+            },
+            "AppBundleProperties": {
+                "AppBundle": "AppBundle_Main",
+                "StoryPacks": [
+                    "StoryPack_Main"
+                ]
+            },
+            "TagsProperties": {
+                "Tags": ""
+            }
+        },
+        {
+            "Id": "0x010000460001CECE",
+            "NameInDatabase": "Turn09_Bill_LighterSecurity",
+            "Path": "Sordland/Bills",
+            "IsWIP": false,
+            "Notes": "",
+            "AssignedTokenProperties": {
+                "AssignedToken": "Sordland_City_Holsord"
+            },
+            "StoryFragmentProperties": {
+                "IsDone": false,
+                "StoryFragmentCondition": "BaseGame.Enable_LighterSecurityBill == true",
+                "OnStoryFragmentEndInstruction": "",
+                "OnStoryFragmentBeginInstruction": ""
+            },
+            "BillProperties": {
+                "Title": "Freedom's Act",
+                "Description": "In light of the prevailing peaceful and secure conditions in Sordland, the Grand National Assembly presents the Freedom's Act. This legislation is aimed at reassessing security laws to better align with the country's current state of tranquility.\n\nSection I of the Freedom's Act completely abolishes the provision for 48-hour detention without trial. This ensures that all individuals are entitled to a proper trial before any form of detention, safeguarding the fundamental rights of citizens and adhering to the principles of justice.\n\nSection II of the Freedom's Act revises the protocols for issuing search warrants. Under this section, the responsibility of granting warrants for investigating private property is transferred from the district police chief to a judge within the local jurisdiction. This measure enhances judicial oversight, despite potential increases in judicial costs.\n\nSection III of the Freedom's Act unequivocally discontinues the practice of stop-and-frisk. This step is taken to protect the personal freedoms and rights of citizens, minimizing unwarranted invasions of personal privacy and potential instances of prejudice.\n\nSection IV of the Freedom's Act stipulates that the use of force by law enforcement should only be employed as an absolute last resort. This provision reinforces the commitment to a peaceful and fair society, ensuring law enforcement actions remain proportionate and necessary. <b>[-1 Government Budget]</b>",
+                "HubTitle": "Freedom's Act",
+                "HubDescription": "The FA bill has been passed by the GNA.",
+                "SignVariables": "BaseGame.Bill_Turn09_LighterSecurity_Signed = true;\nBaseGameSupport.Journal_Turn09_FreedomsBill_Signed = true;\nBaseGameSupport.News_Turn09_HP_FreedomsAct_Signed = true;\nBaseGameSupport.News_Turn09_R_FreedomsAct_Signed = true;\nBaseGame.Turn09_UnrestStopped = true;\nBaseGame.Policy_Order_FreedomAct = true;\nBaseGame.Public_Opinion += 2;\nBaseGame.GovernmentBudget -= 1;\nBaseGame.Bludish_Opinion += 1;\nBaseGame.Democratic += 2;\nBaseGame.Sollist -= 1;\nBaseGame.SignedBillCount += 1;",
+                "VetoVariables": "BaseGame.Bill_Turn09_LighterSecurity_Vetoed = true;\nBaseGameSupport.Journal_Turn09_FreedomsBill_Vetoed = true;\nBaseGameSupport.News_Turn09_LT_FreedomsAct_Vetoed = true;\nBaseGame.Democratic -= 2;\nBaseGame.Public_Opinion -= 1;\nBaseGame.Bludish_Opinion -= 1;\nBaseGame.VetoedBillCount += 1;",
+                "IsVetoDisabledCondition": "BaseGame.Policy_Law_Veto_Removed == true"
+            },
+            "AppBundleProperties": {
+                "AppBundle": "AppBundle_Main",
+                "StoryPacks": [
+                    "StoryPack_Main"
+                ]
+            },
+            "TagsProperties": {
+                "Tags": ""
+            }
+        },
+        {
+            "Id": "0x010000460001CED2",
+            "NameInDatabase": "Turn09_Bill_BludishCommission",
+            "Path": "Sordland/Bills",
+            "IsWIP": false,
+            "Notes": "",
+            "AssignedTokenProperties": {
+                "AssignedToken": "Sordland_City_Holsord"
+            },
+            "StoryFragmentProperties": {
+                "IsDone": false,
+                "StoryFragmentCondition": "BaseGame.Enable_BludishCommissionBill == true",
+                "OnStoryFragmentEndInstruction": "",
+                "OnStoryFragmentBeginInstruction": ""
+            },
+            "BillProperties": {
+                "Title": "Minority Rights Act",
+                "Description": "The Grand National Assembly, recognizing the vital importance of inclusivity and equal rights, introduces the Minority Rights Act (M.R.A.) to safeguard and champion the rights of all minorities residing in Sordland.\n\nSection I of the M.R.A. initiates the formation of a Minority Rights Commission. This body will be tasked with advocating for the interests and rights of all minority groups in Sordland, ensuring fair representation and safeguarding against any forms of discrimination or bias.\n\nSection II of the M.R.A. addresses the political representation of the Bludish community. It revokes the existing ban on the Bludish Freedom Party along with other Bludish political entities. This provision ensures that the Bludish community, like all other communities, has the freedom to organize politically and contribute to the democratic process in Sordland.\n\nSection III of the M.R.A. outlines a path for reconciliation with past separatist activities. It grants amnesty to Bludish prisoners who were previously incarcerated due to their separatist actions. This step towards forgiveness and unity acknowledges the importance of moving forward and fostering harmony among all Sordland's citizens.",
+                "HubTitle": "Minority Rights Act",
+                "HubDescription": "The MNA bill has been passed by the GNA.",
+                "SignVariables": "BaseGame.Bill_Turn09_BludishCommission_Signed = true;\nBaseGameSupport.Journal_Turn09_MinorityRights_Signed = true;\nBaseGameSupport.News_Turn09_HP_MinorityRightsSigned = true;\nBaseGame.Policy_Law_Ban_BFP = false;\nBaseGame.Policy_Law_MinorityRights = true;\nBaseGame.Situation_Law_BludishProblem = false;\nBaseGameSupport.News_Turn09_R_MinorityRights_Signed = true;\nBaseGame.Situation_Law_BludishReconciliation = true;\nBaseGame.Democratic += 2;\nBaseGame.Malenyevist += 1;\nBaseGame.Sollist -= 1;\nBaseGame.SignedBillCount += 1;\nBaseGame.Bludish_Opinion += 3;",
+                "VetoVariables": "BaseGame.Bill_Turn09_BludishCommission_Vetoed = true;\nBaseGameSupport.Journal_Turn09_MinorityRights_Vetoed = true;\nBaseGameSupport.News_Turn09_R_MinorityRightsVetoed = true;\nBaseGameSupport.News_Turn09_HP_MinorityRights_Vetoed = true;\nBaseGameSupport.News_Turn09_LT_MinorityRights_Vetoed = true;\nBaseGame.Democratic -= 1;\nBaseGame.Bludish_Opinion -= 2;\nBaseGame.VetoedBillCount += 1;",
+                "IsVetoDisabledCondition": "BaseGame.Policy_Law_Veto_Removed == true"
+            },
+            "AppBundleProperties": {
+                "AppBundle": "AppBundle_Main",
+                "StoryPacks": [
+                    "StoryPack_Main"
+                ]
+            },
+            "TagsProperties": {
+                "Tags": ""
+            }
+        },
+        {
+            "Id": "0x010000460001CED6",
+            "NameInDatabase": "Turn09_Bill_AlcoholTax",
+            "Path": "Sordland/Bills",
+            "IsWIP": false,
+            "Notes": "",
+            "AssignedTokenProperties": {
+                "AssignedToken": "Sordland_City_Holsord"
+            },
+            "StoryFragmentProperties": {
+                "IsDone": false,
+                "StoryFragmentCondition": "BaseGame.Faction_USP_Obstructionist == false",
+                "OnStoryFragmentEndInstruction": "",
+                "OnStoryFragmentBeginInstruction": ""
+            },
+            "BillProperties": {
+                "Title": "Alcohol Tax Act",
+                "Description": "The Grand National Assembly introduces the Alcohol Tax Act (A.T.A.) as a dual measure to curb excessive alcohol consumption and boost tax revenues.\n\nSection I of the A.T.A. mandates a 20% tax on all alcohol products sold within the country. This measure serves not only as a deterrent to excessive alcohol consumption by raising the cost of alcoholic beverages but also establishes a consistent source of government revenue.\n\nSection II of the A.T.A. promotes domestic industry by making local alcohol production destined for export exempt from the aforementioned taxation. This provision seeks to bolster the competitiveness of local producers in the international market while maintaining the aim of reducing domestic alcohol consumption.\n\nSection III of the A.T.A. applies a 25% import tax on foreign alcohol products imported from countries that do not currently have any trade regulations imposed on alcohol-related goods. This policy aims to level the playing field for domestic producers and increase the overall tax revenue. <b>[+1 Government Budget]</b>",
+                "HubTitle": "Alcohol Tax Act",
+                "HubDescription": "The ATA bill has been passed by the GNA.",
+                "SignVariables": "BaseGame.Bill_Turn09_AlcoholTax_Signed = true;\nBaseGameSupport.Journal_Turn09_AlcoholTax_Signed = true;\nBaseGameSupport.News_Turn09_HP_AlcoholTax_Signed = true;\nBaseGame.Policy_Economy_AlcoholTax = true;\nBaseGame.Situation_Welfare_AlcoholConsumptionReduced = true;\nBaseGame.GovernmentBudget += 1;\nBaseGame.Economy -= 1;\nBaseGame.Public_Opinion -= 2;\nBaseGame.Capitalist -= 1;\nBaseGame.SignedBillCount += 1;",
+                "VetoVariables": "BaseGame.Bill_Turn09_AlcoholTax_Vetoed = true;\nBaseGameSupport.Journal_Turn09_AlcoholTax_Vetoed = true;\nBaseGameSupport.News_Turn09_ST_AlcoholTax_Vetoed = true;\nBaseGame.Capitalist += 1;\nBaseGame.Public_Opinion += 1;\nBaseGame.VetoedBillCount += 1;",
+                "IsVetoDisabledCondition": "BaseGame.Policy_Law_Veto_Removed == true"
+            },
+            "AppBundleProperties": {
+                "AppBundle": "AppBundle_Main",
+                "StoryPacks": [
+                    "StoryPack_Main"
+                ]
+            },
+            "TagsProperties": {
+                "Tags": ""
+            }
+        },
+        {
+            "Id": "0x010000460001CEDA",
+            "NameInDatabase": "Turn09_Bill_LuxuryTax",
+            "Path": "Sordland/Bills",
+            "IsWIP": false,
+            "Notes": "",
+            "AssignedTokenProperties": {
+                "AssignedToken": "Sordland_City_Holsord"
+            },
+            "StoryFragmentProperties": {
+                "IsDone": false,
+                "StoryFragmentCondition": "BaseGame.Faction_USP_Obstructionist == false",
+                "OnStoryFragmentEndInstruction": "",
+                "OnStoryFragmentBeginInstruction": ""
+            },
+            "BillProperties": {
+                "Title": "Fair Luxury Tax Act",
+                "Description": "In an endeavor to enhance the equity of the taxation system and augment tax revenues, the Grand National Assembly introduces the Fair Luxury Tax Act (F.L.T.A.). This act proposes an amendment to Section VI of the Tax Code of 1949.\n\nSection I of the F.L.T.A. determines a 15% tax rate on luxury goods, as categorized by the Ministry of Economy. The definition of luxury goods under this act includes, but is not limited to, jewelry, furs, sports cars, yachts, and private planes. The implementation of this tax is intended to ensure that those with the means to purchase such items contribute proportionally to the state's revenue.\n\nSection II of the F.L.T.A. establishes a 10% estate tax applicable in situations of purchase, sale, and property transfer, particularly in cases of inheritance. This measure seeks to promote fairness in the tax system, ensuring that significant wealth transfers contribute appropriately to the state's revenue, while also deterring large-scale wealth accumulation through inheritance. <b>[+2 Government Budget]</b>",
+                "HubTitle": "Fair Luxury Tax Act",
+                "HubDescription": "The FLTA bill has been passed by the GNA.",
+                "SignVariables": "BaseGame.Bill_Turn09_LuxuryTax_Signed = true;\nBaseGame.Policy_Economy_LuxuryTax = true;\nBaseGame.Situation_Economy_LuxuryPriceIncreased = true;\nBaseGameSupport.Journal_Turn09_LuxuryTax_Signed = true;\nBaseGameSupport.News_Turn09_HP_LuxuryTax_Passed = true;\nBaseGame.GovernmentBudget += 2;\nBaseGame.Economy -= 2;\nBaseGame.Public_Opinion -= 2;\nBaseGame.Malenyevist += 2;\nBaseGame.Capitalist -= 2;\nBaseGame.SignedBillCount += 1;",
+                "VetoVariables": "BaseGame.Bill_Turn09_LuxuryTax_Vetoed = true;\nBaseGameSupport.Journal_Turn09_LuxuryTax_Vetoed = true;\nBaseGameSupport.News_Turn09_HP_LuxuryTax_Vetoed = true;\nBaseGameSupport.News_Turn09_R_LuxuryTax_Vetoed = true;\nBaseGame.Malenyevist -= 1;\nBaseGame.Public_Opinion -= 1;\nBaseGame.Capitalist += 1;\nBaseGame.VetoedBillCount += 1;",
+                "IsVetoDisabledCondition": "BaseGame.Policy_Law_Veto_Removed == true"
+            },
+            "AppBundleProperties": {
+                "AppBundle": "AppBundle_Main",
+                "StoryPacks": [
+                    "StoryPack_Main"
+                ]
+            },
+            "TagsProperties": {
+                "Tags": ""
+            }
+        },
+        {
+            "Id": "0x010000460001CEDE",
+            "NameInDatabase": "Turn09_Bill_FreeTransportation",
+            "Path": "Sordland/Bills",
+            "IsWIP": false,
+            "Notes": "",
+            "AssignedTokenProperties": {
+                "AssignedToken": "Sordland_City_Holsord"
+            },
+            "StoryFragmentProperties": {
+                "IsDone": false,
+                "StoryFragmentCondition": "BaseGame.Enable_FreeTransportationBill == true",
+                "OnStoryFragmentEndInstruction": "",
+                "OnStoryFragmentBeginInstruction": ""
+            },
+            "BillProperties": {
+                "Title": "Citizens Mobility Act of 1957",
+                "Description": "The Grand National Assembly, recognizing the need for enhanced mobility and economic empowerment, presents the Citizens Mobility Act of 1957 (C.M.A. of '57). This Act aims to spur inter-regional commerce, ease the financial burden on the lower-income demographic, and foster greater connectivity throughout Sordland.\n\nSection I of the C.M.A. of '57 designates state funds to subsidize all forms of public transportation within the boundaries of Sordland, with the sole exception of commercial airplanes. This broad-reaching measure extends to an array of public services, including buses, trams, trains, and ferries. The Act ensures that all Sordland citizens can access these services free of charge, promoting greater mobility, enhancing societal inclusivity, and reducing economic strain on those heavily reliant on public transport.\n\nSection II of the C.M.A. of '57 establishes an exemption for luxury first-class transportation options. Given the targeted audience and the elevated costs associated with these services, they will not fall under the subsidy umbrella of the Act. This exemption ensures a judicious use of state resources, focusing on providing broader societal benefits rather than subsidizing luxury experiences. <b>[-3 Government Budget]</b>",
+                "HubTitle": "Citizens Mobility Act of 1957",
+                "HubDescription": "The CMA bill has been passed by the GNA.",
+                "SignVariables": "BaseGame.Bill_Turn09_FreeTransportation_Signed = true;\nBaseGameSupport.Journal_Turn09_CitizensMobility_Signed = true;\nBaseGameSupport.News_Turn09_ST_Mobility_Passed = true;\nBaseGameSupport.News_Turn09_R_Mobility_Passed = true;\nBaseGame.Policy_Welfare_FreeTransportation = true;\nBaseGame.Situation_Welfare_FreePublicTransport = true;\nBaseGame.GovernmentBudget -= 3;\nBaseGame.Economy += 1;\nBaseGame.Public_Opinion += 3;\nBaseGame.Malenyevist += 2;\nBaseGame.Capitalist -= 2;\nBaseGame.SignedBillCount += 1;",
+                "VetoVariables": "BaseGame.Bill_Turn09_FreeTransportation_Vetoed = true;\nBaseGameSupport.Journal_Turn09_CitizensMobility_Vetoed = true;\nBaseGameSupport.News_Turn09_ST_Mobility_Vetoed = true;\nBaseGame.Malenyevist -= 1;\nBaseGame.Public_Opinion -= 2;\nBaseGame.Capitalist += 1;\nBaseGame.VetoedBillCount += 1;",
+                "IsVetoDisabledCondition": "BaseGame.Policy_Law_Veto_Removed == true"
+            },
+            "AppBundleProperties": {
+                "AppBundle": "AppBundle_Main",
+                "StoryPacks": [
+                    "StoryPack_Main"
+                ]
+            },
+            "TagsProperties": {
+                "Tags": ""
+            }
+        },
+        {
+            "Id": "0x0100006500001299",
+            "NameInDatabase": "Turn04_Bill_WorkersRights",
+            "Path": "Sordland/Bills",
+            "IsWIP": false,
+            "Notes": "",
+            "AssignedTokenProperties": {
+                "AssignedToken": "Sordland_City_Holsord"
+            },
+            "StoryFragmentProperties": {
+                "IsDone": false,
+                "StoryFragmentCondition": "",
+                "OnStoryFragmentEndInstruction": "",
+                "OnStoryFragmentBeginInstruction": ""
+            },
+            "BillProperties": {
+                "Title": "Workers' Rights Act",
+                "Description": "Section I of this bill sets the groundwork for fair compensation by establishing a minimum wage of 2.5 Sordish Ren per hour. This serves as a benchmark for fair and equitable pay, ensuring that no worker in Sordland is compensated below this rate.\n\nSection II addresses the issue of excessive labour, setting a maximum limit of 60 hours of work per week. This provision aims to prevent worker exploitation and safeguard the wellbeing of Sordish labour force.\n\nSection III introduces the concept of double overtime pay. This stipulates that any work performed beyond a 40-hour workweek will be compensated at twice the normal hourly wage. This incentivises fair work practices and ensures employees are duly compensated for their extended efforts.\n\nSection IV focuses on worker safety and humane work conditions. It mandates that employers must take all necessary steps to protect their workers from occupational hazards and ensure a dignified and safe working environment. This promotes a culture of respect and care within workplaces across Sordland.\n\nSection V extends these protections to migrant or undocumented workers, granting them the same rights as Sordish citizens. Employers who fail to abide by these rules will face substantial fines from the government, and persistent non-compliance will invite legal action. <b>[-1 Government Budget]</b>",
+                "HubTitle": "Workers' Rights Act",
+                "HubDescription": "The WRA bill has been passed by the GNA.",
+                "SignVariables": "BaseGame.Bill_Turn04_WorkersRights_Signed = true;\nBaseGame.Policy_Law_WorkersRightsReform = true;\nBaseGame.Situation_Welfare_ImprovedWorkingConditions = true;\nBaseGame.Situation_Economy_ExpensiveWorkersPayments = true;\nBaseGameSupport.Journal_Turn04_WorkersRights_Signed = true;\nBaseGameSupport.News_Turn04_R_WorkersRights_Signed = true;\nBaseGameSupport.News_Turn04_HP_WorkersRights_Signed = true;\nBaseGameSupport.News_Turn04_LT_WorkersRights_Signed = true;\nBaseGame.GovernmentBudget -= 1;\nBaseGame.Country_Unrest -= 1;\nBaseGame.Public_Opinion += 2;\nBaseGame.Malenyevist += 2;\nBaseGame.Capitalist -= 1;\nBaseGame.SignedBillCount += 1;",
+                "VetoVariables": "BaseGame.Bill_Turn04_WorkersRights_Vetoed = true;\nBaseGameSupport.Journal_Turn04_WorkersRights_Vetoed = true;\nBaseGameSupport.News_Turn04_R_WorkersRights_Vetoed = true;\nBaseGameSupport.News_Turn04_LT_WorkersRights_Vetoed = true;\nBaseGame.Public_Opinion -= 1;\nBaseGame.Malenyevist -= 2;\nBaseGame.Capitalist += 1;\nBaseGame.VetoedBillCount += 1;",
+                "IsVetoDisabledCondition": "BaseGame.Policy_Law_Veto_Removed == true"
+            },
+            "AppBundleProperties": {
+                "AppBundle": "AppBundle_Main",
+                "StoryPacks": [
+                    "StoryPack_Main"
+                ]
+            },
+            "TagsProperties": {
+                "Tags": ""
+            }
+        },
+        {
+            "Id": "0x01000065000012C3",
+            "NameInDatabase": "Turn02_Bill_TourismCulture",
+            "Path": "Sordland/Bills",
+            "IsWIP": false,
+            "Notes": "",
+            "AssignedTokenProperties": {
+                "AssignedToken": "Sordland_City_Holsord"
+            },
+            "StoryFragmentProperties": {
+                "IsDone": false,
+                "StoryFragmentCondition": "",
+                "OnStoryFragmentEndInstruction": "",
+                "OnStoryFragmentBeginInstruction": ""
+            },
+            "BillProperties": {
+                "Title": "Tourism and Cultural Preservation Act",
+                "Description": "The Sordland Tourism and Cultural Preservation Act aims to amplify the cultural allure and tourism viability of Borin, Ribery, Lachaven, Anrica, and Benfi. The Grand National Assembly is calling a collective push to establish Sordland as a global tourist destination and reduce the effects of the recession.\n\nSection I focuses on the cultural elevation of these cities, identifying local food, drink, music, dance, architecture, and historical sites as unique selling propositions. This cultivation of cultural tourism is positioned as a catalyst for economic invigoration.\n\nSection II imposes the restoration and preservation of key historical landmarks in Lachaven and Anrica. Concurrently, it proposes a comprehensive renovation of tourist infrastructure in Benfi to enrich the visitor experience and generate steady income for local communities.\n\nSection II Subsection I further commits to the safeguarding and development of the Caves of Antera in Ribery and the vineyards of Borin, recognizing their potential as tourism growth-drivers. <b>[-1 Government Budget]</b>",
+                "HubTitle": "Tourism and Cultural Preservation Act",
+                "HubDescription": "The TCPA bill has been passed by the GNA.",
+                "SignVariables": "BaseGame.Bill_Turn02_TourismCulturalPreservation_Signed = true;\nBaseGameSupport.News_Turn02_HP_TourismBill_Signed = true;\nBaseGameSupport.News_Turn02_R_TourismBill_SignedSupport = true;\nBaseGame.Situation_Economy_Tourism_Booming = true;\nBaseGame.Situation_Economy_Tourism_Average = false;\nBaseGame.Situation_Economy_Tourism_Declining = false;\nBaseGameSupport.Journal_Turn02_TourismBill_Signed = true;\nBaseGame.Policy_Economy_TourismAct = true;\nBaseGame.GovernmentBudget -= 1;\nBaseGame.Public_Opinion += 1;\nBaseGame.Economy_Gruni += 1;\nBaseGame.Sollist += 1;\nBaseGame.Capitalist += 1;\nBaseGame.SignedBillCount += 1;",
+                "VetoVariables": "BaseGame.Bill_Turn02_TourismCulturalPreservation_Vetoed = true;\nBaseGameSupport.News_Turn02_HP_TourismBill_Vetoed = true;\nBaseGameSupport.News_Turn02_R_TourismBill_VetoedCritic = true;\nBaseGame.Situation_Economy_Tourism_Booming = false;\nBaseGame.Situation_Economy_Tourism_Average = false;\nBaseGame.Situation_Economy_Tourism_Declining = true;\nBaseGameSupport.Journal_Turn02_TourismBill_Vetoed = true;\nBaseGame.Public_Opinion -= 1;\nBaseGame.Capitalist -= 1;\nBaseGame.VetoedBillCount += 1;",
+                "IsVetoDisabledCondition": "BaseGame.Policy_Law_Veto_Removed == true"
+            },
+            "AppBundleProperties": {
+                "AppBundle": "AppBundle_Main",
+                "StoryPacks": [
+                    "StoryPack_Main"
+                ]
+            },
+            "TagsProperties": {
+                "Tags": ""
+            }
+        },
+        {
+            "Id": "0x010000460001CEA6",
+            "NameInDatabase": "Turn03_Bill_GreenGruniDev",
+            "Path": "Sordland/Bills",
+            "IsWIP": false,
+            "Notes": "",
+            "AssignedTokenProperties": {
+                "AssignedToken": "Sordland_City_Holsord"
+            },
+            "StoryFragmentProperties": {
+                "IsDone": false,
+                "StoryFragmentCondition": "",
+                "OnStoryFragmentEndInstruction": "",
+                "OnStoryFragmentBeginInstruction": ""
+            },
+            "BillProperties": {
+                "Title": "Gruni Regeneration and Ecological Economic Nurturing",
+                "Description": "The G.R.E.E.N. has been proposed by the Assembly, aiming to encourage a more sustainable approach to industry in Gruni. \n\nSection I of this Act would impose stricter regulations on industrial pollution and waste disposal, particularly in the Gruni region. Businesses not complying with these new standards may face hefty fines, the revenue from which would be invested back into environmental recovery projects. \n\nSection II proposes to offer tax breaks to businesses that can demonstrate a significant reduction in their environmental impact over a period of time. A small investment fund is created for eco-friendly business practices. <b>[-1 Government Budget]</b>",
+                "HubTitle": "Gruni Regeneration and Ecological Economic Nurturing Act",
+                "HubDescription": "The GREEN bill has been passed by the GNA.",
+                "SignVariables": "BaseGame.Bill_Turn03_GruniRegeneration_Signed = true;\nBaseGameSupport.News_Turn03_HP_GreenBill_Signed = true;\nBaseGameSupport.News_Turn03_R_GreenBill_Signed = true;\nBaseGameSupport.Journal_Turn03_GreenBill_Signed = true;\nBaseGame.Policy_Economy_RegionalInvestment_Gruni = true;\nBaseGame.Policy_Economy_GreenAct = true;\nBaseGame.GovernmentBudget -= 1;\nBaseGame.Economy_Gruni -= 1;\nBaseGame.Public_Opinion += 2;\nBaseGame.Malenyevist += 2;\nBaseGame.Capitalist -= 1;\nBaseGame.SignedBillCount += 1;",
+                "VetoVariables": "BaseGame.Bill_Turn03_GruniRegeneration_Vetoed = true;\nBaseGameSupport.News_Turn03_HP_GreenBill_Vetoed = true;\nBaseGameSupport.News_Turn03_R_GreenBill_Vetoed = true;\nBaseGameSupport.Journal_Turn03_GreenBill_Vetoed = true;\nBaseGame.Public_Opinion -= 1;\nBaseGame.Capitalist += 1;\nBaseGame.VetoedBillCount += 1;",
+                "IsVetoDisabledCondition": "BaseGame.Policy_Law_Veto_Removed == true"
+            },
+            "AppBundleProperties": {
+                "AppBundle": "AppBundle_Main",
+                "StoryPacks": [
+                    "StoryPack_Main"
+                ]
+            },
+            "TagsProperties": {
+                "Tags": ""
+            }
+        },
+        {
+            "Id": "0x0100006500002A2B",
+            "NameInDatabase": "Turn06_Bill_CentralBankReinforcement",
+            "Path": "Sordland/Bills",
+            "IsWIP": false,
+            "Notes": "",
+            "AssignedTokenProperties": {
+                "AssignedToken": "Sordland_City_Holsord"
+            },
+            "StoryFragmentProperties": {
+                "IsDone": false,
+                "StoryFragmentCondition": "",
+                "OnStoryFragmentEndInstruction": "",
+                "OnStoryFragmentBeginInstruction": ""
+            },
+            "BillProperties": {
+                "Title": "Central Bank Reinforcement Act",
+                "Description": "The Central Bank Reinforcement Act led by Edith Agnoc and the GNA intends to bolster the strength and stability of Sordland's national currency and bolster the overall economy. The Grand National Assembly advocates for the following measures:\n\nSection I mandates the accumulation of foreign exchange reserves. By buying foreign currencies, especially those of Sordland's main trading partners, the Central Bank can exert more control over the value of our currency.\n\nSection II outlines the adoption of a prudent fiscal policy. By reducing the national debt and limiting budget deficits, the country can present itself as a more stable economic entity, attracting foreign investment and improving our credit rating, which in turn would enable us to borrow at lower interest rates, if necessary.\n\nSection III proposes increased legal and informational support for industries with high export potential, such as our emerging electronics sector in Gelsord, wine production in Borin, and pharmaceutical manufacturing in Lachaven. By increasing exports, the demand for our currency on the international market will rise, thus strengthening its value. <b>[-1 Government Budget]</b>",
+                "HubTitle": "Central Bank Reinforcement Act",
+                "HubDescription": "The CBR bill has been passed by the GNA.",
+                "SignVariables": "BaseGame.Bill_Turn06_CentralBankReinforcement_Signed = true;\nBaseGameSupport.News_Turn06_HP_CBRSigned = true;\nBaseGameSupport.News_Turn06_LT_CBR_OpedSigned = true;\nBaseGameSupport.Journal_Turn06_CentralBankBill_Signed = true;\nBaseGame.Policy_Economy_CentralBankAct = true;\nBaseGame.Policy_Economy_FiscalProtectionMeasures = true;\nBaseGame.GovernmentBudget -= 1;\nBaseGame.SignedBillCount += 1;",
+                "VetoVariables": "BaseGame.Bill_Turn06_CentralBankReinforcement_Vetoed = true;\nBaseGameSupport.News_Turn06_HP_CBRVetoed = true;\nBaseGameSupport.News_Turn06_LT_CBR_OpedVetoed = true;\nBaseGameSupport.Journal_Turn06_CentralBankBill_Vetoed = true;\nBaseGame.VetoedBillCount += 1;",
+                "IsVetoDisabledCondition": "BaseGame.Policy_Law_Veto_Removed == true"
+            },
+            "AppBundleProperties": {
+                "AppBundle": "AppBundle_Main",
+                "StoryPacks": [
+                    "StoryPack_Main"
+                ]
+            },
+            "TagsProperties": {
+                "Tags": ""
+            }
+        },
+        {
+            "Id": "0x01000065000012B7",
+            "NameInDatabase": "Turn06_Bill_EnergyInflation",
+            "Path": "Sordland/Bills",
+            "IsWIP": false,
+            "Notes": "",
+            "AssignedTokenProperties": {
+                "AssignedToken": "Sordland_City_Holsord"
+            },
+            "StoryFragmentProperties": {
+                "IsDone": false,
+                "StoryFragmentCondition": "BaseGame.Turn06_EnergyInflationCrisis == true",
+                "OnStoryFragmentEndInstruction": "",
+                "OnStoryFragmentBeginInstruction": ""
+            },
+            "BillProperties": {
+                "Title": "Energy Inflation Reduction Act",
+                "Description": "The Energy Inflation Reduction Act aims to address the recent surge in energy prices due to foreign entities' manipulation of key energy companies. The Grand National Assembly proposes these countermeasures:\n\nSection I establishes a temporary price cap on gas prices to prevent extreme hikes in energy costs for Sordish citizens. This measure ensures immediate relief for consumers without causing too drastic a shock to the energy market.\n\nSection II calls for the negotiation of bilateral agreements with energy-rich countries for stable and reasonably priced energy supplies. This strategy would insulate Sordland from price manipulation tactics and ensure a more stable energy market.\n\nSection III outlines the strategic expansion and modernization of domestic energy production capabilities. By investing in our own coal and natural gas facilities, we can reduce our dependence on foreign energy supplies and insulate our economy from external price shocks. This effort would also create jobs and stimulate domestic economic growth. <b>[-1 Government Budget]</b>",
+                "HubTitle": "Energy Inflation Reduction Act",
+                "HubDescription": "The EIRA bill has been passed by the GNA.",
+                "SignVariables": "BaseGame.Bill_Turn06_EnergyInflationReduction_Signed = true;\nBaseGameSupport.News_Turn06_HP_Energy_EIRASigned = true;\nBaseGameSupport.News_Turn06_R_Energy_EIRASigned = true;\nBaseGameSupport.Journal_Turn06_EnergyInflationBill_Signed = true;\nBaseGame.Policy_Economy_InflationReductionAct = true;\nBaseGame.Policy_Economy_FiscalProtectionMeasures = true;\nBaseGame.GovernmentBudget -= 1;\nBaseGame.Public_Opinion += 2;\nBaseGame.SignedBillCount += 1;",
+                "VetoVariables": "BaseGame.Bill_Turn06_EnergyInflationReduction_Vetoed = true;\nBaseGameSupport.News_Turn06_HP_Energy_EIRAVetoed = true;\nBaseGameSupport.News_Turn06_R_Energy_EIRAVetoed = true;\nBaseGameSupport.Journal_Turn06_EnergyInflationBill_Vetoed = true;\nBaseGame.Economy -= 1;\nBaseGame.Public_Opinion -= 1;\nBaseGame.VetoedBillCount += 1;",
+                "IsVetoDisabledCondition": "BaseGame.Policy_Law_Veto_Removed == true"
+            },
+            "AppBundleProperties": {
+                "AppBundle": "AppBundle_Main",
+                "StoryPacks": [
+                    "StoryPack_Main"
+                ]
+            },
+            "TagsProperties": {
+                "Tags": ""
+            }
+        },
+        {
+            "Id": "0x0100007400002EE8",
+            "NameInDatabase": "Turn08_Bill_SpecialZone_Autonomy",
+            "Path": "Sordland/Bills",
+            "IsWIP": false,
+            "Notes": "",
+            "AssignedTokenProperties": {
+                "AssignedToken": "Sordland_City_Holsord"
+            },
+            "StoryFragmentProperties": {
+                "IsDone": false,
+                "StoryFragmentCondition": "BaseGame.Enable_SpecialZone_Autonomy_Bill == true",
+                "OnStoryFragmentEndInstruction": "",
+                "OnStoryFragmentBeginInstruction": ""
+            },
+            "BillProperties": {
+                "Title": "The Bergia Autonomy and Local Governance Act",
+                "Description": "The Bergia Autonomy and Local Governance Act, otherwise known as the BALGA, sets forth the framework for an autonomous governance system in Bergia, promoting regional autonomy and stronger local representation. The Grand National Assembly passes the following actions:\n\nSection I sanctions the election of a local governor. This measure ensures that the people of Bergia have direct representation and decision-making power in their regional affairs.\n\nSection II calls for the replacement of the current special zone laws with a democratic system that respects and promotes local interests. This action fortifies the principle of local representation with the formation of a Bergian Regional Assembly and gives the region its due autonomy.\n\nSection III underlines the establishment of 'Bergia Semi-Autonomous Region' as a symbol of local autonomy and democratic representation, fostering a fresh era of localized governance.",
+                "HubTitle": "The Bergia Autonomy and Local Governance Act",
+                "HubDescription": "The BALGA bill has been passed by the GNA.",
+                "SignVariables": "BaseGame.Reform_PresiPower_Default_BergiaSpecialZone_AutonomousZone = true;\nBaseGame.Bill_Turn08_SpecialZoneAutonomy_Signed = true;\nBaseGameSupport.FactionReport_Turn08_CSP_CondemnsSpecialZone = true;\nBaseGameSupport.FactionReport_Turn08_ATO_ApprovesSpecialZone = true;\nBaseGameSupport.News_Turn08_HP_SpecialZone_Autonomy = true;\nBaseGameSupport.News_Turn08_LT_SpecialZone_Autonomy = true;\nBaseGameSupport.Journal_Turn08_SpecialZone_Bill_Autonomy_Signed = true;\nBaseGame.Policy_Law_SpecialZoneOfBergia = false;\nBaseGame.Policy_Law_AutonomousZoneOfBergia = true;\nBaseGame.Situation_Order_DisputeWithGovernor_SpecialZone = false;\nBaseGame.Economy -= 1;\nBaseGame.SignedBillCount += 1;",
+                "VetoVariables": "BaseGame.Bill_Turn08_SpecialZoneAutonomy_Vetoed = true;\nBaseGameSupport.Journal_Turn08_SpecialZone_Bill_Autonomy_Vetoed = true;\nBaseGame.Bludish_Opinion -= 2;\nBaseGame.Democratic -= 1;\nBaseGame.Sollist += 1;\nBaseGame.VetoedBillCount += 1;",
+                "IsVetoDisabledCondition": "BaseGame.Policy_Law_Veto_Removed == true"
+            },
+            "AppBundleProperties": {
+                "AppBundle": "AppBundle_Main",
+                "StoryPacks": [
+                    "StoryPack_Main"
+                ]
+            },
+            "TagsProperties": {
+                "Tags": ""
+            }
+        },
+        {
+            "Id": "0x0100007400002EDD",
+            "NameInDatabase": "Turn08_Bill_SpecialZone_Centralization",
+            "Path": "Sordland/Bills",
+            "IsWIP": false,
+            "Notes": "",
+            "AssignedTokenProperties": {
+                "AssignedToken": "Sordland_City_Holsord"
+            },
+            "StoryFragmentProperties": {
+                "IsDone": false,
+                "StoryFragmentCondition": "BaseGame.Enable_SpecialZone_Centralization_Bill == true",
+                "OnStoryFragmentEndInstruction": "",
+                "OnStoryFragmentBeginInstruction": ""
+            },
+            "BillProperties": {
+                "Title": "The Bergia Standardization and Unity Measure",
+                "Description": "The Bergia Standardization and Unity Measure, dubbed as the BSUM, outlines the course for the full integration of Bergia into national governance, advocating for uniformity in governance and a reinforced sense of national unity. The Grand National Assembly passes the following steps:\n\nSection I endorses the abolishment of the governor's position, transitioning to mayoral elections within each city. This change aligns Bergia's local governance with the rest of the nation, fostering a sense of unity and national integration.\n\nSection II calls for the total revocation of the special zone, abolishment of the position of governor, and dissolving the local security forces. With these measures, Bergia can finally be an equal part of Sordland.\n\nSection III promotes the enforcement of standard national laws and policies across Bergia, dismantling the current semi-independent security structure. The security of the region will henceforth be under the full control of the Ministry of the Interior, curtailing any unaccountable violence. <b>[-1 Government Budget]</b>",
+                "HubTitle": "The Bergia Standardization and Unity Measure",
+                "HubDescription": "The BSUM bill has been passed by the GNA.",
+                "SignVariables": "BaseGame.Reform_PresiPower_Default_BergiaSpecialZone_Centralization = true;\nBaseGame.Bill_Turn08_SpecialZoneCentralization_Signed = true;\nBaseGameSupport.News_Turn08_LT_SpecialZone_Abolished = true;\nBaseGameSupport.News_Turn08_HP_SpecialZone_Abolished = true;\nBaseGameSupport.Journal_Turn08_SpecialZone_Bill_Abolish_Signed = true;\nBaseGame.Policy_Law_SpecialZoneOfBergia = false;\nBaseGame.Situation_Order_DisputeWithGovernor_SpecialZone = false;\nBaseGame.GovernmentBudget -= 1;\nBaseGame.SignedBillCount += 1;",
+                "VetoVariables": "BaseGame.Bill_Turn08_SpecialZoneCentralization_Vetoed = true;\nBaseGameSupport.Journal_Turn08_SpecialZone_Bill_Abolish_Vetoed = true;\nBaseGame.Sollist -= 1;\nBaseGame.Public_Opinion -= 1;\nBaseGame.VetoedBillCount += 1;\nBaseGame.Bludish_Opinion -= 1;",
+                "IsVetoDisabledCondition": "BaseGame.Policy_Law_Veto_Removed == true"
+            },
+            "AppBundleProperties": {
+                "AppBundle": "AppBundle_Main",
+                "StoryPacks": [
+                    "StoryPack_Main"
+                ]
+            },
+            "TagsProperties": {
+                "Tags": ""
+            }
+        },
+        {
+            "Id": "0x0100009E0000B1F4",
+            "NameInDatabase": "Turn10_Bill_PeaceWithPales",
+            "Path": "Rizia/Bills",
+            "IsWIP": false,
+            "Notes": "",
+            "AssignedTokenProperties": {
+                "AssignedToken": "Rizia_City_PorteDrazon"
+            },
+            "StoryFragmentProperties": {
+                "IsDone": false,
+                "StoryFragmentCondition": "RiziaDLC.War_ParliamentProposesPeace == true && RiziaDLC.SkipToEpilogue == false && RiziaDLC.SkipToEnding == false",
+                "OnStoryFragmentEndInstruction": "",
+                "OnStoryFragmentBeginInstruction": ""
+            },
+            "BillProperties": {
+                "Title": "Peace with Pales",
+                "Description": "The House of Delegates, in accordance with the Rizian Charter of Fundamental Law of 1958, announced their order to stop the invasion of Pales as their first act. \n\nAccording to the order, the Rizian Armed Forces will be immediately withdrawn from all occupied territories, all Palesian hostages will be freed and diplomatic talks to sign a final treaty will be organized between the Prime Minister and Duke Reinhart.",
+                "HubTitle": "Peace with Pales",
+                "HubDescription": "The House of Delegates approves ceasefire",
+                "SignVariables": "RiziaDLC.Decision_Turn10_Ceasefire_Accepted = true;\nRiziaDLC.Vina_Rescue_Success = true;",
+                "VetoVariables": "RiziaDLC.Decision_Turn10_RefusedParliamentPeace = true",
+                "IsVetoDisabledCondition": "RiziaDLC.Reform_Monarch_Veto == false"
+            },
+            "AppBundleProperties": {
+                "AppBundle": "AppBundle_Rizia",
+                "StoryPacks": [
+                    "StoryPack_Rizia"
+                ]
+            },
+            "TagsProperties": {
+                "Tags": ""
+            }
+        },
+        {
+            "Id": "0x010000C800002AC9",
+            "NameInDatabase": "Turn10_RRGNationalization",
+            "Path": "Rizia/Bills",
+            "IsWIP": false,
+            "Notes": "",
+            "AssignedTokenProperties": {
+                "AssignedToken": "Rizia_City_PorteDrazon"
+            },
+            "StoryFragmentProperties": {
+                "IsDone": false,
+                "StoryFragmentCondition": "RiziaDLC.SkipToEpilogue == false && RiziaDLC.SkipToEnding == false && RiziaDLC.Reform_Success == true && RiziaDLC.Reform_PrimeMinister_Adarfo == true && RiziaDLC.Situation_Economy_RRG_StateOwns100 == false",
+                "OnStoryFragmentEndInstruction": "",
+                "OnStoryFragmentBeginInstruction": ""
+            },
+            "BillProperties": {
+                "Title": "The Resource Reclamation and Redistribution Act",
+                "Description": "The House of Delegates, in accordance with the Rizian Charter of Fundamental Law of 1958, has agreed on the forced seizure and full nationalization of the Rizian Royal Gold company.\n\nUnder this law, Russello Montoro will be forcibly removed as CEO, while the state will assume full ownership of the corporation and those of its assets that are located within Rizia. Its future profits will be redistributed to the Rizian people.",
+                "HubTitle": "The Resource Reclamation and Redistribution Act",
+                "HubDescription": "The House of Delegates approves the forced nationalization of RRG",
+                "SignVariables": "RiziaDLC.Situation_Economy_RRG_StateOwns100 = true;\nRiziaDLC.Situation_Economy_RRG_StateOwns45 = false;\nRiziaDLC.Situation_Economy_RRG_StateOwns30 = false;\nRiziaDLC.Situation_Economy_RRG_StateOwns15 = false;\nRiziaDLC.Rusty_Arrested = false;\nRiziaDLC.Rusty_Pardoned = false;\nRiziaDLC.Rusty_Fled = true;\nRiziaDLC.Rusty_Allied = false;\nRiziaDLC.Rusty_Hostile = true;\nRiziaDLC.Rusty_Neutral = false;\nRiziaDLC.LeaningValue_ProBusiness -= 5;\nRiziaDLC.Budget_Modifier_RizianGoldIndustry += 1;\nRiziaDLC.Diplomacy_Valgsland_NegotiatingPower += 3;\nRiziaDLC.RRG_NationalizedUnderAdarfo = true;\nRiziaDLCSupport.Reports_Turn08_Bronaz_RustyFled = true;\nRiziaDLCSupport.News_Turn10_V_AdarfoNationalizesRRG = true;\nRiziaDLCSupport.News_Turn10_RH_AdarfoNationalizesRRG = true;",
+                "VetoVariables": "",
+                "IsVetoDisabledCondition": "RiziaDLC.Reform_Monarch_Veto == false"
+            },
+            "AppBundleProperties": {
+                "AppBundle": "AppBundle_Rizia",
+                "StoryPacks": [
+                    "StoryPack_Rizia"
+                ]
+            },
+            "TagsProperties": {
+                "Tags": ""
+            }
+        },
+        {
+            "Id": "0x0100005200079537",
+            "NameInDatabase": "Turn10_Bill_RemoveDeathPenalty",
+            "Path": "Rizia/Bills",
+            "IsWIP": false,
+            "Notes": "",
+            "AssignedTokenProperties": {
+                "AssignedToken": "Rizia_City_PorteDrazon"
+            },
+            "StoryFragmentProperties": {
+                "IsDone": false,
+                "StoryFragmentCondition": "RiziaDLC.SkipToEpilogue == false && RiziaDLC.SkipToEnding == false && RiziaDLC.Reform_Success == true && RiziaDLC.Policy_RD_Welfare_RemoveDeathPenalty == false && RiziaDLC.Reform_PrimeMinister_Adarfo == false",
+                "OnStoryFragmentEndInstruction": "",
+                "OnStoryFragmentBeginInstruction": ""
+            },
+            "BillProperties": {
+                "Title": "The Right to Life Act",
+                "Description": "The House of Delegates, in accordance with the Rizian Charter of Fundamental Law of 1958, has passed a landmark act abolishing capital punishment across the Kingdom of Rizia.\n\nUnder this new law, the death penalty is hereby repealed for all crimes, and all pending executions are to be commuted to life imprisonment or lesser sentences as determined by judicial review.\n\nFurthermore, the state recognizes the right to humane justice, ensuring that no individual shall be subject to execution under Rizian law.",
+                "HubTitle": "The Right to Life Act",
+                "HubDescription": "The House of Delegates approves ban on death penalty",
+                "SignVariables": "RiziaDLC.Policy_RD_Welfare_RemoveDeathPenalty = true;\nRiziaDLCSupport.Reports_Turn10_PorteDrazon_HODBansDeathPenalty = true;\nRiziaDLCSupport.News_Turn10_RH_HODBansDeathPenalty = true;\nRiziaDLCSupport.News_Turn10_V_HODBansDeathPenalty = true;",
+                "VetoVariables": "",
+                "IsVetoDisabledCondition": "RiziaDLC.Reform_Monarch_Veto == false"
+            },
+            "AppBundleProperties": {
+                "AppBundle": "AppBundle_Rizia",
+                "StoryPacks": [
+                    "StoryPack_Rizia"
+                ]
+            },
+            "TagsProperties": {
+                "Tags": ""
+            }
+        },
+        {
+            "Id": "0x0100005200079547",
+            "NameInDatabase": "Turn10_ReverseRRGNationalization",
+            "Path": "Rizia/Bills",
+            "IsWIP": false,
+            "Notes": "",
+            "AssignedTokenProperties": {
+                "AssignedToken": "Rizia_City_PorteDrazon"
+            },
+            "StoryFragmentProperties": {
+                "IsDone": false,
+                "StoryFragmentCondition": "RiziaDLC.SkipToEpilogue == false && RiziaDLC.SkipToEnding == false && RiziaDLC.Reform_Success == true && RiziaDLC.Reform_PrimeMinister_Manus == true && RiziaDLC.Rusty_Executed == false && RiziaDLC.Situation_Economy_RRG_StateOwns100 == true",
+                "OnStoryFragmentEndInstruction": "",
+                "OnStoryFragmentBeginInstruction": ""
+            },
+            "BillProperties": {
+                "Title": "The Gold Sovereignty and Economic Rehabilitation Act",
+                "Description": "The House of Delegates, in accordance with the Rizian Charter of Fundamental Law of 1958, has passed an act reversing the nationalization of the Rizian Royal Gold corporation and restoring the freedom and reputation of its imprisoned CEO, Russello Montoro.\n\nUnder this new law, state ownership of RRG reverts to 45 percent, while Mr. Montoro assumes his former position as head of the company, assuring stable gold revenues in the coming years.\n\nIn exchange for his pardon, Mr. Montoro agrees to devote a larger percentage of RRG income towards social welfare initiatives.",
+                "HubTitle": "The Gold Sovereignty and Economic Rehabilitation Act",
+                "HubDescription": "The House of Delegates approves pardon for Rusty Montoro",
+                "SignVariables": "RiziaDLC.Situation_Economy_RRG_StateOwns100 = false;\nRiziaDLC.Situation_Economy_RRG_StateOwns45 = true;\nRiziaDLC.Rusty_Arrested = false;\nRiziaDLC.Rusty_Pardoned = true;\nRiziaDLC.Rusty_Fled = false;\nRiziaDLC.Rusty_Allied = true;\nRiziaDLC.Rusty_Hostile = false;\nRiziaDLC.Rusty_Neutral = false;\nRiziaDLC.LeaningValue_ProBusiness += 3;\nRiziaDLC.Budget_Modifier_RizianGoldIndustry -= 1;\nRiziaDLC.Diplomacy_Lespia_NegotiatingPower += 3;\nRiziaDLCSupport.News_Turn10_V_RustyPardoned = true;\nRiziaDLCSupport.News_Turn10_RH_RustyPardoned = true",
+                "VetoVariables": "",
+                "IsVetoDisabledCondition": "RiziaDLC.Reform_Monarch_Veto == false"
+            },
+            "AppBundleProperties": {
+                "AppBundle": "AppBundle_Rizia",
+                "StoryPacks": [
+                    "StoryPack_Rizia"
+                ]
+            },
+            "TagsProperties": {
+                "Tags": ""
+            }
+        }
+    ]
+}

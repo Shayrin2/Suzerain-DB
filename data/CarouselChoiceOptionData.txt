@@ -1,0 +1,1519 @@
+{
+    "items": [
+        {
+            "Id": "0x0100005D000004EE",
+            "NameInDatabase": "Option_PromisesPanel_Focus_Health",
+            "Path": "Sordland/Paged Decision Panels/Promises Panel/Focus",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Health",
+                "Description": "Sordland's health system and healthcare quality have stagnated due to administrative inefficiencies, increased service demand, and an increasing divide in service quality between urban and rural hospitals. The average life expectancy has dropped significantly, with issues such as maternity deaths and disease outbreaks.",
+                "Condition": "",
+                "Instruction": "BaseGame.Promise_TermFocus_Health = true",
+                "PanelCounterIncrement": 0,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x0100005D000004F2",
+            "NameInDatabase": "Option_PromisesPanel_Focus_Education",
+            "Path": "Sordland/Paged Decision Panels/Promises Panel/Focus",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Education",
+                "Description": "The once-praised public education system of the nation has suffered significant setbacks in the last decade. The lack of new schools, high student-to-teacher ratios, low teacher salaries, and even a lack of classroom equipment in certain parts of the country cause massive divergencies in the public education system.",
+                "Condition": "",
+                "Instruction": "BaseGame.Promise_TermFocus_Education = true",
+                "PanelCounterIncrement": 0,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x0100005D000004F6",
+            "NameInDatabase": "Option_PromisesPanel_Focus_Law&Enforcement",
+            "Path": "Sordland/Paged Decision Panels/Promises Panel/Focus",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Law & Enforcement",
+                "Description": "The recently culminating political tension between the different youth groups and socioeconomic pressures between multiple classes of society is increasing the issues of the law and enforcement systems. Police need help keeping up with increased crime rates. Simultaneously, judges in courts deal with an enormous growing backlog of legal cases.",
+                "Condition": "",
+                "Instruction": "BaseGame.Promise_TermFocus_Security = true",
+                "PanelCounterIncrement": 0,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x0100005D000004FE",
+            "NameInDatabase": "Option_PromisesPanel_Focus_Defence",
+            "Path": "Sordland/Paged Decision Panels/Promises Panel/Focus",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Defence",
+                "Description": "The Sordish Armed Forces were the nation's most funded branch until the Alphonso government reduced the defense budget significantly. With the increase of saber-rattling threats looming in the north by Rumburg and a growing presence of the Superpowers in the region, the critical deterrence of the SAF matters more than ever.",
+                "Condition": "",
+                "Instruction": "BaseGame.Promise_TermFocus_Military = true",
+                "PanelCounterIncrement": 0,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x010000670000009C",
+            "NameInDatabase": "Option_Budget_Healthcare_Increase",
+            "Path": "Sordland/Paged Decision Panels/Budget Panel/Healthcare",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Increase",
+                "Description": "Sordland's health system and healthcare quality have stagnated due to administrative inefficiencies, increased service demand, and an increasing divide in service quality between urban and rural hospitals. The average life expectancy has dropped significantly, with issues such as maternity deaths and disease outbreaks.",
+                "Condition": "",
+                "Instruction": "BaseGame.Turn03_EnT_Healthcare_Budget_Increase = true;\nBaseGame.Economy += 1;",
+                "PanelCounterIncrement": -2,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x01000067000000A0",
+            "NameInDatabase": "Option_Budget_Healthcare_Maintain",
+            "Path": "Sordland/Paged Decision Panels/Budget Panel/Healthcare",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Maintain",
+                "Description": "Sordland's health system and healthcare quality have stagnated due to administrative inefficiencies, increased service demand, and an increasing divide in service quality between urban and rural hospitals. The average life expectancy has dropped significantly, with issues such as maternity deaths and disease outbreaks.",
+                "Condition": "",
+                "Instruction": "BaseGame.Turn03_EnT_Healthcare_Budget_Maintain = true",
+                "PanelCounterIncrement": 0,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x01000067000000A4",
+            "NameInDatabase": "Option_Budget_Healthcare_Decrease",
+            "Path": "Sordland/Paged Decision Panels/Budget Panel/Healthcare",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Decrease",
+                "Description": "Sordland's health system and healthcare quality have stagnated due to administrative inefficiencies, increased service demand, and an increasing divide in service quality between urban and rural hospitals. The average life expectancy has dropped significantly, with issues such as maternity deaths and disease outbreaks.",
+                "Condition": "",
+                "Instruction": "BaseGame.Turn03_EnT_Healthcare_Budget_Decrease = true;\nBaseGame.Economy -= 2;",
+                "PanelCounterIncrement": 3,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x01000067000000BD",
+            "NameInDatabase": "Option_Budget_Security_Increase",
+            "Path": "Sordland/Paged Decision Panels/Budget Panel/Security",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Increase",
+                "Description": "The recently culminating political tension between the different youth groups and socioeconomic pressures between multiple classes of society is increasing the issues of the law and enforcement systems. Police need help keeping up with increased crime rates. Simultaneously, judges in courts deal with an enormous growing backlog of legal cases.",
+                "Condition": "",
+                "Instruction": "BaseGame.Turn03_EnT_LawEnforcement_Budget_Increase = true;\nBaseGame.Economy += 1;",
+                "PanelCounterIncrement": -3,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x01000067000000C4",
+            "NameInDatabase": "Option_Budget_Security_Maintain",
+            "Path": "Sordland/Paged Decision Panels/Budget Panel/Security",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Maintain",
+                "Description": "The recently culminating political tension between the different youth groups and socioeconomic pressures between multiple classes of society is increasing the issues of the law and enforcement systems. Police need help keeping up with increased crime rates. Simultaneously, judges in courts deal with an enormous growing backlog of legal cases.",
+                "Condition": "",
+                "Instruction": "BaseGame.Turn03_EnT_LawEnforcement_Budget_Maintain = true",
+                "PanelCounterIncrement": 0,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x01000067000000CB",
+            "NameInDatabase": "Option_Budget_Security_Decrease",
+            "Path": "Sordland/Paged Decision Panels/Budget Panel/Security",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Decrease",
+                "Description": "The recently culminating political tension between the different youth groups and socioeconomic pressures between multiple classes of society is increasing the issues of the law and enforcement systems. Police need help keeping up with increased crime rates. Simultaneously, judges in courts deal with an enormous growing backlog of legal cases.",
+                "Condition": "",
+                "Instruction": "BaseGame.Turn03_EnT_LawEnforcement_Budget_Decrease = true;\nBaseGame.Economy -= 1;",
+                "PanelCounterIncrement": 2,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x01000067000000DC",
+            "NameInDatabase": "Option_Budget_Education_Increase",
+            "Path": "Sordland/Paged Decision Panels/Budget Panel/Education",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Increase",
+                "Description": "The once-praised public education system of the nation has suffered significant setbacks in the last decade. The lack of new schools, high student-to-teacher ratios, low teacher salaries, and even a lack of classroom equipment in certain parts of the country cause massive divergencies in the public education system.",
+                "Condition": "",
+                "Instruction": "BaseGame.Turn03_EnT_Education_Budget_Increase = true;\nBaseGame.Economy += 2;",
+                "PanelCounterIncrement": -3,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x01000067000000E3",
+            "NameInDatabase": "Option_Budget_Education_Maintain",
+            "Path": "Sordland/Paged Decision Panels/Budget Panel/Education",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Maintain",
+                "Description": "The once-praised public education system of the nation has suffered significant setbacks in the last decade. The lack of new schools, high student-to-teacher ratios, low teacher salaries, and even a lack of classroom equipment in certain parts of the country cause massive divergencies in the public education system.",
+                "Condition": "",
+                "Instruction": "BaseGame.Turn03_EnT_Education_Budget_Maintain = true",
+                "PanelCounterIncrement": 0,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x01000067000000EA",
+            "NameInDatabase": "Option_Budget_Education_Decrease",
+            "Path": "Sordland/Paged Decision Panels/Budget Panel/Education",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Decrease",
+                "Description": "The once-praised public education system of the nation has suffered significant setbacks in the last decade. The lack of new schools, high student-to-teacher ratios, low teacher salaries, and even a lack of classroom equipment in certain parts of the country cause massive divergencies in the public education system.",
+                "Condition": "",
+                "Instruction": "BaseGame.Turn03_EnT_Education_Budget_Decrease = true;\nBaseGame.Economy -= 1;",
+                "PanelCounterIncrement": 2,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x01000067000000FB",
+            "NameInDatabase": "Option_Budget_Military_Increase",
+            "Path": "Sordland/Paged Decision Panels/Budget Panel/Military",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Increase",
+                "Description": "The Sordish Armed Forces were the nation's most funded branch until the Alphonso government reduced the defense budget significantly. With the increase of saber-rattling threats looming in the north by Rumburg and a growing presence of the superpowers in the region, the critical deterrence of the SAF matters more than ever.",
+                "Condition": "",
+                "Instruction": "BaseGame.Turn03_EnT_Military_Budget_Increase = true;\nBaseGame.Economy -= 1;",
+                "PanelCounterIncrement": -4,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x0100006700000102",
+            "NameInDatabase": "Option_Budget_Military_Maintain",
+            "Path": "Sordland/Paged Decision Panels/Budget Panel/Military",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Maintain",
+                "Description": "The Sordish Armed Forces were the nation's most funded branch until the Alphonso government reduced the defense budget significantly. With the increase of saber-rattling threats looming in the north by Rumburg and a growing presence of the superpowers in the region, the critical deterrence of the SAF matters more than ever.",
+                "Condition": "",
+                "Instruction": "BaseGame.Turn03_EnT_Military_Budget_Maintain = true",
+                "PanelCounterIncrement": 0,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x0100006700000109",
+            "NameInDatabase": "Option_Budget_Military_Decrease",
+            "Path": "Sordland/Paged Decision Panels/Budget Panel/Military",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Decrease",
+                "Description": "The Sordish Armed Forces were the nation's most funded branch until the Alphonso government reduced the defense budget significantly. With the increase of saber-rattling threats looming in the north by Rumburg and a growing presence of the superpowers in the region, the critical deterrence of the SAF matters more than ever.",
+                "Condition": "",
+                "Instruction": "BaseGame.Turn03_EnT_Military_Budget_Decrease = true;\nBaseGame.Economy -= 2;",
+                "PanelCounterIncrement": 3,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x0100006700000129",
+            "NameInDatabase": "Option_Privatization_SSC_FullState",
+            "Path": "Sordland/Paged Decision Panels/Privatization Panel/SSC",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Fully State Owned",
+                "Description": "SSC is a state corporation which stands as the largest construction company in Sordland. The main business units of the group are planning and design, project development, equipment leasing, trade and construction.",
+                "Condition": "",
+                "Instruction": "BaseGame.SordishStateCorporation_Privatization = 0",
+                "PanelCounterIncrement": 0,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x010000670000012D",
+            "NameInDatabase": "Option_Privatization_SSC_FullPrivate",
+            "Path": "Sordland/Paged Decision Panels/Privatization Panel/SSC",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Fully Privatized",
+                "Description": "SSC is a state corporation which stands as the largest construction company in Sordland. The main business units of the group are planning and design, project development, equipment leasing, trade and construction.",
+                "Condition": "",
+                "Instruction": "BaseGame.SordishStateCorporation_Privatization = 3",
+                "PanelCounterIncrement": 0,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x0100006700000131",
+            "NameInDatabase": "Option_Privatization_SSC_MajorPrivate",
+            "Path": "Sordland/Paged Decision Panels/Privatization Panel/SSC",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Minority State Owned",
+                "Description": "SSC is a state corporation which stands as the largest construction company in Sordland. The main business units of the group are planning and design, project development, equipment leasing, trade and construction.",
+                "Condition": "",
+                "Instruction": "BaseGame.SordishStateCorporation_Privatization = 2",
+                "PanelCounterIncrement": 0,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x0100006700000135",
+            "NameInDatabase": "Option_Privatization_SSC_MinorPrivate",
+            "Path": "Sordland/Paged Decision Panels/Privatization Panel/SSC",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Majority State Owned",
+                "Description": "SSC is a state corporation which stands as the largest construction company in Sordland. The main business units of the group are planning and design, project development, equipment leasing, trade and construction.",
+                "Condition": "",
+                "Instruction": "BaseGame.SordishStateCorporation_Privatization = 1",
+                "PanelCounterIncrement": 0,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x0100006700000154",
+            "NameInDatabase": "Option_Privatization_Nedam_FullState",
+            "Path": "Sordland/Paged Decision Panels/Privatization Panel/Nedam",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Fully State Owned",
+                "Description": "Nedam Mining is the largest state owned mining corporation in all of Eastern Merkopa. Its main task is to explore and harness mineral wealth of the region and make value addition. The company primarily extracts coal, gold and diamonds.",
+                "Condition": "",
+                "Instruction": "BaseGame.NedamMiningGroup_Privatization = 0",
+                "PanelCounterIncrement": 0,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x010000670000015B",
+            "NameInDatabase": "Option_Privatization_Nedam_FullPrivate",
+            "Path": "Sordland/Paged Decision Panels/Privatization Panel/Nedam",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Fully Privatized",
+                "Description": "Nedam Mining is the largest state owned mining corporation in all of Eastern Merkopa. Its main task is to explore and harness mineral wealth of the region and make value addition. The company primarily extracts coal, gold and diamonds.",
+                "Condition": "",
+                "Instruction": "BaseGame.NedamMiningGroup_Privatization = 3",
+                "PanelCounterIncrement": 0,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x0100006700000162",
+            "NameInDatabase": "Option_Privatization_Nedam_MajorPrivate",
+            "Path": "Sordland/Paged Decision Panels/Privatization Panel/Nedam",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Minority State Owned",
+                "Description": "Nedam Mining is the largest state owned mining corporation in all of Eastern Merkopa. Its main task is to explore and harness mineral wealth of the region and make value addition. The company primarily extracts coal, gold and diamonds.",
+                "Condition": "",
+                "Instruction": "BaseGame.NedamMiningGroup_Privatization = 2",
+                "PanelCounterIncrement": 0,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x0100006700000169",
+            "NameInDatabase": "Option_Privatization_Nedam_MinorPrivate",
+            "Path": "Sordland/Paged Decision Panels/Privatization Panel/Nedam",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Majority State Owned",
+                "Description": "Nedam Mining is the largest state owned mining corporation in all of Eastern Merkopa. Its main task is to explore and harness mineral wealth of the region and make value addition. The company primarily extracts coal, gold and diamonds.",
+                "Condition": "",
+                "Instruction": "BaseGame.NedamMiningGroup_Privatization = 1",
+                "PanelCounterIncrement": 0,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x01000067000001B8",
+            "NameInDatabase": "Option_Nationalization_BergiaSteel_FullPrivate",
+            "Path": "Sordland/Paged Decision Panels/Nationalization Panel/BergiaSteel",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Fully Private Owned",
+                "Description": "Bergia Steel is the largest steel manufacturer in Sordland. It operates mainly in the Bergia region and works in steel construction projects. Walter Tusk owns a majority stake in the corporation.",
+                "Condition": "",
+                "Instruction": "BaseGame.BergiaSteel_Nationalization = 0",
+                "PanelCounterIncrement": 0,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x01000067000001E5",
+            "NameInDatabase": "Option_Nationalization_BergiaSteel_MinorityState",
+            "Path": "Sordland/Paged Decision Panels/Nationalization Panel/BergiaSteel",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Minority State Owned",
+                "Description": "Bergia Steel is the largest steel manufacturer in Sordland. It operates mainly in the Bergia region and works in steel construction projects. Walter Tusk owns a majority stake in the corporation.",
+                "Condition": "",
+                "Instruction": "BaseGame.BergiaSteel_Nationalization = 1",
+                "PanelCounterIncrement": 0,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x01000067000001EC",
+            "NameInDatabase": "Option_Nationalization_BergiaSteel_FullState",
+            "Path": "Sordland/Paged Decision Panels/Nationalization Panel/BergiaSteel",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Full Nationalization",
+                "Description": "Bergia Steel is the largest steel manufacturer in Sordland. It operates mainly in the Bergia region and works in steel construction projects. Walter Tusk owns a majority stake in the corporation.",
+                "Condition": "",
+                "Instruction": "BaseGame.BergiaSteel_Nationalization = 3",
+                "PanelCounterIncrement": 0,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x01000067000001F3",
+            "NameInDatabase": "Option_Nationalization_BergiaSteel_MajorityState",
+            "Path": "Sordland/Paged Decision Panels/Nationalization Panel/BergiaSteel",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Majority State Owned",
+                "Description": "Bergia Steel is the largest steel manufacturer in Sordland. It operates mainly in the Bergia region and works in steel construction projects. Walter Tusk owns a majority stake in the corporation.",
+                "Condition": "",
+                "Instruction": "BaseGame.BergiaSteel_Nationalization = 2",
+                "PanelCounterIncrement": 0,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x0100006700000208",
+            "NameInDatabase": "Option_Nationalization_HOS_FullPrivate",
+            "Path": "Sordland/Paged Decision Panels/Nationalization Panel/HOS",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Fully Private Owned",
+                "Description": "HOS is the multi-industry corporation worth tens of billions of SR. They are involved in the media industry through the ownership of Sordland Today and the Sordish Broadcasting Corporation. Marcel Koronti owns a majority stake in the corporation.",
+                "Condition": "",
+                "Instruction": "BaseGame.HeartOfSordland_Nationalization = 0",
+                "PanelCounterIncrement": 0,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x010000670000020F",
+            "NameInDatabase": "Option_Nationalization_HOS_MinorityState",
+            "Path": "Sordland/Paged Decision Panels/Nationalization Panel/HOS",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Minority State Owned",
+                "Description": "HOS is the multi-industry corporation worth tens of billions of SR. They are involved in the media industry through the ownership of Sordland Today and the Sordish Broadcasting Corporation. Marcel Koronti owns a majority stake in the corporation.",
+                "Condition": "",
+                "Instruction": "BaseGame.HeartOfSordland_Nationalization = 1",
+                "PanelCounterIncrement": 0,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x0100006700000216",
+            "NameInDatabase": "Option_Nationalization_HOS_FullState",
+            "Path": "Sordland/Paged Decision Panels/Nationalization Panel/HOS",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Full Nationalization",
+                "Description": "HOS is the multi-industry corporation worth tens of billions of SR. They are involved in the media industry through the ownership of Sordland Today and the Sordish Broadcasting Corporation. Marcel Koronti owns a majority stake in the corporation.",
+                "Condition": "",
+                "Instruction": "BaseGame.HeartOfSordland_Nationalization = 3",
+                "PanelCounterIncrement": 0,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x010000670000021D",
+            "NameInDatabase": "Option_Nationalization_HOS_MajorityState",
+            "Path": "Sordland/Paged Decision Panels/Nationalization Panel/HOS",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Majority State Owned",
+                "Description": "HOS is the multi-industry corporation worth tens of billions of SR. They are involved in the media industry through the ownership of Sordland Today and the Sordish Broadcasting Corporation. Marcel Koronti owns a majority stake in the corporation.",
+                "Condition": "",
+                "Instruction": "BaseGame.HeartOfSordland_Nationalization = 2",
+                "PanelCounterIncrement": 0,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x0100006A0001C737",
+            "NameInDatabase": "Option_Family_Impoverished",
+            "Path": "Sordland/Prologue Skip/Page_Family",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Impoverished (Deyr)",
+                "Description": "",
+                "Condition": "",
+                "Instruction": "BaseGame.Prologue_Birthplace_Deyr_Poor = true;\nBaseGame.PersonalWealth += 1;\nBaseGame.Public_Opinion += 2;\nBaseGame.Bludish_Opinion += 1;",
+                "PanelCounterIncrement": 0,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x0100006A0001C73D",
+            "NameInDatabase": "Option_Family_Wealthy",
+            "Path": "Sordland/Prologue Skip/Page_Family",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Wealthy (Lachaven)",
+                "Description": "",
+                "Condition": "",
+                "Instruction": "BaseGame.Prologue_Birthplace_Lachaven_Rich = true;\nBaseGame.PersonalWealth += 3;\nBaseGame.Public_Opinion -= 2;\nBaseGame.Bludish_Opinion -= 1;",
+                "PanelCounterIncrement": 0,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x0100006A0001C743",
+            "NameInDatabase": "Option_Family_Middle",
+            "Path": "Sordland/Prologue Skip/Page_Family",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Middle Income (Holsord)",
+                "Description": "",
+                "Condition": "",
+                "Instruction": "BaseGame.Prologue_Birthplace_Holsord_Middle = true;\nBaseGame.PersonalWealth += 2;\nBaseGame.Public_Opinion += 1;",
+                "PanelCounterIncrement": 0,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x0100006A0001C750",
+            "NameInDatabase": "Option_University_Economics",
+            "Path": "Sordland/Prologue Skip/Page_University",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Economics (Lachaven Business School)",
+                "Description": "",
+                "Condition": "",
+                "Instruction": "BaseGame.Prologue_Studyplace_Lachaven_Economics = true",
+                "PanelCounterIncrement": 0,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x0100006A0001C755",
+            "NameInDatabase": "Option_University_History",
+            "Path": "Sordland/Prologue Skip/Page_University",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "History (Deyr University of Culture)",
+                "Description": "",
+                "Condition": "",
+                "Instruction": "BaseGame.Prologue_Studyplace_Deyr_History = true",
+                "PanelCounterIncrement": 0,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x0100006A0001C75B",
+            "NameInDatabase": "Option_University_Law",
+            "Path": "Sordland/Prologue Skip/Page_University",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Law (Holsord State University)",
+                "Description": "",
+                "Condition": "",
+                "Instruction": "BaseGame.Prologue_Studyplace_Holsord_Law = true",
+                "PanelCounterIncrement": 0,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x010000C5000005F4",
+            "NameInDatabase": "Option_Extracurricular_HumanRightsGroup",
+            "Path": "Sordland/Prologue Skip/Page_Extracurricular",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Human Rights Group",
+                "Description": "",
+                "Condition": "",
+                "Instruction": "BaseGame.Prologue_University_Group_HumanRights = true;",
+                "PanelCounterIncrement": 0,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x010000C5000005FA",
+            "NameInDatabase": "Option_Extracurricular_StudentCouncil",
+            "Path": "Sordland/Prologue Skip/Page_Extracurricular",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Student Council",
+                "Description": "",
+                "Condition": "",
+                "Instruction": "BaseGame.Prologue_University_Group_StudentCouncil = true;",
+                "PanelCounterIncrement": 0,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x010000C500000600",
+            "NameInDatabase": "Option_Extracurricular_PoliticalDebateGroup",
+            "Path": "Sordland/Prologue Skip/Page_Extracurricular",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Political Debate Group",
+                "Description": "",
+                "Condition": "",
+                "Instruction": "BaseGame.Prologue_University_Group_PoliticalDebate = true;",
+                "PanelCounterIncrement": 0,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x010000C500000610",
+            "NameInDatabase": "Option_YouthOrganization_Neutral",
+            "Path": "Sordland/Prologue Skip/Page_YouthOrganization",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Political Neutral",
+                "Description": "",
+                "Condition": "",
+                "Instruction": "BaseGame.Prologue_University_Political_Active = false",
+                "PanelCounterIncrement": 0,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x010000C500000616",
+            "NameInDatabase": "Option_YouthOrganization_YoungSords",
+            "Path": "Sordland/Prologue Skip/Page_YouthOrganization",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Young Sords (nationalists)",
+                "Description": "",
+                "Condition": "",
+                "Instruction": "BaseGame.Prologue_University_Political_Active = true; BaseGame.Prologue_University_Political_Nationalist = true; BaseGame.Sollist += 1; BaseGame.Malenyevist -= 1",
+                "PanelCounterIncrement": 0,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x010000C50000061C",
+            "NameInDatabase": "Option_YouthOrganization_RedYouth",
+            "Path": "Sordland/Prologue Skip/Page_YouthOrganization",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Red Youth (socialists)",
+                "Description": "",
+                "Condition": "",
+                "Instruction": "BaseGame.Prologue_University_Political_Active = true; BaseGame.Prologue_University_Political_Socialist = true; BaseGame.Malenyevist += 1; BaseGame.Sollist -= 1",
+                "PanelCounterIncrement": 0,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x010000C50000062C",
+            "NameInDatabase": "Option_OppositionUSP_SupportSoll",
+            "Path": "Sordland/Prologue Skip/Page_OppositionUSP",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Support Soll (president)",
+                "Description": "",
+                "Condition": "",
+                "Instruction": "BaseGame.Sollist += 1;\nBaseGame.Prologue_Party_Congress_Soll = true;",
+                "PanelCounterIncrement": 0,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x010000C500000632",
+            "NameInDatabase": "Option_OppositionUSP_SupportAlphonso",
+            "Path": "Sordland/Prologue Skip/Page_OppositionUSP",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Support Alphonso (opposition)",
+                "Description": "",
+                "Condition": "",
+                "Instruction": "BaseGame.Sollist -= 1;\nBaseGame.Prologue_Party_Congress_Soll = false;\nBaseGame.Prologue_Party_CampaignedForAlphonso = true",
+                "PanelCounterIncrement": 0,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x010000C500000638",
+            "NameInDatabase": "Option_OppositionUSP_StayNeutral",
+            "Path": "Sordland/Prologue Skip/Page_OppositionUSP",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Stay Neutral",
+                "Description": "",
+                "Condition": "",
+                "Instruction": "",
+                "PanelCounterIncrement": 0,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x010000C500000648",
+            "NameInDatabase": "Option_TakePower_BlameAlphonsoPublicly",
+            "Path": "Sordland/Prologue Skip/Page_TakePower",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Blame Alphonso Publicly on TV",
+                "Description": "",
+                "Condition": "",
+                "Instruction": "BaseGame.Prologue_Party_Takeover_PublicBlame = true",
+                "PanelCounterIncrement": 0,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x010000C50000064E",
+            "NameInDatabase": "Option_TakePower_BribeAlphonsosCircle",
+            "Path": "Sordland/Prologue Skip/Page_TakePower",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Bribe Alphonso's Inner Circle",
+                "Description": "",
+                "Condition": "",
+                "Instruction": "BaseGame.Prologue_Party_Takeover_Backstab = true",
+                "PanelCounterIncrement": 0,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x010000C500000654",
+            "NameInDatabase": "Option_TakePower_AdviseStepDown",
+            "Path": "Sordland/Prologue Skip/Page_TakePower",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Advise Alphonso to Step Down",
+                "Description": "",
+                "Condition": "",
+                "Instruction": "BaseGame.Prologue_Party_Takeover_Diplomatic = true",
+                "PanelCounterIncrement": 0,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x010000C500000664",
+            "NameInDatabase": "Option_CampaignPromise_DemocraticReforms",
+            "Path": "Sordland/Prologue Skip/Page_CampaignPromise",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Democratic Reforms",
+                "Description": "",
+                "Condition": "",
+                "Instruction": "BaseGame.Prologue_Speech_Democracy_Liberal = true; \nBaseGame.Democratic += 1;\nBaseGame.Bludish_Opinion += 1;",
+                "PanelCounterIncrement": 0,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x010000C500000670",
+            "NameInDatabase": "Option_CampaignPromise_NationalValues",
+            "Path": "Sordland/Prologue Skip/Page_CampaignPromise",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Preserve National Values",
+                "Description": "",
+                "Condition": "",
+                "Instruction": "BaseGame.Prologue_Speech_Democracy_Conservative = true; \nBaseGame.Sollist += 1;\nBaseGame.Public_Opinion += 1;\nBaseGame.Bludish_Opinion -= 1;",
+                "PanelCounterIncrement": 0,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x010000C700000553",
+            "NameInDatabase": "Option_FormativeYearsAnton_NormalLife",
+            "Path": "Sordland/Prologue Skip/Page_FormativeYearsAnton",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Normal Path",
+                "Description": "",
+                "Condition": "",
+                "Instruction": "BaseGame.Prologue_NormalLife = true;",
+                "PanelCounterIncrement": 0,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x010000C700000559",
+            "NameInDatabase": "Option_FormativeYearsAnton_EasyLife",
+            "Path": "Sordland/Prologue Skip/Page_FormativeYearsAnton",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Easy Path [Easier Resources]",
+                "Description": "",
+                "Condition": "",
+                "Instruction": "BaseGame.Prologue_EasyLife = true; \nBaseGame.Economy += 2;\nBaseGame.GovernmentBudget += 2;\nBaseGame.PersonalWealth += 1;\nBaseGame.Public_Opinion += 3;\nBaseGame.Bludish_Opinion += 1;",
+                "PanelCounterIncrement": 0,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x010000C70000055F",
+            "NameInDatabase": "Option_FormativeYearsAnton_HardLife",
+            "Path": "Sordland/Prologue Skip/Page_FormativeYearsAnton",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Hard Path [Harder Resources]",
+                "Description": "",
+                "Condition": "",
+                "Instruction": "BaseGame.Prologue_HardLife = true; \nBaseGame.Economy -= 2;\nBaseGame.GovernmentBudget -= 2;\nBaseGame.Public_Opinion -= 2;\nBaseGame.Bludish_Opinion -= 2;",
+                "PanelCounterIncrement": 0,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x0100008E00002CDE",
+            "NameInDatabase": "Option_FocusPanel_MilitaryBranch_None",
+            "Path": "Rizia/Paged Decisions Panel/Focus Panel/Security",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "None",
+                "Description": "Choosing not to focus on a specific military branch could free up resources for other areas. This approach would provide more financial flexibility, allowing for a diverse and sound management of national priorities. [+1 Budget]",
+                "Condition": "",
+                "Instruction": "RiziaDLC.Focus_MilitaryBranch_None = true;\nRiziaDLC.Resources_Budget += 1;\nRiziaDLCSupport.Journal_Turn01_FocusPanel_MilitaryBranch_None = true;",
+                "PanelCounterIncrement": 0,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x0100008E00002CE5",
+            "NameInDatabase": "Option_FocusPanel_MilitaryBranch_Airforce",
+            "Path": "Rizia/Paged Decisions Panel/Focus Panel/Security",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Rizian Airforce",
+                "Description": "A shift in focus to the Rizian Royal Airforce could position us for potential aerial superiority. By exploring advanced pilot training and considering an expansion of our bomber fleet, we might enhance our capacities for precision strikes and extend our bombing operational reach. [-2 Budget, -1 Airstrike Cooldown, -1 Airsupport Cooldown, +1 Paratrooper Unit]",
+                "Condition": "",
+                "Instruction": "RiziaDLC.Focus_MilitaryBranch_Airforce = true;\nRiziaDLC.Resources_Military_AirStrikeCooldown -= 1;\nRiziaDLC.Resources_Military_AirSupportCooldown -= 1;\nRiziaDLC.Army_Unit_Paratrooper_Total += 1;\nRiziaDLC.Resources_Budget -= 2;\nRiziaDLCSupport.Journal_Turn01_FocusPanel_MilitaryBranch_Airforce = true;",
+                "PanelCounterIncrement": 0,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x0100008E00002CEC",
+            "NameInDatabase": "Option_FocusPanel_MilitaryBranch_Navy",
+            "Path": "Rizia/Paged Decisions Panel/Focus Panel/Security",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Rizian Navy",
+                "Description": "Investing in the Rizian Navy to include advanced warships specifically equipped for naval bombardment and amphibious operations significantly enhances our capabilities for naval invasions. This strategic expansion boosts our naval presence and adds a specialized marine unit.  [-3 Budget, +1 Military Ship, +1 Military Submarine, +1 Marine Unit]",
+                "Condition": "",
+                "Instruction": "RiziaDLC.Focus_MilitaryBranch_Navy = true;\nRiziaDLC.Resources_Military_Ships += 1;\nRiziaDLC.Resources_Military_Submarines += 1;\nRiziaDLC.Army_Unit_Marine_Total += 1;\nRiziaDLC.Resources_Budget -= 3;\nRiziaDLCSupport.Journal_Turn01_FocusPanel_MilitaryBranch_Navy = true;",
+                "PanelCounterIncrement": 0,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x0100008E00002CF3",
+            "NameInDatabase": "Option_FocusPanel_MilitaryBranch_Army",
+            "Path": "Rizia/Paged Decisions Panel/Focus Panel/Security",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Rizian Army",
+                "Description": "Directing resources toward the army expands our ground operations with advanced vehicles, artillery, and infantry equipment, while also training an additional mountaineer unit. This strategy elevates our operational potential and allows for more flexibility in land campaigns. [-2 Budget, +500 Manpower, +500 Equipment, +1 Mountaineer Unit]",
+                "Condition": "",
+                "Instruction": "RiziaDLC.Focus_MilitaryBranch_Army = true;\nRiziaDLC.Resources_Military_Manpower += 500;\nRiziaDLC.Resources_Military_Equipment += 500;\nRiziaDLC.Army_Unit_Mountaineer_Total += 1;\nRiziaDLC.Resources_Budget -= 2;\nRiziaDLCSupport.Journal_Turn01_FocusPanel_MilitaryBranch_Army = true;",
+                "PanelCounterIncrement": 0,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x0100006A0001C6B9",
+            "NameInDatabase": "Option_SummersInRizia_PorteDrazon",
+            "Path": "Rizia/Prologue Skip/Page_SummersInRizia",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Porte Drazon",
+                "Description": "",
+                "Condition": "",
+                "Instruction": "RiziaDLC.Prologue_Summer_Court = true;\nRiziaDLCSupport.Journal_Prologue_Summer_Court = true;",
+                "PanelCounterIncrement": 0,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x0100006A0001C6FB",
+            "NameInDatabase": "Option_SummersInRizia_Zille",
+            "Path": "Rizia/Prologue Skip/Page_SummersInRizia",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Zille",
+                "Description": "",
+                "Condition": "",
+                "Instruction": "RiziaDLC.Prologue_Summer_Zille = true; RiziaDLC.Diplomacy_Wehlen_NegotiatingPower += 1;\nRiziaDLCSupport.Journal_Prologue_Summer_Zille = true;",
+                "PanelCounterIncrement": 0,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x0100006A0001C700",
+            "NameInDatabase": "Option_SummersInRizia_Brenas",
+            "Path": "Rizia/Prologue Skip/Page_SummersInRizia",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Brenas",
+                "Description": "",
+                "Condition": "",
+                "Instruction": "RiziaDLC.Prologue_Summer_Hugo = true;\nRiziaDLC.Relations_Hugo += 1;\nRiziaDLCSupport.Journal_Prologue_Summer_Hugo = true;",
+                "PanelCounterIncrement": 0,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x0100006A0001C70F",
+            "NameInDatabase": "Option_RelationshipToPabel_Ignore",
+            "Path": "Rizia/Prologue Skip/Page_RelationshipToPabel",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Ignore",
+                "Description": "",
+                "Condition": "",
+                "Instruction": "",
+                "PanelCounterIncrement": 0,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x0100006A0001C714",
+            "NameInDatabase": "Option_RelationshipToPabel_Superior",
+            "Path": "Rizia/Prologue Skip/Page_RelationshipToPabel",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Superior",
+                "Description": "",
+                "Condition": "",
+                "Instruction": "RiziaDLC.Prologue_Relations_PabelBoss = true; RiziaDLC.Relations_Pabel -= 1;\nRiziaDLCSupport.Journal_Prologue_Pabel_Boss = true;",
+                "PanelCounterIncrement": 0,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x0100006A0001C719",
+            "NameInDatabase": "Option_RelationshipToPabel_Friends",
+            "Path": "Rizia/Prologue Skip/Page_RelationshipToPabel",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Friends",
+                "Description": "",
+                "Condition": "",
+                "Instruction": "RiziaDLC.Prologue_Relations_PabelFriend = true; RiziaDLC.Relations_Pabel += 1;\nRiziaDLCSupport.Journal_Prologue_Pabel_Friends = true;",
+                "PanelCounterIncrement": 0,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x010000C500000686",
+            "NameInDatabase": "Option_Education_University",
+            "Path": "Rizia/Prologue Skip/Page_Education",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "University",
+                "Description": "",
+                "Condition": "",
+                "Instruction": "RiziaDLC.Prologue_Studied = true;\nRiziaDLC.Resources_Budget += 1;\nRiziaDLCSupport.Journal_Prologue_Age_University = true;",
+                "PanelCounterIncrement": 0,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x010000C50000068C",
+            "NameInDatabase": "Option_Education_Military",
+            "Path": "Rizia/Prologue Skip/Page_Education",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Military",
+                "Description": "",
+                "Condition": "",
+                "Instruction": "RiziaDLC.Prologue_JoinedMilitary = true;\nRiziaDLC.Resources_Authority += 1;\nRiziaDLCSupport.Journal_Prologue_Age_Military = true;",
+                "PanelCounterIncrement": 0,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x010000C500000692",
+            "NameInDatabase": "Option_Education_RoyalCouncil",
+            "Path": "Rizia/Prologue Skip/Page_Education",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Royal Council",
+                "Description": "",
+                "Condition": "",
+                "Instruction": "RiziaDLC.Prologue_StayedOnCouncil = true;\nRiziaDLC.Country_PublicOpinion += 2;\nRiziaDLCSupport.Journal_Prologue_Age_RoyalCouncil = true;",
+                "PanelCounterIncrement": 0,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x010000C5000006A2",
+            "NameInDatabase": "Option_ReclamationWarProtests_CrackDown",
+            "Path": "Rizia/Prologue Skip/Page_ReclamationWarProtests",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Crack Down on Traitors",
+                "Description": "",
+                "Condition": "",
+                "Instruction": "RiziaDLC.Resources_Authority += 1;\nRiziaDLC.PersonalValue_Pacifist -= 1;\nRiziaDLC.PersonalValue_Tyrant += 1;\nRiziaDLC.LeaningValue_Democratic -= 1;\nRiziaDLCSupport.Journal_Prologue_War_Crackdown = true;",
+                "PanelCounterIncrement": 0,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x010000C5000006A8",
+            "NameInDatabase": "Option_ReclamationWarProtests_StayNeutral",
+            "Path": "Rizia/Prologue Skip/Page_ReclamationWarProtests",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Stay Neutral",
+                "Description": "",
+                "Condition": "",
+                "Instruction": "",
+                "PanelCounterIncrement": 0,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x010000C5000006AE",
+            "NameInDatabase": "Option_ReclamationWarProtests_AgainstBloodshed",
+            "Path": "Rizia/Prologue Skip/Page_ReclamationWarProtests",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Position Against Bloodshed",
+                "Description": "",
+                "Condition": "",
+                "Instruction": "RiziaDLC.PersonalValue_Pacifist += 1;\nRiziaDLCSupport.Journal_Prologue_War_Stop = true;\nRiziaDLC.Prologue_Pales_AntiWar = true;",
+                "PanelCounterIncrement": 0,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x010000C5000006BE",
+            "NameInDatabase": "Option_DukeValenqiris_RebuildRegion",
+            "Path": "Rizia/Prologue Skip/Page_DukeValenqiris",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Rebuild Your Region",
+                "Description": "",
+                "Condition": "",
+                "Instruction": "RiziaDLC.Prologue_Monqiz_Rebuild = true; \nRiziaDLC.Resources_Budget += 1;\nRiziaDLCSupport.Journal_Prologue_Duke_Rebuild = true;",
+                "PanelCounterIncrement": 0,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x010000C5000006C4",
+            "NameInDatabase": "Option_DukeValenqiris_PunishTraitors",
+            "Path": "Rizia/Prologue Skip/Page_DukeValenqiris",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Punish Traitors",
+                "Description": "",
+                "Condition": "",
+                "Instruction": "RiziaDLC.Prologue_Monqiz_Arrests = true; \nRiziaDLC.PersonalValue_Tyrant += 1;\nRiziaDLC.Resources_Authority += 1;\nRiziaDLCSupport.Journal_Prologue_Duke_Punish = true;",
+                "PanelCounterIncrement": 0,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x010000C5000006CA",
+            "NameInDatabase": "Option_DukeValenqiris",
+            "Path": "Rizia/Prologue Skip/Page_DukeValenqiris",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Life of Leisure",
+                "Description": "",
+                "Condition": "",
+                "Instruction": "RiziaDLC.Prologue_Monqiz_PartyPrince = true; RiziaDLC.PersonalValue_BrokeTradition += 1;\nRiziaDLC.Country_PublicOpinion += 1;\nRiziaDLCSupport.Journal_Prologue_Duke_Leisure = true;",
+                "PanelCounterIncrement": 0,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x010000C5000006DA",
+            "NameInDatabase": "Option_RoyalFamily_WorkAndAffairs",
+            "Path": "Rizia/Prologue Skip/Page_RoyalFamily",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Workaholic and Affairs",
+                "Description": "",
+                "Condition": "",
+                "Instruction": "RiziaDLCSupport.Journal_Prologue_Marriage_DontLove = true;\nRiziaDLCSupport.Journal_Prologue_Marriage_VinaBirth = true;\nRiziaDLC.Prologue_HadAffairs = true;\nRiziaDLCSupport.Journal_Prologue_MarriageIssue_Affairs = true;",
+                "PanelCounterIncrement": 0,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x010000C5000006E0",
+            "NameInDatabase": "Option_RoyalFamily_FamilyMan",
+            "Path": "Rizia/Prologue Skip/Page_RoyalFamily",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Family Man",
+                "Description": "",
+                "Condition": "",
+                "Instruction": "RiziaDLC.Prologue_LovedWife = true;\nRiziaDLCSupport.Journal_Prologue_Marriage_Love = true;\nRiziaDLCSupport.Journal_Prologue_Marriage_VinaBirth = true;\nRiziaDLCSupport.Journal_Prologue_MarriageIssue_NeglectedWork = true;",
+                "PanelCounterIncrement": 0,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x010000C5000006E6",
+            "NameInDatabase": "Option_RoyalFamily_DutiesOverLove",
+            "Path": "Rizia/Prologue Skip/Page_RoyalFamily",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Duties Over Love",
+                "Description": "",
+                "Condition": "",
+                "Instruction": "RiziaDLC.Prologue_LovedWife = true;\nRiziaDLCSupport.Journal_Prologue_Marriage_Love = true;\nRiziaDLCSupport.Journal_Prologue_Marriage_VinaBirth = true;\nRiziaDLC.Prologue_DistantAsDad = true;\nRiziaDLCSupport.Journal_Prologue_MarriageIssue_AbsentFather = true;",
+                "PanelCounterIncrement": 0,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x010000C5000006F6",
+            "NameInDatabase": "Option_DiversityOrNationalism_Nationalist",
+            "Path": "Rizia/Prologue Skip/Page_DiversityOrNationalism",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Support Nationalism",
+                "Description": "",
+                "Condition": "",
+                "Instruction": "RiziaDLCSupport.Journal_Prologue_Immigrants_Suspicion = true;\nRiziaDLC.Prologue_JoinedSuOmina = true; RiziaDLC.LeaningValue_Democratic -= 1;\nRiziaDLCSupport.Journal_Prologue_SuOmina_Agreed = true;",
+                "PanelCounterIncrement": 0,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x010000C5000006FC",
+            "NameInDatabase": "Option_DiversityOrNationalism_Neutral",
+            "Path": "Rizia/Prologue Skip/Page_DiversityOrNationalism",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Stay Neutral",
+                "Description": "",
+                "Condition": "",
+                "Instruction": "RiziaDLCSupport.Journal_Prologue_Immigrants_Welcomed = true;\nRiziaDLCSupport.Journal_Prologue_SuOmina_Attended = true;",
+                "PanelCounterIncrement": 0,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x010000C500000702",
+            "NameInDatabase": "Option_DiversityOrNationalism_Diversity",
+            "Path": "Rizia/Prologue Skip/Page_DiversityOrNationalism",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Celebrate Diversity",
+                "Description": "",
+                "Condition": "",
+                "Instruction": "RiziaDLCSupport.Journal_Prologue_Immigrants_Celebrate = true;\nRiziaDLCSupport.Journal_Prologue_SuOmina_Refused = true;",
+                "PanelCounterIncrement": 0,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x010000C500000712",
+            "NameInDatabase": "Option_FamilyBoatTrip_Work",
+            "Path": "Rizia/Prologue Skip/Page_FamilyBoatTrip",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Work Instead",
+                "Description": "",
+                "Condition": "",
+                "Instruction": "RiziaDLCSupport.Journal_Prologue_BoatTrip_Worked = true;",
+                "PanelCounterIncrement": 0,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x010000C500000718",
+            "NameInDatabase": "Option_FamilyBoatTrip_MeetLover",
+            "Path": "Rizia/Prologue Skip/Page_FamilyBoatTrip",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Meet Your Lover",
+                "Description": "",
+                "Condition": "",
+                "Instruction": "RiziaDLCSupport.Journal_Prologue_BoatTrip_Lover = true;",
+                "PanelCounterIncrement": 0,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x010000C50000071E",
+            "NameInDatabase": "Option_FamilyBoatTrip_Accompany",
+            "Path": "Rizia/Prologue Skip/Page_FamilyBoatTrip",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Accompany Your Family",
+                "Description": "",
+                "Condition": "",
+                "Instruction": "RiziaDLC.Prologue_InBoatAccident = true;\nRiziaDLCSupport.Journal_Prologue_BoatTrip_CameAlong = true;",
+                "PanelCounterIncrement": 0,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x010000C500000734",
+            "NameInDatabase": "Option_Religious_Not",
+            "Path": "Rizia/Prologue Skip/Page_Religious",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "You're Not a Believer",
+                "Description": "",
+                "Condition": "",
+                "Instruction": "",
+                "PanelCounterIncrement": 0,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x010000C50000073A",
+            "NameInDatabase": "Option_Religious",
+            "Path": "Rizia/Prologue Skip/Page_Religious",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Find Solace in Religion",
+                "Description": "",
+                "Condition": "",
+                "Instruction": "RiziaDLC.Prologue_Religious = true;\nRiziaDLC.PersonalValue_Religious += 2;\nRiziaDLCSupport.Journal_Prologue_DeadWife_Religious = true;",
+                "PanelCounterIncrement": 0,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x010000C500000750",
+            "NameInDatabase": "Option_CrownPrinceFocus_InternalSecurity",
+            "Path": "Rizia/Prologue Skip/Page_CrownPrinceFocus",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Internal Security",
+                "Description": "",
+                "Condition": "",
+                "Instruction": "RiziaDLC.Prologue_Focus_SecurityCouncil = true;\nRiziaDLC.Resources_Authority += 2;\nRiziaDLC.Authority_Modifier_BaseMonarchRomus += 1;\nEvaluateConditionalInstruction(\"DrugTrade_Start\");\nRiziaDLC.Country_DrugTrade -= 1;\nRiziaDLC.Country_PublicOpinion += 1;\nRiziaDLCSupport.Journal_Prologue_HelpFather_Security = true;",
+                "PanelCounterIncrement": 0,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x010000C500000757",
+            "NameInDatabase": "Option_CrownPrinceFocus_Military",
+            "Path": "Rizia/Prologue Skip/Page_CrownPrinceFocus",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Military",
+                "Description": "",
+                "Condition": "",
+                "Instruction": "RiziaDLC.Prologue_Focus_ArmedForces = true;\nRiziaDLC.Army_Unit_Support_Total += 2;\nRiziaDLC.Army_Unit_Tank_Total += 1;\nRiziaDLC.Resources_Military_Ships += 1;\nRiziaDLC.Resources_Military_Equipment += 1000;\nRiziaDLC.Resources_Military_Manpower += 500;\nRiziaDLCSupport.Journal_Prologue_HelpFather_ArmedForces = true;\nEvaluateConditionalInstruction(\"DrugTrade_Start\");",
+                "PanelCounterIncrement": 0,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x010000C50000075D",
+            "NameInDatabase": "Option_CrownPrinceFocus_GoldExtractionAndTaxEfficiency",
+            "Path": "Rizia/Prologue Skip/Page_CrownPrinceFocus",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Gold Extraction and Tax Efficiency",
+                "Description": "",
+                "Condition": "",
+                "Instruction": "RiziaDLC.Prologue_Focus_TreasuryFinances = true;\nRiziaDLC.Resources_Budget += 3;\nRiziaDLC.Country_PublicOpinion -= 2;\nRiziaDLC.Budget_Modifier_RizianGoldIndustry += 1;\nRiziaDLCSupport.Journal_Prologue_HelpFather_GoldProduction = true;\nEvaluateConditionalInstruction(\"DrugTrade_Start\");",
+                "PanelCounterIncrement": 0,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x010000C500000763",
+            "NameInDatabase": "Option_CrownPrinceFocus_EnergyProduction",
+            "Path": "Rizia/Prologue Skip/Page_CrownPrinceFocus",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Energy Production",
+                "Description": "",
+                "Condition": "",
+                "Instruction": "RiziaDLC.Prologue_Focus_EnergyIndustry = true;\nRiziaDLC.Resources_Energy += 2;\nRiziaDLC.Energy_Modifier_BaseEnergy += 1;\nRiziaDLC.LeaningValue_ProBusiness += 1;\nRiziaDLC.Country_Tourism -= 1;\nRiziaDLCSupport.Journal_Prologue_HelpFather_EnergyProduction = true;\nEvaluateConditionalInstruction(\"DrugTrade_Start\");",
+                "PanelCounterIncrement": 0,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x010000C500000769",
+            "NameInDatabase": "Option_CrownPrinceFocus_PublicOpinion",
+            "Path": "Rizia/Prologue Skip/Page_CrownPrinceFocus",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Public Opinion",
+                "Description": "",
+                "Condition": "",
+                "Instruction": "RiziaDLC.Prologue_Focus_PRCampaign = true;\nRiziaDLC.Resources_Authority += 1;\nRiziaDLC.Country_Tourism += 1;\nRiziaDLC.PersonalValue_BrokeTradition -= 1;\nRiziaDLC.Country_PublicOpinion += 5;\nRiziaDLCSupport.Journal_Prologue_HelpFather_PublicRelations = true;\nEvaluateConditionalInstruction(\"DrugTrade_Start\");",
+                "PanelCounterIncrement": 0,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x010000C50000077A",
+            "NameInDatabase": "Option_PalesRelations_Hostile",
+            "Path": "Rizia/Prologue Skip/Page_PalesRelations",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Insist on Reunification",
+                "Description": "",
+                "Condition": "",
+                "Instruction": "RiziaDLC.Prologue_MetAxel = true;\nRiziaDLCSupport.Journal_Prologue_AxelInvitation_Accepted = true;\nRiziaDLC.Prologue_HostileToPales = true; RiziaDLC.Diplomacy_Pales_NegotiatingPower -= 1;\nRiziaDLCSupport.Journal_Prologue_AxelVisit_Hostile = true;",
+                "PanelCounterIncrement": 0,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x010000C500000780",
+            "NameInDatabase": "Option_PalesRelations_Peaceful",
+            "Path": "Rizia/Prologue Skip/Page_PalesRelations",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Agree to Reconcile",
+                "Description": "",
+                "Condition": "",
+                "Instruction": "RiziaDLC.Prologue_MetAxel = true;\nRiziaDLCSupport.Journal_Prologue_AxelInvitation_Accepted = true;\nRiziaDLC.Prologue_FriendlyToPales = true; RiziaDLC.Diplomacy_Pales_NegotiatingPower += 1;\nRiziaDLCSupport.Journal_Prologue_AxelVisit_Friendly = true;",
+                "PanelCounterIncrement": 0,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x010000C500000787",
+            "NameInDatabase": "Option_PalesRelations_Neutral",
+            "Path": "Rizia/Prologue Skip/Page_PalesRelations",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Stay Neutral",
+                "Description": "",
+                "Condition": "",
+                "Instruction": "RiziaDLC.Prologue_MetAxel = true;\nRiziaDLCSupport.Journal_Prologue_AxelInvitation_Accepted = true;\nRiziaDLCSupport.Journal_Prologue_AxelVisit_Neutral = true;",
+                "PanelCounterIncrement": 0,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x010000C500000796",
+            "NameInDatabase": "Option_RelationshipFather_Close",
+            "Path": "Rizia/Prologue Skip/Page_RelationshipFather",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Close Relationship With Father",
+                "Description": "",
+                "Condition": "",
+                "Instruction": "RiziaDLCSupport.Journal_Prologue_AxelVisitReturn_Truth = true;\nRiziaDLC.Prologue_DadLetter = false;\nRiziaDLCSupport.Journal_Prologue_FatherDeath_Visit = true;\nRiziaDLCSupport.Journal_Prologue_FatherLastWords_Hear = true;\n\nRiziaDLCSupport.Journal_Prologue_End = true;",
+                "PanelCounterIncrement": 0,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x010000C5000007A2",
+            "NameInDatabase": "Option_RelationshipFather_Fallout",
+            "Path": "Rizia/Prologue Skip/Page_RelationshipFather",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Fallout with Father",
+                "Description": "",
+                "Condition": "",
+                "Instruction": "RiziaDLCSupport.Journal_Prologue_AxelVisitReturn_Lied = true;\nRiziaDLC.Prologue_FalloutWithDad = true;\nRiziaDLC.Prologue_DadLetter = true;\nRiziaDLCSupport.Journal_Prologue_FatherDeath_Stay = true;\nRiziaDLC.Prologue_DadLetter_ThrowAway = true;\nRiziaDLCSupport.Journal_Prologue_FatherLastWords_NoteDiscard = true;\n\nRiziaDLCSupport.Journal_Prologue_End = true;",
+                "PanelCounterIncrement": 0,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x010000C70000035B",
+            "NameInDatabase": "Option_Kidnapping_Comply",
+            "Path": "Rizia/Prologue Skip/Page_Kidnapping",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Comply",
+                "Description": "",
+                "Condition": "",
+                "Instruction": "RiziaDLCSupport.Journal_Prologue_Kidnapping_Comply = true;\nRiziaDLCSupport.Journal_Prologue_WehlenRescue = true;",
+                "PanelCounterIncrement": 0,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x010000C700000361",
+            "NameInDatabase": "Option_Kidnapping_TryToRun",
+            "Path": "Rizia/Prologue Skip/Page_Kidnapping",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Try to Run",
+                "Description": "",
+                "Condition": "",
+                "Instruction": "RiziaDLC.Prologue_Limp = true;\nRiziaDLCSupport.Journal_Prologue_Kidnapping_Run = true;\nRiziaDLCSupport.Journal_Prologue_WehlenRescue = true;",
+                "PanelCounterIncrement": 0,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x010000C700000367",
+            "NameInDatabase": "Option_Kidnapping_Fight",
+            "Path": "Rizia/Prologue Skip/Page_Kidnapping",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Fight",
+                "Description": "",
+                "Condition": "",
+                "Instruction": "RiziaDLCSupport.Journal_Prologue_Kidnapping_Fight = true;\nRiziaDLCSupport.Journal_Prologue_WehlenRescue = true;\nRiziaDLC.Prologue_Scar = true;",
+                "PanelCounterIncrement": 0,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x010000C700000536",
+            "NameInDatabase": "Option_FormativeYearsRomus_HardLife",
+            "Path": "Rizia/Prologue Skip/Page_FormativeYearsRomus",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Difficult Path [Harder Resources]",
+                "Description": "",
+                "Condition": "",
+                "Instruction": "RiziaDLC.Prologue_HardLife = true; \nRiziaDLC.Authority_Modifier_BaseMonarchRomus -= 3;\nRiziaDLC.Energy_Modifier_BaseEnergy -= 1;\nRiziaDLC.Budget_Modifier_RizianGoldIndustry -= 1;\nRiziaDLC.Country_PublicOpinion -= 3;\nRiziaDLC.Resources_Energy -= 3;\nRiziaDLC.Resources_Budget -= 2;\n// House relations and Religious groups in cond.instr.",
+                "PanelCounterIncrement": 0,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x010000C70000053C",
+            "NameInDatabase": "Option_FormativeYearsRomus_NormalLife",
+            "Path": "Rizia/Prologue Skip/Page_FormativeYearsRomus",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Normal Path",
+                "Description": "",
+                "Condition": "",
+                "Instruction": "RiziaDLC.Prologue_NormalLife = true;",
+                "PanelCounterIncrement": 0,
+                "PanelBarIncrement": 0
+            }
+        },
+        {
+            "Id": "0x010000C700000542",
+            "NameInDatabase": "Option_FormativeYearsRomus_EasyLife",
+            "Path": "Rizia/Prologue Skip/Page_FormativeYearsRomus",
+            "IsWIP": false,
+            "Notes": "",
+            "CarouselChoiceOptionProperties": {
+                "Title": "Easy Path [Easier Resources]",
+                "Description": "",
+                "Condition": "",
+                "Instruction": "RiziaDLC.Prologue_EasyLife = true; \nRiziaDLC.Authority_Modifier_BaseMonarchRomus += 3;\nRiziaDLC.Energy_Modifier_BaseEnergy += 3;\nRiziaDLC.Budget_Modifier_RizianGoldIndustry += 2;\nRiziaDLC.Country_PublicOpinion += 5;\nRiziaDLC.Resources_Energy += 3;\nRiziaDLC.Resources_Budget += 4;\n//House relations and Religious groups in cond.instr.",
+                "PanelCounterIncrement": 0,
+                "PanelBarIncrement": 0
+            }
+        }
+    ]
+}

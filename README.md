@@ -34,15 +34,11 @@ This tool is aimed at **analysis, modding, planning, and research**, not at repr
 
 This repository **does not include Suzerain.txt** as it is too big (560MB) for GitHub.
 
-I will provide a way for the full file to be downloaded; or I'll split the file in 90MB chunks with a script provided to reconstruct it as a single file.
+I will provide a way for the full file to be downloaded if Torpor gives the green light.
 
 For legal reasons, I may also have to forgo this approach and instead opt to make a script which extracts the data directly from your game's folders.
 
 Otherwise, once the project is complete I am opened to hosting a permanent web-site instead of the "local" format.
-
-The file can be downloaded from here : https://fileport.io/k7vq6Y6MpLGV
-
-And must be placed inside of /data.
 
 ---
 
@@ -51,7 +47,7 @@ And must be placed inside of /data.
 Suzerain and all associated content are the property of their respective owners.
 
 This project provides tools for inspecting and analyzing Suzerain game data.
-For convenience, extracted text-based data files may be made available separately or within the repository.
+For convenience, extracted text-based data files may be made available separately or within the repository with the rightfull owner's approval.
 
 These files contain copyrighted material and are provided solely for
 personal research, analysis, and educational purposes.

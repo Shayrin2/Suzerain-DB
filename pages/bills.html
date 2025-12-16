@@ -13,39 +13,33 @@
       <h2>Bills</h2>
     </header>
 
-<div class="toolbar">
-  <label>
-    Search
+<section class="filters">
+  <div class="filters-group">
+    <span class="filters-label">Search</span>
     <input
       type="text"
       id="billSearchInput"
       placeholder="Bill name / condition / variable"
     />
-  </label>
+  </div>
 
-  <label>
-    Game
+  <div class="filters-group">
+    <span class="filters-label">Game</span>
     <select id="billGameFilter">
       <option value="">(All)</option>
       <option value="Base">Base game</option>
       <option value="RiziaDLC">Rizia DLC</option>
     </select>
-  </label>
+  </div>
 
   <div class="spacer"></div>
   <span class="count-info" id="billCountInfo"></span>
-</div>
+</section>
 
-    <section id="billRoot" class="panel-group">
-      <details open class="panel">
-        <summary class="panel-title">
-          Bills
-          <span id="billSummaryCount" class="panel-meta"></span>
-        </summary>
-        <div id="billList" class="cards-container">
-          <!-- JS will inject bill cards here -->
-        </div>
-      </details>
+    <section id="billRoot">
+      <div id="billList" class="cards-container">
+        <!-- JS will inject bill cards here -->
+      </div>
     </section>
   </section>
 

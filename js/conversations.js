@@ -9,7 +9,7 @@ async function initConversationsPage() {
   const searchInput = document.getElementById("searchInput");
   const speakerSelect = document.getElementById("speakerFilter");
   const gameSelect = document.getElementById("gameFilter");
-  const onlyPlayerRomus = document.getElementById("onlyPlayerRomus");
+  const hideNarrator = document.getElementById("hideNarrator");
   const onlyConsequential = document.getElementById("onlyConsequential");
 
   const countInfo = document.getElementById("countInfo");
@@ -349,7 +349,7 @@ async function initConversationsPage() {
     const q = searchInput.value.trim();
     const speakerValue = speakerSelect.value;
     const gameFilter = gameSelect.value; // "RiziaDLC" / "Base" / ""
-    const romusOnly = !!onlyPlayerRomus.checked;
+    const hideNarratorChecked = !!hideNarrator.checked;
     const consequentialOnly = !!onlyConsequential.checked;
 
     const hasTextSearch = q.length > 0;
@@ -367,7 +367,7 @@ async function initConversationsPage() {
       if (!baseChoices || !baseChoices.length) continue;
 
       const filteredNodes = baseChoices.filter(node => {
-        if (romusOnly && !node.isPlayerRomus) return false;
+        if (hideNarratorChecked && !(node.isPlayer || node.isPlayerRomus)) return false;
         if (consequentialOnly && !node.isConsequential) return false;
 
         if (speakerValue) {
@@ -446,7 +446,7 @@ async function initConversationsPage() {
   searchInput.addEventListener("input", applyFilters);
   speakerSelect.addEventListener("change", applyFilters);
   gameSelect.addEventListener("change", applyFilters);
-  onlyPlayerRomus.addEventListener("change", applyFilters);
+  hideNarrator.addEventListener("change", applyFilters);
   onlyConsequential.addEventListener("change", applyFilters);
 
   // Initial render

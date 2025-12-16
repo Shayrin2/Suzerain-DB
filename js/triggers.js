@@ -19,7 +19,6 @@ async function initTriggersPage() {
   const searchInput = document.getElementById("triggerSearchInput");
   const gameSelect = document.getElementById("triggerGameFilter");
   const countInfo = document.getElementById("triggerCountInfo");
-  const summarySpan = document.getElementById("triggerSummaryCount");
   const listContainer = document.getElementById("triggerList");
 
   if (!searchInput || !countInfo || !listContainer) {
@@ -69,7 +68,6 @@ async function initTriggersPage() {
       countInfo.textContent = `${vis} / ${total} triggers`;
     }
 
-    if (summarySpan) summarySpan.textContent = String(vis);
   }
 
   function buildTriggerCard(trigger) {

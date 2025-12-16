@@ -9,7 +9,6 @@ async function initBillsPage() {
   const searchInput = document.getElementById("billSearchInput");
   const gameSelect = document.getElementById("billGameFilter");
   const countInfo = document.getElementById("billCountInfo");
-  const summaryCount = document.getElementById("billSummaryCount");
   const listEl = document.getElementById("billList");
 
   if (!searchInput || !listEl) {
@@ -42,7 +41,6 @@ async function initBillsPage() {
     if (!filtered.length) {
       listEl.innerHTML = `<p class="empty-state">No bills match current filters.</p>`;
       if (countInfo) countInfo.textContent = `Showing 0 of ${allBills.length} bills`;
-      if (summaryCount) summaryCount.textContent = "0";
       return;
     }
 
@@ -100,9 +98,6 @@ async function initBillsPage() {
 
     if (countInfo) {
       countInfo.textContent = `Showing ${filtered.length} of ${allBills.length} bills`;
-    }
-    if (summaryCount) {
-      summaryCount.textContent = String(filtered.length);
     }
   }
 

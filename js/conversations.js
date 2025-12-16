@@ -13,7 +13,6 @@ async function initConversationsPage() {
   const onlyConsequential = document.getElementById("onlyConsequential");
 
   const countInfo = document.getElementById("countInfo");
-  const summarySpan = document.getElementById("conversationSummaryCount");
   const listContainer = document.getElementById("results");
 
   const RIZIA_FIRST_CONVERSATION_ID = 287;
@@ -441,9 +440,6 @@ async function initConversationsPage() {
     });
 
     const visibleConversations = sortedConvIds.length;
-    if (summarySpan) {
-      summarySpan.textContent = String(visibleConversations);
-    }
   }
 
   // Hook filters

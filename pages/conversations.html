@@ -13,41 +13,45 @@
       <h2>Conversations – Player Choices</h2>
     </header>
 
-    <div class="toolbar">
-      <label>
-        Search
+    <section class="filters">
+      <div class="filters-group">
+        <span class="filters-label">Search</span>
         <input
           type="text"
           id="searchInput"
           placeholder="Text in Menu / Dialogue / Title / en"
         />
-      </label>
+      </div>
 
-      <label>
-        Speaker
+      <div class="filters-group">
+        <span class="filters-label">Speaker</span>
         <select id="speakerFilter">
           <option value="">(Any)</option>
         </select>
-      </label>
+      </div>
 
-      <label>
-        Game
+      <div class="filters-group">
+        <span class="filters-label">Game</span>
         <select id="gameFilter">
           <option value="">(All)</option>
           <option value="RiziaDLC">Rizia DLC</option>
           <option value="Base">Base game</option>
         </select>
-      </label>
+      </div>
 
-      <label>
-        <input type="checkbox" id="onlyPlayerRomus" />
-        Hide Narrator
-      </label>
+      <div class="filters-group">
+        <label>
+          <input type="checkbox" id="onlyPlayerRomus" />
+          Hide Narrator
+        </label>
+      </div>
 
-      <label>
-        <input type="checkbox" id="onlyConsequential" />
-        Consequential only
-      </label>
+      <div class="filters-group">
+        <label>
+          <input type="checkbox" id="onlyConsequential" />
+          Consequential only
+        </label>
+      </div>
 
       <div class="spacer"></div>
 
@@ -55,20 +59,14 @@
       <button id="exportConversationsBtn" class="btn-secondary">
         Export as .txt
       </button>
-    </div>
+    </section>
 
 
     <!-- This wraps all conversation groups so we can hide/show globally -->
-    <section id="conversationRoot" class="panel-group">
-      <details open class="panel">
-        <summary class="panel-title">
-          Conversations
-          <span id="conversationSummaryCount" class="panel-meta"></span>
-        </summary>
-        <div id="results" class="cards-container">
-          <!-- JS will inject conversation cards here -->
-        </div>
-      </details>
+    <section id="conversationRoot">
+      <div id="results" class="cards-container">
+        <!-- JS will inject conversation cards here -->
+      </div>
     </section>
   </section>
 

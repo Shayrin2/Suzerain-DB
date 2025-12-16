@@ -1,6 +1,6 @@
 // panels.js
 // Prologue + Decisions/Budget options viewer
-// Uses MultipleChoiceOptionData.txt + CarouselChoiceOptionData.txt
+// Uses MultipleChoiceOptionData.json + CarouselChoiceOptionData.json
 
 let allPanelOptions = [];
 
@@ -97,15 +97,10 @@ function matchesFilters(option, filters) {
       option.description,
       option.condition,
       option.instruction,
-      option.nameInDb,
-      option.path
-    ]
-      .join(" | ")
-      .toLowerCase();
-
+      option.nameInDb
+    ].join(' ').toLowerCase();
     if (!hay.includes(s)) return false;
   }
-
   return true;
 }
 
@@ -118,10 +113,12 @@ function renderPanels() {
 
   if (!container) return;
 
+  const groupingSelect = document.getElementById("panelGroupingFilter");
   const filters = {
     search: searchInput?.value.trim() || "",
     section: sectionSelect?.value || "",
-    game: gameSelect?.value || ""
+    game: gameSelect?.value || "",
+    grouping: groupingSelect?.value || "Category"
   };
 
   const filtered = allPanelOptions.filter((o) => matchesFilters(o, filters));
@@ -156,122 +153,252 @@ function renderPanels() {
     return a.title.localeCompare(b.title);
   });
 
+  // Group by section, then by panelSub or panelGroup + panelSub based on grouping
+  const sectionGroups = new Map();
   for (const opt of filtered) {
-    const card = document.createElement("article");
-    card.className = "card";
-
-    const header = document.createElement("header");
-    header.className = "card-header";
-
-    const h3 = document.createElement("h3");
-    h3.className = "card-title";
-    h3.textContent = opt.title;
-
-    const meta = document.createElement("div");
-    meta.className = "card-meta";
-    meta.innerHTML = `
-      <span class="tag tag--section">${opt.section === "Prologue" ? "Prologue" : "Decisions &amp; Budget"}</span>
-      ${
-        opt.panelGroup
-          ? `<span class="tag">${opt.panelGroup.replace(/ Panel$/, "")}${
-              opt.panelSub ? " – " + opt.panelSub : ""
-            }</span>`
-          : ""
+    if (!sectionGroups.has(opt.section)) sectionGroups.set(opt.section, new Map());
+    const subMap = sectionGroups.get(opt.section);
+    const key = filters.grouping === "Path" ? (() => {
+      if (opt.panelGroup === "Prologue Skip") {
+        return "Prologue – " + prettifyCategory(opt.panelSub);
       }
-      <span class="tag tag--game">${
-        opt.game === "RiziaDLC" ? "Rizia DLC" : "Base game"
-      }</span>
-    `;
+      const group = opt.panelGroup.replace(" Panel", "");
+      const sub = opt.panelSub;
+      return prettifyCategory(group) + " – " + sub;
+    })() : getCategoryKey(opt.panelGroup, opt.panelSub) || "Other";
+    if (!subMap.has(key)) subMap.set(key, []);
+    subMap.get(key).push(opt);
+  }
 
-    header.appendChild(h3);
-    header.appendChild(meta);
-    card.appendChild(header);
-
-    // Body
-    const body = document.createElement("div");
-    body.className = "card-body";
-
-    if (opt.description) {
-      const desc = document.createElement("p");
-      desc.className = "card-description muted";
-      desc.textContent = opt.description;
-      body.appendChild(desc);
-    }
-
-    // Condition
-    if (opt.condition) {
-      const condBlock = document.createElement("div");
-      condBlock.className = "card-section";
-      const label = document.createElement("div");
-      label.className = "card-section-title";
-      label.textContent = "Condition";
-      const code = document.createElement("code");
-      code.className = "card-code";
-      code.textContent = opt.condition;
-      condBlock.appendChild(label);
-      condBlock.appendChild(code);
-      body.appendChild(condBlock);
-    }
-
-    // Effects (instruction)
-    if (opt.effects && opt.effects.length) {
-      const effBlock = document.createElement("div");
-      effBlock.className = "card-section";
-      const label = document.createElement("div");
-      label.className = "card-section-title";
-      label.textContent = "Effects";
-      const list = document.createElement("ul");
-      list.className = "effect-list";
-
-      for (const line of opt.effects) {
-        const li = document.createElement("li");
-        li.textContent = line;
-        list.appendChild(li);
+  for (const [section, subMap] of sectionGroups) {
+    const sortedSubs = Array.from(subMap.entries()).sort(([a], [b]) => {
+      const aParts = a.split(" – ");
+      const bParts = b.split(" – ");
+      if (aParts.length === 2 && bParts.length === 2) {
+        const [aPrefix, aSuffix] = aParts;
+        const [bPrefix, bSuffix] = bParts;
+        if (aPrefix === bPrefix) {
+          if (aPrefix === "Constitution" && aSuffix.startsWith("Section") && bSuffix.startsWith("Section")) {
+            const numA = parseInt(aSuffix.split(" ")[1]);
+            const numB = parseInt(bSuffix.split(" ")[1]);
+            return numA - numB;
+          }
+          return aSuffix.localeCompare(bSuffix);
+        }
+        return aPrefix.localeCompare(bPrefix);
       }
-
-      effBlock.appendChild(label);
-      effBlock.appendChild(list);
-      body.appendChild(effBlock);
-    }
-
-    // Panel increments
-    if (
-      opt.panelCounterIncrement !== null ||
-      opt.panelBarIncrement !== null
-    ) {
-      const metaBlock = document.createElement("div");
-      metaBlock.className = "card-section meta-row";
-      const pieces = [];
-
-      if (opt.panelCounterIncrement !== null) {
-        pieces.push(
-          `Panel counter: ${opt.panelCounterIncrement >= 0 ? "+" : ""}${
-            opt.panelCounterIncrement
-          }`
-        );
+      return a.localeCompare(b);
+    });
+    for (const [sub, opts] of sortedSubs) {
+      if (sub !== "Other") {
+        // Group into a panel
+        const panel = document.createElement("details");
+        panel.className = "panel";
+        panel.open = false;
+        const summary = document.createElement("summary");
+        summary.className = "panel-title";
+        const title = filters.grouping === "Path" ? sub : prettifyCategory(sub);
+        summary.textContent = `${title} (${opts.length})`;
+        panel.appendChild(summary);
+        const body = document.createElement("div");
+        body.className = "cards-container";
+        panel.appendChild(body);
+        for (const opt of opts) {
+          const card = createPanelCard(opt);
+          body.appendChild(card);
+        }
+        container.appendChild(panel);
+      } else {
+        // Render individual cards
+        for (const opt of opts) {
+          const card = createPanelCard(opt);
+          container.appendChild(card);
+        }
       }
-      if (opt.panelBarIncrement !== null) {
-        pieces.push(
-          `Panel bar: ${opt.panelBarIncrement >= 0 ? "+" : ""}${
-            opt.panelBarIncrement
-          }`
-        );
-      }
-
-      metaBlock.textContent = pieces.join(" · ");
-      body.appendChild(metaBlock);
     }
-
-    card.appendChild(body);
-    container.appendChild(card);
   }
 }
 
+function getCategoryKey(panelGroup, panelSub) {
+  if (panelGroup.includes("Constitution") && !panelGroup.includes("Decree")) {
+    return "Constitution – " + panelSub;
+  }
+  if (panelGroup === "Prologue Skip") {
+    return "Prologue – " + prettifyCategory(panelSub);
+  }
+  return panelGroup.replace(" Panel", "") + " – " + panelSub;
+}
+
+function prettifyCategory(sub) {
+  const map = {
+    "Education": "Education Budget",
+    "Healthcare": "Healthcare Budget",
+    "Military": "Military Budget",
+    "Security": "Security Budget",
+    "Diplomacy": "Diplomatic Alignment",
+    "Immigration": "Immigration Policy",
+    "Focus": "Term Focus Area",
+    "Section 1": "Constitution Section 1",
+    "Section 2": "Constitution Section 2",
+    "Section 3": "Constitution Section 3",
+    "Section 4": "Constitution Section 4",
+    "Section 5": "Constitution Section 5",
+    "Section 6": "Constitution Section 6",
+    "Section 7": "Constitution Section 7",
+    "Section 8": "Constitution Section 8",
+    "Section 9": "Constitution Section 9",
+    "Arrested People": "Executions - Arrested People",
+    "Execution Method": "Executions - Method",
+    "Page_Education": "Education",
+    "Page_ReclamationWarProtests": "War Protests",
+    "Page_DukeValenqiris": "Duke Valenqiris",
+    "Page_CampaignPromise": "Campaign Promises",
+    "Page_CrownPrinceFocus": "Crown Prince's Focus",
+    "Page_DiversityOrNationalism": "Diversity vs Nationalism",
+    "Page_Extracurricular": "Extracurricular Activities",
+    "Page_Family": "Family - Involvement",
+    "Page_FamilyBoatTrip": "Family - Boat Trip",
+    "Page_FormativeYearsAnton": "Formative Years (Anton)",
+    "Page_FormativeYearsRomus": "Formative Years (Romus)",
+    "Page_Kidnapping": "Kidnapping Incident",
+    "Page_OppositionUSP": "Opposition to USP",
+    "Page_PalesRelations": "Pales Relations",
+    "Page_RelationshipFather": "Relationship with Father",
+    "Page_RelationshipToPabel": "Relationship to Pabel",
+    "Page_Religious": "Religious Alignment",
+    "Page_RoyalFamily": "Royal Family Dynamics",
+    "Page_SummersInRizia":  "Summers in Rizia",
+    "Page_TakePower": "Taking Power",
+    "Page_University": "University Life",
+    "Page_YouthOrganization": "Youth Organization Involvement"
+  };
+  return map[sub] || sub;
+}
+
+function createPanelCard(opt) {
+  const card = document.createElement("article");
+  card.className = "card";
+
+  const header = document.createElement("header");
+  header.className = "card-header";
+
+  const h3 = document.createElement("h3");
+  h3.className = "card-title";
+  h3.textContent = opt.title;
+
+  const meta = document.createElement("div");
+  meta.className = "card-meta";
+
+  const sectionSpan = document.createElement("span");
+  sectionSpan.className = "tag tag--section";
+  sectionSpan.textContent = opt.section === "Prologue" ? "Prologue" : "Decisions & Budget";
+  meta.appendChild(sectionSpan);
+
+  if (opt.panelGroup) {
+    const panelSpan = document.createElement("span");
+    panelSpan.className = "tag";
+    if (opt.panelGroup === "Prologue Skip") {
+      panelSpan.textContent = "Prologue";
+    } else {
+      const group = opt.panelGroup.replace(/ Panel$/, "");
+      const sub = opt.panelSub;
+      panelSpan.textContent = group + (sub ? " – " + sub : "");
+    }
+    meta.appendChild(panelSpan);
+  }
+
+  const gameSpan = document.createElement("span");
+  gameSpan.className = "tag tag--game";
+  gameSpan.textContent = opt.game === "RiziaDLC" ? "Rizia DLC" : "Base game";
+  meta.appendChild(gameSpan);
+
+  header.appendChild(h3);
+  header.appendChild(meta);
+  card.appendChild(header);
+
+  // Body
+  const body = document.createElement("div");
+  body.className = "card-body";
+
+  if (opt.description) {
+    const desc = document.createElement("p");
+    desc.className = "card-description muted";
+    desc.textContent = opt.description;
+    body.appendChild(desc);
+  }
+
+  // Condition
+  if (opt.condition) {
+    const condBlock = document.createElement("div");
+    condBlock.className = "card-section";
+    const label = document.createElement("div");
+    label.className = "card-section-title";
+    label.textContent = "Condition";
+    const code = document.createElement("code");
+    code.className = "card-code";
+    code.textContent = opt.condition;
+    condBlock.appendChild(label);
+    condBlock.appendChild(code);
+    body.appendChild(condBlock);
+  }
+
+  // Effects (instruction)
+  if (opt.effects && opt.effects.length) {
+    const effBlock = document.createElement("div");
+    effBlock.className = "card-section";
+    const label = document.createElement("div");
+    label.className = "card-section-title";
+    label.textContent = "Effects";
+    const list = document.createElement("ul");
+    list.className = "effect-list";
+
+    for (const line of opt.effects) {
+      const li = document.createElement("li");
+      li.textContent = line;
+      list.appendChild(li);
+    }
+
+    effBlock.appendChild(label);
+    effBlock.appendChild(list);
+    body.appendChild(effBlock);
+  }
+
+  // Panel increments
+  if (
+    opt.panelCounterIncrement !== null ||
+    opt.panelBarIncrement !== null
+  ) {
+    const metaBlock = document.createElement("div");
+    metaBlock.className = "card-section meta-row";
+    const pieces = [];
+
+    if (opt.panelCounterIncrement !== null) {
+      pieces.push(
+        `Panel counter: ${opt.panelCounterIncrement >= 0 ? "+" : ""}${
+          opt.panelCounterIncrement
+        }`
+      );
+    }
+    if (opt.panelBarIncrement !== null) {
+      pieces.push(
+        `Panel bar: ${opt.panelBarIncrement >= 0 ? "+" : ""}${
+          opt.panelBarIncrement
+        }`
+      );
+    }
+
+    metaBlock.textContent = pieces.join(" · ");
+    body.appendChild(metaBlock);
+  }
+
+  card.appendChild(body);
+  return card;
+}
+
 async function initPanelsPage() {
-  // Adjust paths if your files live somewhere else (e.g. "../data/...")
   const [multi, carousel] = await Promise.all([
-    loadJson("../data/MultipleChoiceOptionData.txt"),
-    loadJson("../data/CarouselChoiceOptionData.txt")
+    loadJson("/data/MultipleChoiceOptionData.json"),
+    loadJson("/data/CarouselChoiceOptionData.json")
   ]);
 
   allPanelOptions = [
@@ -279,10 +406,21 @@ async function initPanelsPage() {
     ...normalizeItems(carousel.items, "carousel")
   ];
 
+  // Deduplicate by title and sub to remove repeats
+  const unique = new Map();
+  for (const opt of allPanelOptions) {
+    const key = `${opt.title}-${opt.panelSub}`;
+    if (!unique.has(key)) {
+      unique.set(key, opt);
+    }
+  }
+  allPanelOptions = Array.from(unique.values());
+
   // Wire filters
   const searchInput = document.getElementById("panelSearchInput");
   const sectionSelect = document.getElementById("panelSectionFilter");
   const gameSelect = document.getElementById("panelGameFilter");
+  const groupingSelect = document.getElementById("panelGroupingFilter");
 
   if (searchInput)
     searchInput.addEventListener("input", () => renderPanels());
@@ -290,6 +428,8 @@ async function initPanelsPage() {
     sectionSelect.addEventListener("change", () => renderPanels());
   if (gameSelect)
     gameSelect.addEventListener("change", () => renderPanels());
+  if (groupingSelect)
+    groupingSelect.addEventListener("change", () => renderPanels());
 
   renderPanels();
 }

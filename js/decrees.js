@@ -9,7 +9,6 @@ async function initDecreesPage() {
   const searchInput = document.getElementById("decreeSearchInput");
   const gameSelect = document.getElementById("decreeGameFilter");
   const countInfo = document.getElementById("decreeCountInfo");
-  const summaryCount = document.getElementById("decreeSummaryCount");
   const listEl = document.getElementById("decreeList");
 
   if (!searchInput || !listEl) {
@@ -42,77 +41,77 @@ async function initDecreesPage() {
     if (!filtered.length) {
       listEl.innerHTML = `<p class="empty-state">No decrees match current filters.</p>`;
       if (countInfo) countInfo.textContent = `Showing 0 of ${allDecrees.length} decrees`;
-      if (summaryCount) summaryCount.textContent = "0";
       return;
     }
 
+    // Group decrees by turn (or Conditional)
+    const groups = new Map();
     for (const dec of filtered) {
-      const card = document.createElement("article");
-      card.className = "card";
-
-      const turnLabel = dec.availableTurn != null
-        ? `Available from Turn ${dec.availableTurn}`
-        : "Available logic: see conditions";
-
-      const categoryLabel = dec.category || "Uncategorized";
-
-      const enabledHtml = dec.enabledCondition
-        ? `<li>Enabled when: ${escapeHtml(dec.enabledCondition)}</li>`
-        : "";
-
-      const hiddenHtml = dec.availableTurn != null
-        ? `<li>Appears from Turn ${escapeHtml(String(dec.availableTurn))}</li>`
-        : "";
-
-      const errorHtml = dec.errorConditions.length
-        ? dec.errorConditions
-            .map(e => `<li>Blocked if: ${escapeHtml(e.condition)}${e.message ? ` → ${escapeHtml(e.message)}` : ""}</li>`)
-            .join("")
-        : "";
-
-      const conditionsBlock = (enabledHtml || hiddenHtml || errorHtml)
-        ? `<ul class="pill-list">
-             ${hiddenHtml}${enabledHtml}${errorHtml}
-           </ul>`
-        : `<p class="muted">No explicit condition data (purely manual trigger or story-driven).</p>`;
-
-      const effectsHtml = dec.effects.length
-        ? `<ul class="pill-list">
-             ${dec.effects.map(e => `<li>${escapeHtml(e)}</li>`).join("")}
-           </ul>`
-        : `<p class="muted">No explicit mechanical effect (OnDecreeEnact empty).</p>`;
-
-      card.innerHTML = `
-        <header class="card-header">
-          <h3 class="card-title">${escapeHtml(dec.title || dec.nameInDb)}</h3>
-          <div class="card-meta">
-            <span>${escapeHtml(dec.gameLabel)}</span>
-            <span>${escapeHtml(categoryLabel)}</span>
-            <span>${escapeHtml(turnLabel)}</span>
-            <span class="mono">${escapeHtml(dec.nameInDb)}</span>
+      const key = dec.availableTurn != null ? `Turn ${dec.availableTurn}` : "Conditional / No Fixed Turn";
+      if (!groups.has(key)) groups.set(key, []);
+      groups.get(key).push(dec);
+    }
+    // Sort groups: Turn 1..N, then Conditional last
+    const orderedGroups = [...groups.entries()].sort((a, b) => {
+      const aKey = a[0], bKey = b[0];
+      const aIsCond = aKey.startsWith("Conditional");
+      const bIsCond = bKey.startsWith("Conditional");
+      if (aIsCond && !bIsCond) return 1;
+      if (!aIsCond && bIsCond) return -1;
+      if (aIsCond && bIsCond) return 0;
+      const aTurn = parseInt(aKey.replace("Turn ", ""), 10);
+      const bTurn = parseInt(bKey.replace("Turn ", ""), 10);
+      return aTurn - bTurn;
+    });
+    // Render each group as a collapsible panel
+    for (const [groupName, items] of orderedGroups) {
+      const panel = document.createElement("details");
+      panel.className = "panel";
+      panel.open = false;
+      const summary = document.createElement("summary");
+      summary.className = "panel-title";
+      summary.textContent = `${groupName} (${items.length})`;
+      panel.appendChild(summary);
+      const panelBody = document.createElement("div");
+      panelBody.className = "cards-container";
+      panel.appendChild(panelBody);
+      // Optional: sort within group (stable, readable)
+      items.sort((a, b) => (a.title || "").localeCompare(b.title || ""));
+      for (const dec of items) {
+        const card = document.createElement("article");
+        card.className = "card";
+        const turnLabel = dec.availableTurn != null ? `Turn ${dec.availableTurn}` : "Conditional / No Fixed Turn";
+        card.innerHTML = `
+          <header class="card-header">
+            <h3 class="card-title">${escapeHtml(dec.title || dec.nameInDb)}</h3>
+            <div class="card-meta">
+              <span>${escapeHtml(turnLabel)}</span>
+              <span>${escapeHtml(dec.gameLabel)}</span>
+              <span class="mono">${escapeHtml(dec.nameInDb)}</span>
+            </div>
+          </header>
+          <div class="card-body">
+            <div class="card-col">
+              <div class="pill pill-label">Enabled Condition</div>
+              ${dec.enabledCondition ? `<p>${escapeHtml(dec.enabledCondition)}</p>` : `<p class="muted">No condition.</p>`}
+              <div class="pill pill-label mt-small">Category</div>
+              <p>${escapeHtml(dec.category || "None")}</p>
+              <div class="pill pill-label mt-small">Error Conditions</div>
+              ${dec.errorConditions.length ? `<ul class="pill-list">${dec.errorConditions.map(e => `<li>${escapeHtml(e.condition)}: ${escapeHtml(e.message)}</li>`).join("")}</ul>` : `<p class="muted">No errors.</p>`}
+            </div>
+            <div class="card-col">
+              <div class="pill pill-label">Effects on Enact</div>
+              ${dec.effects.length ? `<ul class="pill-list">${dec.effects.map(e => `<li>${escapeHtml(e)}</li>`).join("")}</ul>` : `<p class="muted">No effects.</p>`}
+            </div>
           </div>
-        </header>
-
-        <div class="card-body">
-          <div class="card-col">
-            <div class="pill pill-label">Conditions / availability</div>
-            ${conditionsBlock}
-          </div>
-          <div class="card-col">
-            <div class="pill pill-label">Effects on enact</div>
-            ${effectsHtml}
-          </div>
-        </div>
-      `;
-
-      listEl.appendChild(card);
+        `;
+        panelBody.appendChild(card);
+      }
+      listEl.appendChild(panel);
     }
 
     if (countInfo) {
       countInfo.textContent = `Showing ${filtered.length} of ${allDecrees.length} decrees`;
-    }
-    if (summaryCount) {
-      summaryCount.textContent = String(filtered.length);
     }
   }
 
@@ -121,6 +120,24 @@ async function initDecreesPage() {
 
   applyFilters();
 }
+
+function getDecreeTurn(decree) {
+  // 1) Explicit field
+  if (typeof decree.AvailableAtTurn === "number" && decree.AvailableAtTurn > 0) {
+    return decree.AvailableAtTurn;
+  }
+
+  // 2) Infer from ID like Turn07_Decree_...
+  if (decree.DecreeId) {
+    const match = decree.DecreeId.match(/Turn(\d{1,2})_/i);
+    if (match) {
+      return parseInt(match[1], 10);
+    }
+  }
+
+  return null; // Conditional / unknown
+}
+
 
 function mapDecreeRecord(raw) {
   const nameInDb = raw.NameInDatabase || "";
@@ -134,10 +151,23 @@ function mapDecreeRecord(raw) {
 
   const gameLabel = gameKey === "RiziaDLC" ? "Rizia DLC" : "Base Game";
 
-  const availableTurn =
-    typeof decProps.HiddenUntilTurnNo === "number" && decProps.HiddenUntilTurnNo >= 0
-      ? decProps.HiddenUntilTurnNo
-      : null;
+const availableTurn = (() => {
+  // A) Explicit (if it exists in your data)
+  if (typeof decProps.AvailableAtTurn === "number" && decProps.AvailableAtTurn >= 0) {
+    return decProps.AvailableAtTurn;
+  }
+
+  // B) Hidden until turn (what you already used)
+  if (typeof decProps.HiddenUntilTurnNo === "number" && decProps.HiddenUntilTurnNo >= 0) {
+    return decProps.HiddenUntilTurnNo;
+  }
+
+  // C) Infer from internal ID (common pattern: Turn07_...)
+  const fromId = (nameInDb || "").match(/Turn(\d{1,2})_/i);
+  if (fromId) return parseInt(fromId[1], 10);
+
+  return null; // conditional / unknown
+})();
 
   const enabledCondition = decProps.IsEnabled || "";
   const category = decProps.DecreeCategoryString || "";

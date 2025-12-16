@@ -32,7 +32,7 @@ This tool is aimed at **analysis, modding, planning, and research**, not at repr
 
 ## Requirements
 
-This repository **does not include Suzerain.txt** as it is too big (560MB) for GitHub.
+This repository **does not include Suzerain.txt**, as it is too big (560MB) for GitHub anyway, nor any of the other data files needed for it to work.
 
 I will provide a way for the full file to be downloaded if Torpor gives the green light.
 

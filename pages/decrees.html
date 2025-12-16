@@ -13,39 +13,32 @@
       <h2>Decrees</h2>
     </header>
 
-  <div class="toolbar">
-    <label>
-      Search
+  <section class="filters">
+    <span class="count-info" id="decreeCountInfo"></span>
+
+    <div class="filters-group">
+      <span class="filters-label">Search</span>
       <input
         type="text"
         id="decreeSearchInput"
         placeholder="Decree name / condition / variable"
       />
-    </label>
+    </div>
 
-    <label>
-      Game
+    <div class="filters-group">
+      <span class="filters-label">Game</span>
       <select id="decreeGameFilter">
         <option value="">(All)</option>
         <option value="Base">Base game</option>
         <option value="RiziaDLC">Rizia DLC</option>
       </select>
-    </label>
+    </div>
+  </section>
 
-    <div class="spacer"></div>
-    <span class="count-info" id="decreeCountInfo"></span>
-  </div>
-
-    <section id="decreeRoot" class="panel-group">
-      <details open class="panel">
-        <summary class="panel-title">
-          Decrees
-          <span id="decreeSummaryCount" class="panel-meta"></span>
-        </summary>
-        <div id="decreeList" class="cards-container">
-          <!-- JS will inject decree cards here -->
-        </div>
-      </details>
+    <section id="decreeRoot">
+      <div id="decreeList" class="cards-container">
+        <!-- JS will inject decree cards here -->
+      </div>
     </section>
   </section>
 

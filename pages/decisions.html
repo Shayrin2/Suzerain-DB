@@ -13,39 +13,33 @@
       <h2>Decisions</h2>
     </header>
 
-  <div class="toolbar">
-    <label>
-      Search
+  <section class="filters">
+    <div class="filters-group">
+      <span class="filters-label">Search</span>
       <input
         type="text"
         id="decisionSearchInput"
         placeholder="Decision name / condition / variable"
       />
-    </label>
+    </div>
 
-    <label>
-      Game
+    <div class="filters-group">
+      <span class="filters-label">Game</span>
       <select id="decisionGameFilter">
         <option value="">(All)</option>
         <option value="Base">Base game</option>
         <option value="RiziaDLC">Rizia DLC</option>
       </select>
-    </label>
+    </div>
 
     <div class="spacer"></div>
     <span class="count-info" id="decisionCountInfo"></span>
-  </div>
+  </section>
 
-    <section id="decisionRoot" class="panel-group">
-      <details open class="panel">
-        <summary class="panel-title">
-          Decisions
-          <span id="decisionSummaryCount" class="panel-meta"></span>
-        </summary>
-        <div id="decisionList" class="cards-container">
-          <!-- JS will inject decision cards here -->
-        </div>
-      </details>
+    <section id="decisionRoot">
+      <div id="decisionList" class="cards-container">
+        <!-- JS will inject decision cards here -->
+      </div>
     </section>
   </section>
 

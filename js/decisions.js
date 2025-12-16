@@ -9,7 +9,6 @@ async function initDecisionsPage() {
   const searchInput = document.getElementById("decisionSearchInput");
   const gameSelect = document.getElementById("decisionGameFilter");
   const countInfo = document.getElementById("decisionCountInfo");
-  const summaryCount = document.getElementById("decisionSummaryCount");
   const listEl = document.getElementById("decisionList");
 
   if (!searchInput || !listEl) {
@@ -42,7 +41,6 @@ async function initDecisionsPage() {
     if (!filtered.length) {
       listEl.innerHTML = `<p class="empty-state">No decisions match current filters.</p>`;
       if (countInfo) countInfo.textContent = `Showing 0 of ${allDecisions.length} decisions`;
-      if (summaryCount) summaryCount.textContent = "0";
       return;
     }
 
@@ -108,9 +106,6 @@ async function initDecisionsPage() {
 
     if (countInfo) {
       countInfo.textContent = `Showing ${filtered.length} of ${allDecisions.length} decisions`;
-    }
-    if (summaryCount) {
-      summaryCount.textContent = String(filtered.length);
     }
   }
 

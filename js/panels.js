@@ -125,10 +125,9 @@ function renderPanels() {
 
   container.innerHTML = "";
 
+  const total = allPanelOptions.length;
   if (countInfo) {
-    countInfo.textContent = `${filtered.length} option${
-      filtered.length === 1 ? "" : "s"
-    } shown`;
+    countInfo.textContent = `Showing ${filtered.length} of ${total} options`;
   }
 
   if (!filtered.length) {

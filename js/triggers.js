@@ -1,4 +1,4 @@
-// js/triggers.js
+﻿// js/triggers.js
 // Triggers / Events:
 //  - ConditionalInstructionData.txt (global rules)
 //  - HUDPeriodicStatModifierData.txt (per-turn modifiers)
@@ -26,7 +26,7 @@ async function initTriggersPage() {
     return;
   }
 
-  countInfo.textContent = "Loading triggers…";
+  countInfo.textContent = "Loading triggers...";
 
   // ---- Load both files in parallel ----
   const [condRaw, hudRaw] = await Promise.all([
@@ -60,13 +60,7 @@ async function initTriggersPage() {
     const total = allTriggers.length;
     const vis = filteredTriggers.length;
 
-    if (!total) {
-      countInfo.textContent = "No triggers found";
-    } else if (vis === total) {
-      countInfo.textContent = `${vis} triggers`;
-    } else {
-      countInfo.textContent = `${vis} / ${total} triggers`;
-    }
+    countInfo.textContent = `Showing ${vis} of ${total} triggers`;
 
   }
 
@@ -97,7 +91,7 @@ async function initTriggersPage() {
     } else if (trigger.source === "conditional") {
       bits.push("Global rule");
     }
-    subtitle.textContent = bits.join(" · ");
+    subtitle.textContent = bits.join(" Â· ");
     header.appendChild(subtitle);
 
     const meta = document.createElement("span");
@@ -227,7 +221,7 @@ function parseHudPeriodicItems(raw) {
 
 /* ---------- Build Trigger records ---------- */
 
-// ConditionalInstructionData → TriggerRecord[]
+// ConditionalInstructionData â†’ TriggerRecord[]
 function buildTriggersFromConditionalEntries(entries) {
   /** @type {TriggerRecord[]} */
   const out = [];
@@ -283,7 +277,7 @@ function buildTriggersFromConditionalEntries(entries) {
   return out;
 }
 
-// HUDPeriodicStatModifierData → TriggerRecord[]
+// HUDPeriodicStatModifierData â†’ TriggerRecord[]
 function buildTriggersFromHudItems(items) {
   /** @type {TriggerRecord[]} */
   const out = [];
@@ -310,7 +304,7 @@ function buildTriggersFromHudItems(items) {
 
     const title = nameInDb || path || (id ? `HUD Modifier ${id}` : "HUD Modifier");
     const instruction = variable
-      ? `${variable}  –  ${description || "periodic modifier"}`
+      ? `${variable}  â€“  ${description || "periodic modifier"}`
       : description || "Periodic modifier";
 
     out.push({
@@ -354,3 +348,4 @@ function inferGameKey(path, textPieces) {
  * @property {string} condition
  * @property {string} instruction
  */
+

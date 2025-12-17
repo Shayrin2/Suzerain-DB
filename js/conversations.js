@@ -38,10 +38,11 @@ async function initConversationsPage() {
   let childrenByKey = new Map();      // `${convId}:${id}` -> [{conversationID,id}]
   let parentsByKey = new Map();       // `${convId}:${id}` -> [{conversationID,id}]
 
-  // Filtered results – which choices are visible in each conversation
+  // Filtered results - which choices are visible in each conversation
   let filteredByConversation = new Map();
 
   const RENDERED_CARD_FLAG = Symbol("renderedCards");
+  let dataReady = false;
 
   // ---- tiny helpers ----
 
@@ -106,7 +107,7 @@ async function initConversationsPage() {
     const metaParts = [];
     const gameLabel = gameLabelFromKey(gameKey);
     if (gameLabel) metaParts.push(gameLabel);
-    const meta = metaParts.join(" · ");
+    const meta = metaParts.join(" | ");
 
     const conditions = getAggregatedConditions(node);
     const effects = getAggregatedEffects(node);
@@ -193,10 +194,34 @@ async function initConversationsPage() {
 
     const groups = new Map(); // groupKey -> nodes[]
     nodes.forEach(node => {
-      const gk = node.groupKey || `self:${convId}:${node.id}`;
+      const nodeKey = `${convId}:${node.id}`;
+      const parentRefs = parentsByKey.get(nodeKey) || [];
+
+      let gk;
+      const sameConvParent = parentRefs.find(p => p.conversationID === convId);
+      if (sameConvParent) {
+        gk = `${sameConvParent.conversationID}:${sameConvParent.id}`;
+      } else if (parentRefs[0]) {
+        gk = `${parentRefs[0].conversationID}:${parentRefs[0].id}`;
+      } else {
+        gk = `self:${nodeKey}`;
+      }
+
       if (!groups.has(gk)) groups.set(gk, []);
       groups.get(gk).push(node);
     });
+
+    // Assign mutex ids inside each group lazily
+    for (const groupNodes of groups.values()) {
+      if (groupNodes.length <= 1) {
+        groupNodes[0].mutexIds = [];
+        continue;
+      }
+      const ids = groupNodes.map(n => n.id);
+      for (const n of groupNodes) {
+        n.mutexIds = ids.filter(id => id !== n.id);
+      }
+    }
 
     const orderedGroups = Array.from(groups.values()).map(groupNodes => ({
       sortId: Math.min(...groupNodes.map(n => n.id ?? 0)),
@@ -214,138 +239,141 @@ async function initConversationsPage() {
     container.appendChild(frag);
   }
 
-  // ---- parse + build data once ----
+  // ---- data load via worker ----
 
-  countInfo.textContent = "Loading conversations…";
+  countInfo.textContent = "Loading conversations...";
 
-  const raw = await DataLoader.loadText("../data/Suzerain.txt");
-  const parsed = SuzerainParser.parseSuzerain(raw);
-
-  const nodes = parsed.nodes || [];
-  const links = parsed.links || [];
-  allNodes = parsed.choices || [];
-
-  nodeByKey = new Map();
-  for (const n of nodes) {
-    if (n.conversationID == null || n.id == null) continue;
-    nodeByKey.set(`${n.conversationID}:${n.id}`, n);
-  }
-
-  childrenByKey = new Map();
-  parentsByKey = new Map();
-
-  for (const link of links) {
-    const originKey = `${link.originConversationID}:${link.originDialogueID}`;
-    const destKey = `${link.destinationConversationID}:${link.destinationDialogueID}`;
-
-    const childRef = {
-      conversationID: link.destinationConversationID,
-      id: link.destinationDialogueID,
-    };
-    if (!childrenByKey.has(originKey)) {
-      childrenByKey.set(originKey, []);
+  const worker = new Worker("../js/conversationsWorker.js");
+  worker.addEventListener("message", ev => {
+    const msg = ev.data || {};
+    if (msg.type === "progress") {
+      const pct = msg.total
+        ? Math.min(100, Math.round((msg.received / msg.total) * 100))
+        : null;
+      if (pct != null) {
+        countInfo.textContent = `Loading conversations... ${pct}%`;
+      } else if (msg.received) {
+        const mb = Math.round(msg.received / 1024 / 1024);
+        countInfo.textContent = `Loading conversations... (${mb} MB)`;
+      }
+      return;
     }
-    childrenByKey.get(originKey).push(childRef);
-
-    const parentRef = {
-      conversationID: link.originConversationID,
-      id: link.originDialogueID,
-    };
-    if (!parentsByKey.has(destKey)) {
-      parentsByKey.set(destKey, []);
+    if (msg.type === "parse-progress") {
+      const pct = msg.total
+        ? Math.min(100, Math.round((msg.processed / msg.total) * 100))
+        : null;
+      if (pct != null) {
+        countInfo.textContent = `Building conversations... ${pct}%`;
+      } else {
+        countInfo.textContent = "Building conversations...";
+      }
+      return;
     }
-    parentsByKey.get(destKey).push(parentRef);
-  }
-
-  // Group choices by conversationID
-  conversations = new Map();
-  allNodes.forEach(node => {
-    const convId = node.conversationID;
-    if (convId == null) return;
-    let bucket = conversations.get(convId);
-    if (!bucket) {
-      bucket = { choices: [] };
-      conversations.set(convId, bucket);
+    if (msg.type === "error") {
+      console.error("Conversation worker error:", msg.error);
+      countInfo.textContent = "Failed to load conversations.";
+      return;
     }
-    bucket.choices.push(node);
+    if (msg.type !== "data") return;
+
+    const { nodes, links, choices } = msg;
+
+    const allNodesLocal = Array.isArray(choices) ? choices : [];
+    const nodesLocal = Array.isArray(nodes) ? nodes : [];
+    const linksLocal = Array.isArray(links) ? links : [];
+
+    allNodes = allNodesLocal;
+
+    nodeByKey = new Map();
+    for (const n of nodesLocal) {
+      if (n.conversationID == null || n.id == null) continue;
+      nodeByKey.set(`${n.conversationID}:${n.id}`, n);
+    }
+
+    childrenByKey = new Map();
+    parentsByKey = new Map();
+
+    for (const link of linksLocal) {
+      const originKey = `${link.originConversationID}:${link.originDialogueID}`;
+      const destKey = `${link.destinationConversationID}:${link.destinationDialogueID}`;
+
+      const childRef = {
+        conversationID: link.destinationConversationID,
+        id: link.destinationDialogueID,
+      };
+      if (!childrenByKey.has(originKey)) {
+        childrenByKey.set(originKey, []);
+      }
+      childrenByKey.get(originKey).push(childRef);
+
+      const parentRef = {
+        conversationID: link.originConversationID,
+        id: link.originDialogueID,
+      };
+      if (!parentsByKey.has(destKey)) {
+        parentsByKey.set(destKey, []);
+      }
+      parentsByKey.get(destKey).push(parentRef);
+    }
+
+    // Group choices by conversationID
+    conversations = new Map();
+    allNodes.forEach(node => {
+      const convId = node.conversationID;
+      if (convId == null) return;
+      let bucket = conversations.get(convId);
+      if (!bucket) {
+        bucket = { choices: [] };
+        conversations.set(convId, bucket);
+      }
+      bucket.choices.push(node);
+    });
+
+    // Mark consequential choices
+    for (const [convId, bucket] of conversations.entries()) {
+      bucket.choices.forEach(node => {
+        const key = `${convId}:${node.id}`;
+        const hasSelf = !!node._hasMechanics;
+        let hasChild = false;
+
+        const childRefs = childrenByKey.get(key) || [];
+        for (const ref of childRefs) {
+          const ck = `${ref.conversationID}:${ref.id}`;
+          const child = nodeByKey.get(ck);
+          if (child && child._hasMechanics) {
+            hasChild = true;
+            break;
+          }
+        }
+
+        node.isConsequential = hasSelf || hasChild;
+      });
+    }
+
+    totalChoices = Array.from(conversations.values()).reduce(
+      (sum, b) => sum + b.choices.length,
+      0
+    );
+
+    dataReady = true;
+    applyFilters();
   });
 
-  // Build groups/mutex sets inside each conversation
-  for (const [convIdRaw, bucket] of conversations.entries()) {
-    const convId = Number(convIdRaw);
-    const groups = new Map(); // groupKey -> [nodes]
+  worker.addEventListener("error", err => {
+    console.error("Conversation worker crashed:", err);
+    countInfo.textContent = "Failed to load conversations.";
+  });
 
-    bucket.choices.forEach(node => {
-      const nodeKey = `${convId}:${node.id}`;
-      const parentRefs = parentsByKey.get(nodeKey) || [];
-
-      let groupKey;
-      const sameConvParent = parentRefs.find(p => p.conversationID === convId);
-      if (sameConvParent) {
-        groupKey = `${sameConvParent.conversationID}:${sameConvParent.id}`;
-      } else if (parentRefs[0]) {
-        groupKey = `${parentRefs[0].conversationID}:${parentRefs[0].id}`;
-      } else {
-        groupKey = `self:${nodeKey}`;
-      }
-
-      node.groupKey = groupKey;
-
-      if (!groups.has(groupKey)) groups.set(groupKey, []);
-      groups.get(groupKey).push(node);
-    });
-
-    for (const groupNodes of groups.values()) {
-      if (groupNodes.length <= 1) {
-        groupNodes[0].mutexIds = [];
-        continue;
-      }
-      const ids = groupNodes.map(n => n.id);
-      for (const n of groupNodes) {
-        n.mutexIds = ids.filter(id => id !== n.id);
-      }
-    }
-
-    const grouped = Array.from(
-      groups.values(),
-      nodesInGroup => ({
-        sortId: Math.min(...nodesInGroup.map(n => n.id ?? 0)),
-        nodes: nodesInGroup.sort((a, b) => (a.id ?? 0) - (b.id ?? 0)),
-      })
-    ).sort((a, b) => a.sortId - b.sortId);
-
-    bucket.choices = grouped.flatMap(g => g.nodes);
-  }
-
-  // Mark consequential choices
-  for (const [convId, bucket] of conversations.entries()) {
-    bucket.choices.forEach(node => {
-      const key = `${convId}:${node.id}`;
-      const hasSelf = !!node._hasMechanics;
-      let hasChild = false;
-
-      const childRefs = childrenByKey.get(key) || [];
-      for (const ref of childRefs) {
-        const ck = `${ref.conversationID}:${ref.id}`;
-        const child = nodeByKey.get(ck);
-        if (child && child._hasMechanics) {
-          hasChild = true;
-          break;
-        }
-      }
-
-      node.isConsequential = hasSelf || hasChild;
-    });
-  }
-
-  totalChoices = Array.from(conversations.values()).reduce(
-    (sum, b) => sum + b.choices.length,
-    0
-  );
+  worker.postMessage({ type: "load" });
 
   // ---- filtering & shell rendering ----
 
   function applyFilters() {
+    if (!dataReady) {
+      countInfo.textContent = "Loading conversations...";
+      return;
+    }
+
     const q = searchInput.value.trim();
     const speakerValue = speakerSelect.value;
     const gameFilter = gameSelect.value; // "RiziaDLC" / "Base" / ""
@@ -392,13 +420,7 @@ async function initConversationsPage() {
     }
 
     // Update counts
-    if (totalChoices === 0) {
-      countInfo.textContent = "No choices found";
-    } else if (visibleChoices === totalChoices) {
-      countInfo.textContent = `${visibleChoices} choices`;
-    } else {
-      countInfo.textContent = `${visibleChoices} / ${totalChoices} choices`;
-    }
+    countInfo.textContent = `Showing ${visibleChoices} of ${totalChoices} choices`;
 
     // Build / update conversation shells (headers only)
     listContainer.innerHTML = "";
@@ -438,8 +460,6 @@ async function initConversationsPage() {
 
       listContainer.appendChild(convDetails);
     });
-
-    const visibleConversations = sortedConvIds.length;
   }
 
   // Hook filters
@@ -448,7 +468,4 @@ async function initConversationsPage() {
   gameSelect.addEventListener("change", applyFilters);
   hideNarrator.addEventListener("change", applyFilters);
   onlyConsequential.addEventListener("change", applyFilters);
-
-  // Initial render
-  applyFilters();
 }

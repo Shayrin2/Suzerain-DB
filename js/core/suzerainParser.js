@@ -73,8 +73,15 @@
     node.choiceText = isChoice ? cleanChoiceText(textSource) : null;
   }
 
-  function parseSuzerain(text) {
+  function parseSuzerain(text, onProgress) {
     const lines = text.split(/\r?\n/);
+    const totalLines = lines.length || 1;
+    let processedLines = 0;
+    const notify = () => {
+      if (typeof onProgress === "function") {
+        onProgress(processedLines, totalLines);
+      }
+    };
 
     const nodes = [];
     const links = [];
@@ -107,6 +114,11 @@
     }
 
     for (const raw of lines) {
+      processedLines++;
+      if (processedLines % 5000 === 0) {
+        notify();
+      }
+
       const line = raw.trim();
       if (!line) continue;
 
@@ -278,6 +290,9 @@
 
     // Flush last node
     flushNode();
+
+    // Final progress update
+    notify();
 
     // Build node lookup by (conversationID, id)
     const nodeByKey = new Map();

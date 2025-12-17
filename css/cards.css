@@ -1,4 +1,4 @@
-/* ---- Choice cards ---- */
+﻿/* ---- Choice cards ---- */
 
 .card {
     border-radius: var(--radius-md);
@@ -128,3 +128,4 @@
     background: rgba(98, 108, 158, 0.9);
     border-radius: 4px;
 }
+

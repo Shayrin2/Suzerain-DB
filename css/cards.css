@@ -32,7 +32,7 @@
 }
 
 .card-footer::before {
-    content: "-> ";
+    content: "⊕ ";
     color: var(--text-accent);
 }
 

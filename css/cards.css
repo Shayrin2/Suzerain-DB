@@ -3,7 +3,7 @@
 .card {
     border-radius: var(--radius-md);
     background: radial-gradient(circle at top left, var(--bg-card-soft), var(--bg-card));
-    border: 1px solid rgba(68, 84, 132, 0.55);
+    border: 1px solid rgba(75, 58, 45, 0.7);
     box-shadow: var(--shadow-subtle);
     padding: 10px 12px 8px;
     position: relative;
@@ -18,7 +18,7 @@
     right: 0;
     top: 0;
     height: 2px;
-    background: linear-gradient(90deg, rgba(79, 125, 255, 0.35), rgba(226, 184, 107, 0.55));
+    background: linear-gradient(90deg, rgba(217, 191, 120, 0.25), rgba(140, 112, 70, 0.48));
     opacity: 0.7;
 }
 
@@ -26,13 +26,13 @@
 .card-footer {
     margin-top: 8px;
     padding-top: 6px;
-    border-top: 1px dashed rgba(84, 92, 140, 0.7);
+    border-top: 1px dashed rgba(92, 80, 64, 0.7);
     font-size: 0.78rem;
     color: var(--text-soft);
 }
 
 .card-footer::before {
-    content: "⊕ ";
+    content: "-> ";
     color: var(--text-accent);
 }
 
@@ -61,7 +61,7 @@
     padding: 2px 7px;
     font-size: 0.72rem;
     border-radius: 999px;
-    background: rgba(79, 125, 255, 0.12);
+    background: rgba(220, 181, 106, 0.12);
     color: var(--text-accent);
 }
 
@@ -125,7 +125,6 @@
 }
 
 .card-list::-webkit-scrollbar-thumb {
-    background: rgba(98, 108, 158, 0.9);
+    background: rgba(110, 88, 60, 0.9);
     border-radius: 4px;
 }
-

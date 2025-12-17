@@ -1,29 +1,29 @@
 /* ===== Global variables / layout ===== */
 
 :root {
-    /* Core colors */
-    --bg: #050711;
-    --bg-alt: #171820;
-    --bg-elevated: #080b19;
-    --bg-card: #0c1024;
-    --bg-card-soft: #10152e;
+    /* Core colors inspired by Suzerain menu */
+    --bg: #0f0f10;
+    --bg-alt: #161616;
+    --bg-elevated: #1b1b1d;
+    --bg-card: #141416;
+    --bg-card-soft: #19191c;
 
     /* Borders */
-    --border: #2b2d3a;
-    --border-soft: #1b2238;
-    --border-strong: #2c3553;
+    --border: #4b3a2c;
+    --border-soft: #3a2f24;
+    --border-strong: #5c4735;
 
     /* Text */
-    --text-main: #f5f6ff;
-    --text-muted: #9ba3c7;
-    --text-soft: #6f7694;
-    --text-accent: #e2b86b;
-    --text-bad: #ff7b7b;
-    --text-good: #80ffb3;
+    --text-main: #f3e3b5;
+    --text-muted: #cfbf99;
+    --text-soft: #ac9a78;
+    --text-accent: #d9bf78;
+    --text-bad: #e07a6a;
+    --text-good: #8bc48a;
 
     /* Accent */
-    --accent: #4f7dff;
-    --accent-soft: rgba(79, 125, 255, 0.2);
+    --accent: #d8b86c;
+    --accent-soft: rgba(216, 184, 108, 0.18);
 
     /* Radii */
     --radius: 8px;
@@ -60,7 +60,9 @@ body {
 
 body {
   font-family: var(--font-sans);
-  background: radial-gradient(circle at top left, #121938 0, #050711 45%, #020310 100%) no-repeat fixed;
+  background: #0f0f10;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
   background-size: cover;
   color: var(--text-main);
   line-height: 1.4;
@@ -72,12 +74,14 @@ body {
 .site-header {
     padding: 16px 24px 10px;
     border-bottom: 1px solid var(--border);
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent);
+    background: linear-gradient(180deg, #3b1f1b 0%, #2a1613 60%, rgba(0, 0, 0, 0) 100%);
 }
 
 .site-header h1 {
     margin: 0 0 4px;
     font-size: 22px;
+    color: #f6e2a4;
+    text-shadow: 0 0 12px rgba(246, 226, 164, 0.4);
 }
 
 .site-header .intro {
@@ -92,7 +96,7 @@ body {
     gap: 8px;
     padding: 10px 24px;
     border-bottom: 1px solid var(--border);
-    background: rgba(3, 5, 14, 0.95);
+    background: rgba(12, 8, 6, 0.95);
     position: sticky;
     top: 0;
     z-index: 10;
@@ -103,14 +107,14 @@ body {
     font-size: 13px;
     border-radius: 999px;
     border: 1px solid var(--border);
-    background: #111320;
+    background: #241a14;
     color: var(--text-main);
     cursor: pointer;
     transition: background 0.15s ease, border-color 0.15s ease, transform 0.05s ease;
 }
 
 .main-nav button:hover {
-    background: #1a1c2b;
+    background: #2c2119;
     border-color: var(--accent);
 }
 
@@ -163,9 +167,36 @@ body {
     padding: 12px 14px;
     margin-bottom: 18px;
     border-radius: var(--radius-lg);
-    background: linear-gradient(135deg, rgba(15, 22, 46, 0.9), rgba(11, 16, 34, 0.95));
-    border: 1px solid var(--border-soft);
+    background: linear-gradient(180deg, rgba(34, 27, 22, 0.95), rgba(22, 18, 15, 0.95));
+    border: 1px solid var(--border);
     box-shadow: var(--shadow-subtle);
+}
+
+.filters[data-tooltip] {
+    position: relative;
+}
+
+.filters[data-tooltip]::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    right: 12px;
+    bottom: -28px;
+    background: #0f0c09;
+    color: var(--text-main);
+    padding: 6px 10px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-subtle);
+    font-size: 0.75rem;
+    opacity: 0;
+    transform: translateY(4px);
+    pointer-events: none;
+    transition: opacity 0.12s ease, transform 0.12s ease;
+}
+
+.filters[data-tooltip]:hover::after {
+    opacity: 0.9;
+    transform: translateY(0);
 }
 
 .filters-group {
@@ -186,8 +217,8 @@ body {
 
 .filters input[type="text"],
 .filters select {
-    background: #050816;
-    border: 1px solid var(--border-soft);
+    background: #1f1914;
+    border: 1px solid #3b2f25;
     color: var(--text-main);
     border-radius: var(--radius-sm);
     padding: 6px 9px;
@@ -200,7 +231,7 @@ body {
 .filters input[type="text"]:focus,
 .filters select:focus {
     border-color: var(--accent);
-    background: #070a18;
+    background: #251d15;
     box-shadow: 0 0 0 1px var(--accent-soft);
 }
 
@@ -250,8 +281,8 @@ body {
     min-width: 220px;
     padding: 12px;
     border-radius: var(--radius-lg);
-    background: rgba(11, 16, 34, 0.98);
-    border: 1px solid var(--border-soft);
+    background: #1c1510;
+    border: 1px solid var(--border);
     box-shadow: var(--shadow-soft);
     z-index: 20;
 }
@@ -283,7 +314,7 @@ body {
     padding: 6px 12px;
     border-radius: var(--radius-sm);
     border: 1px solid var(--border);
-    background: #111320;
+    background: #241a14;
     color: var(--text-main);
     cursor: pointer;
 }

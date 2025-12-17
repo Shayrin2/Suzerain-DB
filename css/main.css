@@ -60,10 +60,10 @@ body {
 
 body {
   font-family: var(--font-sans);
-  background: #0f0f10;
-  background-repeat: no-repeat;
+  background-color: #0d0d0e;
+  background-repeat: repeat;
+  background-size: 240px 240px;
   background-attachment: fixed;
-  background-size: cover;
   color: var(--text-main);
   line-height: 1.4;
 }

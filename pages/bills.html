@@ -34,6 +34,32 @@
 
   <div class="spacer"></div>
   <span class="count-info" id="billCountInfo"></span>
+  <div class="export-wrapper">
+    <button id="billExportBtn" class="btn-secondary">Export</button>
+    <div id="billExportMenu" class="export-menu" hidden>
+      <p class="export-title">Include in export:</p>
+      <label class="export-check">
+        <input type="checkbox" id="billExportConditions" checked />
+        Conditions
+      </label>
+      <label class="export-check">
+        <input type="checkbox" id="billExportSign" checked />
+        Sign effects
+      </label>
+      <label class="export-check">
+        <input type="checkbox" id="billExportVeto" checked />
+        Veto effects
+      </label>
+      <label class="export-check">
+        <input type="checkbox" id="billExportMeta" checked />
+        Meta (turn / path / game)
+      </label>
+      <div class="export-actions">
+        <button type="button" id="billExportConfirm" class="btn-primary">Export</button>
+        <button type="button" id="billExportCancel" class="btn-tertiary">Cancel</button>
+      </div>
+    </div>
+  </div>
 </section>
 
     <section id="billRoot">

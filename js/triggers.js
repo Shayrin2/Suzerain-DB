@@ -1,7 +1,7 @@
 ﻿// js/triggers.js
 // Triggers / Events:
-//  - ConditionalInstructionData.txt (global rules)
-//  - HUDPeriodicStatModifierData.txt (per-turn modifiers)
+// ConditionalInstructionData.txt (global rules)
+// HUDPeriodicStatModifierData.txt (per-turn modifiers)
 
 const RIZIA_PATH_PREFIX = "Rizia/";
 const SORDLAND_PATH_PREFIX = "Sordland/";
@@ -20,6 +20,13 @@ async function initTriggersPage() {
   const gameSelect = document.getElementById("triggerGameFilter");
   const countInfo = document.getElementById("triggerCountInfo");
   const listContainer = document.getElementById("triggerList");
+  const exportBtn = document.getElementById("triggerExportBtn");
+  const exportMenu = document.getElementById("triggerExportMenu");
+  const exportConfirm = document.getElementById("triggerExportConfirm");
+  const exportCancel = document.getElementById("triggerExportCancel");
+  const exportCondition = document.getElementById("triggerExportCondition");
+  const exportInstruction = document.getElementById("triggerExportInstruction");
+  const exportMeta = document.getElementById("triggerExportMeta");
 
   if (!searchInput || !countInfo || !listContainer) {
     console.warn("Triggers page: missing DOM elements, aborting init.");
@@ -169,6 +176,63 @@ async function initTriggersPage() {
   searchInput.addEventListener("input", applyFilters);
   if (gameSelect) gameSelect.addEventListener("change", applyFilters);
 
+  function toggleExportMenu(show) {
+    if (!exportMenu) return;
+    exportMenu.hidden = !show;
+  }
+
+  function buildExportText() {
+    const includeCond = exportCondition?.checked !== false;
+    const includeInstr = exportInstruction?.checked !== false;
+    const includeMeta = exportMeta?.checked !== false;
+    const lines = [];
+    lines.push(`Triggers export (${filteredTriggers.length} items)`);
+    lines.push("");
+    filteredTriggers.forEach(t => {
+      lines.push(`- ${t.title || t.nameInDb || t.path || "Trigger"}`);
+      if (includeMeta) {
+        const meta = [];
+        if (t.id) meta.push(`Id ${t.id}`);
+        if (t.nameInDb) meta.push(t.nameInDb);
+        if (t.path) meta.push(t.path);
+        if (t.gameKey) meta.push(t.gameKey === "RiziaDLC" ? "Rizia DLC" : "Base game");
+        if (meta.length) lines.push(`  Meta: ${meta.join(" | ")}`);
+      }
+      if (includeCond && t.condition) {
+        lines.push(`  Condition: ${t.condition}`);
+      }
+      if (includeInstr && t.instruction) {
+        lines.push(`  Instruction: ${t.instruction}`);
+      }
+      lines.push("");
+    });
+    return lines.join("\n");
+  }
+
+  function downloadExport() {
+    const content = buildExportText();
+    const blob = new Blob([content], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "triggers_export.txt";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    toggleExportMenu(false);
+  }
+
+  if (exportBtn) exportBtn.addEventListener("click", () => toggleExportMenu(exportMenu?.hidden));
+  if (exportCancel) exportCancel.addEventListener("click", () => toggleExportMenu(false));
+  if (exportConfirm) exportConfirm.addEventListener("click", downloadExport);
+  document.addEventListener("click", e => {
+    if (!exportMenu || exportMenu.hidden) return;
+    const t = e.target;
+    if (t === exportMenu || t === exportBtn || exportMenu.contains(t) || exportBtn.contains(t)) return;
+    toggleExportMenu(false);
+  });
+
   // Initial render
   applyFilters();
 }
@@ -304,7 +368,7 @@ function buildTriggersFromHudItems(items) {
 
     const title = nameInDb || path || (id ? `HUD Modifier ${id}` : "HUD Modifier");
     const instruction = variable
-      ? `${variable}  â€“  ${description || "periodic modifier"}`
+      ? `${variable} – ${description || "Periodic modifier"}`
       : description || "Periodic modifier";
 
     out.push({
@@ -348,4 +412,5 @@ function inferGameKey(path, textPieces) {
  * @property {string} condition
  * @property {string} instruction
  */
+
 

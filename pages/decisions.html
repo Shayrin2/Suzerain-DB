@@ -32,9 +32,31 @@
       </select>
     </div>
 
-    <div class="spacer"></div>
-    <span class="count-info" id="decisionCountInfo"></span>
-  </section>
+  <div class="spacer"></div>
+  <span class="count-info" id="decisionCountInfo"></span>
+  <div class="export-wrapper">
+    <button id="decisionExportBtn" class="btn-secondary">Export</button>
+    <div id="decisionExportMenu" class="export-menu" hidden>
+      <p class="export-title">Include in export:</p>
+      <label class="export-check">
+        <input type="checkbox" id="decisionExportConditions" checked />
+        Conditions
+      </label>
+      <label class="export-check">
+        <input type="checkbox" id="decisionExportOptions" checked />
+        Options & effects
+      </label>
+      <label class="export-check">
+        <input type="checkbox" id="decisionExportMeta" checked />
+        Meta (turn / path / game)
+      </label>
+      <div class="export-actions">
+        <button type="button" id="decisionExportConfirm" class="btn-primary">Export</button>
+        <button type="button" id="decisionExportCancel" class="btn-tertiary">Cancel</button>
+      </div>
+    </div>
+  </div>
+</section>
 
     <section id="decisionRoot">
       <div id="decisionList" class="cards-container">

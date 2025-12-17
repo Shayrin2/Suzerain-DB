@@ -1,8 +1,9 @@
-// panels.js
+﻿// panels.js
 // Prologue + Decisions/Budget options viewer
 // Uses MultipleChoiceOptionData.json + CarouselChoiceOptionData.json
 
 let allPanelOptions = [];
+let lastPanelFiltered = [];
 
 async function loadJson(path) {
   const res = await fetch(path);
@@ -105,6 +106,7 @@ function matchesFilters(option, filters) {
 }
 
 function renderPanels() {
+  lastPanelFiltered = [];
   const container = document.getElementById("panelResults");
   const searchInput = document.getElementById("panelSearchInput");
   const sectionSelect = document.getElementById("panelSectionFilter");
@@ -122,6 +124,7 @@ function renderPanels() {
   };
 
   const filtered = allPanelOptions.filter((o) => matchesFilters(o, filters));
+  lastPanelFiltered = filtered;
 
   container.innerHTML = "";
 
@@ -159,11 +162,11 @@ function renderPanels() {
     const subMap = sectionGroups.get(opt.section);
     const key = filters.grouping === "Path" ? (() => {
       if (opt.panelGroup === "Prologue Skip") {
-        return "Prologue – " + prettifyCategory(opt.panelSub);
+        return `Prologue - ${prettifyCategory(opt.panelSub)}`;
       }
       const group = opt.panelGroup.replace(" Panel", "");
       const sub = opt.panelSub;
-      return prettifyCategory(group) + " – " + sub;
+      return `${prettifyCategory(group)} - ${sub}`;
     })() : getCategoryKey(opt.panelGroup, opt.panelSub) || "Other";
     if (!subMap.has(key)) subMap.set(key, []);
     subMap.get(key).push(opt);
@@ -171,8 +174,8 @@ function renderPanels() {
 
   for (const [section, subMap] of sectionGroups) {
     const sortedSubs = Array.from(subMap.entries()).sort(([a], [b]) => {
-      const aParts = a.split(" – ");
-      const bParts = b.split(" – ");
+      const aParts = a.split(" - ");
+      const bParts = b.split(" - ");
       if (aParts.length === 2 && bParts.length === 2) {
         const [aPrefix, aSuffix] = aParts;
         const [bPrefix, bSuffix] = bParts;
@@ -220,12 +223,12 @@ function renderPanels() {
 
 function getCategoryKey(panelGroup, panelSub) {
   if (panelGroup.includes("Constitution") && !panelGroup.includes("Decree")) {
-    return "Constitution – " + panelSub;
+    return `Constitution - ${panelSub}`;
   }
   if (panelGroup === "Prologue Skip") {
-    return "Prologue – " + prettifyCategory(panelSub);
+    return `Prologue - ${prettifyCategory(panelSub)}`;
   }
-  return panelGroup.replace(" Panel", "") + " – " + panelSub;
+  return `${panelGroup.replace(" Panel", "")} - ${panelSub}`;
 }
 
 function prettifyCategory(sub) {
@@ -301,7 +304,7 @@ function createPanelCard(opt) {
     } else {
       const group = opt.panelGroup.replace(/ Panel$/, "");
       const sub = opt.panelSub;
-      panelSpan.textContent = group + (sub ? " – " + sub : "");
+      panelSpan.textContent = group + (sub ? " â€“ " + sub : "");
     }
     meta.appendChild(panelSpan);
   }
@@ -386,7 +389,7 @@ function createPanelCard(opt) {
       );
     }
 
-    metaBlock.textContent = pieces.join(" · ");
+    metaBlock.textContent = pieces.join(" Â· ");
     body.appendChild(metaBlock);
   }
 
@@ -396,8 +399,8 @@ function createPanelCard(opt) {
 
 async function initPanelsPage() {
   const [multi, carousel] = await Promise.all([
-    loadJson("/data/MultipleChoiceOptionData.json"),
-    loadJson("/data/CarouselChoiceOptionData.json")
+    loadJson("../data/MultipleChoiceOptionData.json"),
+    loadJson("../data/CarouselChoiceOptionData.json")
   ]);
 
   allPanelOptions = [
@@ -420,6 +423,14 @@ async function initPanelsPage() {
   const sectionSelect = document.getElementById("panelSectionFilter");
   const gameSelect = document.getElementById("panelGameFilter");
   const groupingSelect = document.getElementById("panelGroupingFilter");
+  const exportBtn = document.getElementById("panelExportBtn");
+  const exportMenu = document.getElementById("panelExportMenu");
+  const exportConfirm = document.getElementById("panelExportConfirm");
+  const exportCancel = document.getElementById("panelExportCancel");
+  const exportDescription = document.getElementById("panelExportDescription");
+  const exportCondition = document.getElementById("panelExportCondition");
+  const exportEffects = document.getElementById("panelExportEffects");
+  const exportMeta = document.getElementById("panelExportMeta");
 
   if (searchInput)
     searchInput.addEventListener("input", () => renderPanels());
@@ -429,6 +440,69 @@ async function initPanelsPage() {
     gameSelect.addEventListener("change", () => renderPanels());
   if (groupingSelect)
     groupingSelect.addEventListener("change", () => renderPanels());
+
+  function toggleExport(show) {
+    if (!exportMenu) return;
+    exportMenu.hidden = !show;
+  }
+
+  function buildExportText(list) {
+    const includeDesc = exportDescription?.checked !== false;
+    const includeCond = exportCondition?.checked !== false;
+    const includeEff = exportEffects?.checked !== false;
+    const includeMeta = exportMeta?.checked !== false;
+    const lines = [];
+    lines.push(`Panels export (${list.length} items)`);
+    lines.push("");
+    list.forEach(opt => {
+      lines.push(`- ${opt.title || opt.nameInDb || opt.path || "Panel option"}`);
+      if (includeMeta) {
+        const meta = [];
+        if (opt.section) meta.push(opt.section);
+        if (opt.panelGroup) meta.push(opt.panelGroup);
+        if (opt.panelSub) meta.push(opt.panelSub);
+        if (opt.path) meta.push(opt.path);
+        if (opt.game) meta.push(opt.game === "RiziaDLC" ? "Rizia DLC" : "Base game");
+        if (meta.length) lines.push(`  Meta: ${meta.join(" | ")}`);
+      }
+      if (includeDesc && opt.description) {
+        lines.push(`  Description: ${opt.description}`);
+      }
+      if (includeCond && opt.condition) {
+        lines.push(`  Condition: ${opt.condition}`);
+      }
+      if (includeEff && opt.effects && opt.effects.length) {
+        lines.push(`  Effects: ${opt.effects.join(" | ")}`);
+      }
+      lines.push("");
+    });
+    return lines.join("\n");
+  }
+
+  function downloadExport() {
+    const list = (lastPanelFiltered && lastPanelFiltered.length) ? lastPanelFiltered : allPanelOptions;
+    const content = buildExportText(list);
+    const blob = new Blob([content], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "panels_export.txt";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    toggleExport(false);
+  }
+
+  exportBtn?.addEventListener("click", () => toggleExport(exportMenu?.hidden));
+  exportCancel?.addEventListener("click", () => toggleExport(false));
+  exportConfirm?.addEventListener("click", downloadExport);
+  document.addEventListener("click", e => {
+    if (!exportMenu || exportMenu.hidden) return;
+    const t = e.target;
+    if (t === exportMenu || t === exportBtn || exportMenu.contains(t) || exportBtn.contains(t)) return;
+    toggleExport(false);
+  });
 
   renderPanels();
 }

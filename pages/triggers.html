@@ -28,13 +28,35 @@
         <select id="triggerGameFilter">
           <option value="">(All)</option>
           <option value="Base">Base game</option>
-          <option value="RiziaDLC">Rizia DLC</option>
-        </select>
-      </div>
+      <option value="RiziaDLC">Rizia DLC</option>
+    </select>
+  </div>
 
-      <div class="spacer"></div>
-      <span class="count-info" id="triggerCountInfo"></span>
-    </section>
+  <div class="spacer"></div>
+  <span class="count-info" id="triggerCountInfo"></span>
+  <div class="export-wrapper">
+    <button id="triggerExportBtn" class="btn-secondary">Export</button>
+    <div id="triggerExportMenu" class="export-menu" hidden>
+      <p class="export-title">Include in export:</p>
+      <label class="export-check">
+        <input type="checkbox" id="triggerExportCondition" checked />
+        Condition
+      </label>
+      <label class="export-check">
+        <input type="checkbox" id="triggerExportInstruction" checked />
+        Instruction / modifier
+      </label>
+      <label class="export-check">
+        <input type="checkbox" id="triggerExportMeta" checked />
+        Meta (id / path / game)
+      </label>
+      <div class="export-actions">
+        <button type="button" id="triggerExportConfirm" class="btn-primary">Export</button>
+        <button type="button" id="triggerExportCancel" class="btn-tertiary">Cancel</button>
+      </div>
+    </div>
+  </div>
+</section>
 
     <section id="triggerRoot">
       <div id="triggerList" class="cards-container">

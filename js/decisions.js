@@ -10,6 +10,13 @@ async function initDecisionsPage() {
   const gameSelect = document.getElementById("decisionGameFilter");
   const countInfo = document.getElementById("decisionCountInfo");
   const listEl = document.getElementById("decisionList");
+  const exportBtn = document.getElementById("decisionExportBtn");
+  const exportMenu = document.getElementById("decisionExportMenu");
+  const exportConfirm = document.getElementById("decisionExportConfirm");
+  const exportCancel = document.getElementById("decisionExportCancel");
+  const exportConditions = document.getElementById("decisionExportConditions");
+  const exportOptions = document.getElementById("decisionExportOptions");
+  const exportMeta = document.getElementById("decisionExportMeta");
 
   if (!searchInput || !listEl) {
     console.warn("[Decisions] Required DOM elements not found; aborting.");
@@ -113,6 +120,70 @@ async function initDecisionsPage() {
   if (gameSelect) gameSelect.addEventListener("change", applyFilters);
 
   applyFilters();
+
+  function toggleExport(show) {
+    if (!exportMenu) return;
+    exportMenu.hidden = !show;
+  }
+
+  function buildExportText() {
+    const include = {
+      cond: exportConditions?.checked !== false,
+      opts: exportOptions?.checked !== false,
+      meta: exportMeta?.checked !== false,
+    };
+    const lines = [];
+    lines.push(`Decisions export (${filtered.length} items)`);
+    lines.push("");
+    filtered.forEach(dec => {
+      const row = [`- ${dec.title || dec.nameInDb}`];
+      if (include.meta) {
+        const meta = [];
+        if (dec.turn) meta.push(`Turn ${dec.turn}`);
+        if (dec.gameLabel) meta.push(dec.gameLabel);
+        if (dec.path) meta.push(dec.path);
+        if (meta.length) row.push(`(${meta.join(" | ")})`);
+      }
+      lines.push(row.join(" "));
+      if (include.cond && dec.conditions.length) {
+        lines.push(`  Conditions: ${dec.conditions.join(" | ")}`);
+      }
+      if (include.opts && dec.options.length) {
+        dec.options.forEach(opt => {
+          const parts = [`  Option: ${opt.text || "(no label)"}`];
+          if (opt.condition) parts.push(`Condition: ${opt.condition}`);
+          if (opt.effects && opt.effects.length) parts.push(`Effects: ${opt.effects.join(" | ")}`);
+          lines.push(parts.join(" | "));
+        });
+      }
+      lines.push("");
+    });
+    return lines.join("\n");
+  }
+
+  function downloadExport() {
+    const content = buildExportText();
+    const blob = new Blob([content], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "decisions_export.txt";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    toggleExport(false);
+  }
+
+  if (exportBtn) exportBtn.addEventListener("click", () => toggleExport(exportMenu?.hidden));
+  if (exportCancel) exportCancel.addEventListener("click", () => toggleExport(false));
+  if (exportConfirm) exportConfirm.addEventListener("click", downloadExport);
+  document.addEventListener("click", e => {
+    if (!exportMenu || exportMenu.hidden) return;
+    const t = e.target;
+    if (t === exportMenu || t === exportBtn || exportMenu.contains(t) || exportBtn.contains(t)) return;
+    toggleExport(false);
+  });
 }
 
 function mapDecisionRecord(raw) {

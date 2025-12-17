@@ -33,7 +33,30 @@
       </select>
     </div>
 
+    <div class="spacer"></div>
     <span class="count-info" id="decreeCountInfo"></span>
+    <div class="export-wrapper">
+      <button id="decreeExportBtn" class="btn-secondary">Export</button>
+      <div id="decreeExportMenu" class="export-menu" hidden>
+        <p class="export-title">Include in export:</p>
+        <label class="export-check">
+          <input type="checkbox" id="decreeExportConditions" checked />
+          Conditions
+        </label>
+        <label class="export-check">
+          <input type="checkbox" id="decreeExportEffects" checked />
+          Effects
+        </label>
+        <label class="export-check">
+          <input type="checkbox" id="decreeExportMeta" checked />
+          Meta (turn / path / game)
+        </label>
+        <div class="export-actions">
+          <button type="button" id="decreeExportConfirm" class="btn-primary">Export</button>
+          <button type="button" id="decreeExportCancel" class="btn-tertiary">Cancel</button>
+        </div>
+      </div>
+    </div>
   </section>
 
     <section id="decreeRoot">

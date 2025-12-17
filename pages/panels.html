@@ -50,14 +50,40 @@
         <span class="filters-label">Grouping</span>
         <select id="panelGroupingFilter">
           <option value="Category">Category</option>
-          <option value="Path">Path</option>
-        </select>
+      <option value="Path">Path</option>
+    </select>
+  </div>
+
+  <div class="spacer"></div>
+
+  <span class="count-info" id="panelCountInfo"></span>
+  <div class="export-wrapper">
+    <button id="panelExportBtn" class="btn-secondary">Export</button>
+    <div id="panelExportMenu" class="export-menu" hidden>
+      <p class="export-title">Include in export:</p>
+      <label class="export-check">
+        <input type="checkbox" id="panelExportDescription" checked />
+        Description
+      </label>
+      <label class="export-check">
+        <input type="checkbox" id="panelExportCondition" checked />
+        Condition
+      </label>
+      <label class="export-check">
+        <input type="checkbox" id="panelExportEffects" checked />
+        Effects
+      </label>
+      <label class="export-check">
+        <input type="checkbox" id="panelExportMeta" checked />
+        Meta (section / group / path / game)
+      </label>
+      <div class="export-actions">
+        <button type="button" id="panelExportConfirm" class="btn-primary">Export</button>
+        <button type="button" id="panelExportCancel" class="btn-tertiary">Cancel</button>
       </div>
-
-      <div class="spacer"></div>
-
-      <span class="count-info" id="panelCountInfo"></span>
-    </section>
+    </div>
+  </div>
+</section>
 
     <!-- Results -->
     <section class="results-wrapper">

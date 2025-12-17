@@ -239,6 +239,58 @@ body {
     font-weight: 600;
 }
 
+.export-wrapper {
+    position: relative;
+}
+
+.export-menu {
+    position: absolute;
+    right: 0;
+    top: 36px;
+    min-width: 220px;
+    padding: 12px;
+    border-radius: var(--radius-lg);
+    background: rgba(11, 16, 34, 0.98);
+    border: 1px solid var(--border-soft);
+    box-shadow: var(--shadow-soft);
+    z-index: 20;
+}
+
+.export-title {
+    margin: 0 0 8px;
+    font-size: 0.9rem;
+    color: var(--text-main);
+}
+
+.export-check {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 6px 0;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.export-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.btn-primary,
+.btn-secondary,
+.btn-tertiary {
+    padding: 6px 12px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    background: #111320;
+    color: var(--text-main);
+    cursor: pointer;
+}
+
+.btn-primary { border-color: var(--accent); }
+.btn-tertiary { background: transparent; }
+
 /* Count info for left side */
 .count-info {
     margin-right: auto;

@@ -1,5 +1,21 @@
 // js/core/suzerainParser.js
 (function (global) {
+  function normSpeaker(value) {
+    return (value || "")
+      .toLowerCase()
+      .replace(/_/g, " ")
+      .replace(/\s+/g, " ")
+      .replace(/[()]/g, "")
+      .trim();
+  }
+
+  function inferSpeaker(rawTitle) {
+    if (!rawTitle) return null;
+    const m = rawTitle.match(/^([^:]+):/);
+    if (m) return m[1].trim();
+    return null;
+  }
+
   function cleanChoiceText(raw) {
     if (!raw) return "";
     let t = String(raw).trim();
@@ -39,20 +55,35 @@
     };
   }
 
-  function finalizeNode(node) {
+  function finalizeNode(node, actorById) {
     if (!node) return;
 
     const rawTitle = node.rawTitle || "";
     const menu = node.menuText || "";
     const en = node.enText || "";
 
-    // Mark Romus if any text mentions him
+    const actorName =
+      node.actorId != null && actorById ? actorById.get(node.actorId) : null;
+
+    // Speaker inference from actor map first, then title prefix
+    const inferredSpeaker = inferSpeaker(rawTitle);
+    const speaker = actorName || inferredSpeaker || null;
+    node.speaker = speaker;
+    node.speakerKey = normSpeaker(speaker);
+
+    // Mark narrator / player from speaker and text
     const textToScan = rawTitle + " " + menu + " " + en;
-    if (textToScan.includes("Player_Romus:")) {
+    const textHasRomus = textToScan.includes("Player_Romus:");
+    const textHasPlayer = textToScan.includes("Player:");
+
+    if ((node.speakerKey || "").includes("player romus") || textHasRomus) {
       node.isPlayerRomus = true;
     }
-    if (textToScan.includes("Player:")) {
+    if ((node.speakerKey || "").startsWith("player") || textHasPlayer) {
       node.isPlayer = true;
+    }
+    if (node.speakerKey === "narrator") {
+      node.isNarrator = true;
     }
 
     const titleLooksPlayer =
@@ -74,6 +105,23 @@
   }
 
   function parseSuzerain(text, onProgress) {
+    const actorById = new Map();
+
+    let inActor = false;
+    let currentActorId = null;
+    let currentActorName = null;
+    let lastActorFieldTitle = null;
+
+    function flushActor() {
+      if (currentActorId != null) {
+        actorById.set(currentActorId, currentActorName || `Actor ${currentActorId}`);
+      }
+      inActor = false;
+      currentActorId = null;
+      currentActorName = null;
+      lastActorFieldTitle = null;
+    }
+
     const lines = text.split(/\r?\n/);
     const totalLines = lines.length || 1;
     let processedLines = 0;
@@ -100,7 +148,7 @@
 
     function flushNode() {
       if (!currentNode) return;
-      finalizeNode(currentNode);
+      finalizeNode(currentNode, actorById);
 
       // Mark mechanics
       currentNode._hasMechanics =
@@ -121,6 +169,45 @@
 
       const line = raw.trim();
       if (!line) continue;
+
+      // Actor definitions (outside conversations)
+      if (line.startsWith("Actor data")) {
+        flushNode();
+        flushActor();
+        inActor = true;
+        continue;
+      }
+
+      if (inActor) {
+        let mActor;
+        mActor = line.match(/^int id = (\d+)/);
+        if (mActor) {
+          currentActorId = parseInt(mActor[1], 10);
+          continue;
+        }
+
+        mActor = line.match(/^string title = "(.*)"/);
+        if (mActor) {
+          lastActorFieldTitle = mActor[1];
+          continue;
+        }
+
+        mActor = line.match(/^string value = "(.*)"/);
+        if (mActor) {
+          const val = mActor[1];
+          if (lastActorFieldTitle === "Name") {
+            currentActorName = val;
+          }
+          continue;
+        }
+
+        if (line.startsWith("Conversation data") || line.startsWith("DialogueEntry data")) {
+          flushActor();
+          // fall through to process this line in the main logic
+        } else {
+          continue;
+        }
+      }
 
       // Start of a Conversation block
       if (line.startsWith("Conversation data")) {
@@ -211,6 +298,9 @@
           case "Title":
             currentNode.rawTitle = val;
             break;
+          case "Actor":
+            currentNode.actorId = val ? parseInt(val, 10) : null;
+            break;
           case "Menu Text":
           case "Menu Text en":
             currentNode.menuText = val;
@@ -288,8 +378,9 @@
       }
     }
 
-    // Flush last node
+    // Flush last node / actor
     flushNode();
+    flushActor();
 
     // Final progress update
     notify();

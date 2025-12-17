@@ -14,6 +14,14 @@ async function initConversationsPage() {
 
   const countInfo = document.getElementById("countInfo");
   const listContainer = document.getElementById("results");
+  const exportBtn = document.getElementById("exportConversationsBtn");
+  const exportMenu = document.getElementById("exportMenu");
+  const exportConfirm = document.getElementById("exportConfirm");
+  const exportCancel = document.getElementById("exportCancel");
+  const exportSpeakerText = document.getElementById("exportSpeakerText");
+  const exportConditions = document.getElementById("exportConditions");
+  const exportEffects = document.getElementById("exportEffects");
+  const exportPosition = document.getElementById("exportPosition");
 
   const RIZIA_FIRST_CONVERSATION_ID = 287;
 
@@ -98,11 +106,59 @@ async function initConversationsPage() {
     return uniqueStrings(effs);
   }
 
+  function normalizeSpeakerKey(value) {
+    return (value || "")
+      .toLowerCase()
+      .replace(/_/g, " ")
+      .replace(/\s+/g, " ")
+      .replace(/[()]/g, "")
+      .trim();
+  }
+
+  function canonicalSpeakerKey(node) {
+    const raw =
+      node.speaker ||
+      node.speakerKey ||
+      (node.isPlayerRomus ? "player_romus" : node.isPlayer ? "player" : "");
+    const norm = normalizeSpeakerKey(raw);
+    if (!norm) return "";
+    if (norm.startsWith("player") || norm.startsWith("anton") || norm.startsWith("romus")) {
+      return "player";
+    }
+    if (norm.startsWith("narrator")) return "narrator";
+    return norm;
+  }
+
+  function speakerLabel(node) {
+    return node.speaker || node.speakerKey || "";
+  }
+
+  function speakerDisplay(node) {
+    const canon = canonicalSpeakerKey(node);
+    if (canon === "player") return "Player";
+    if (canon === "narrator") return "Narrator";
+    return speakerLabel(node) || canon || "Unknown";
+  }
+
+  function isStartNode(node) {
+    const title = (node.rawTitle || "").trim().toUpperCase();
+    const choice = (node.choiceText || "").trim().toUpperCase();
+    if (title === "START" || choice === "START") return true;
+    if (title === "INPUT" || choice === "INPUT") return true;
+    if (title === "OUTPUT" || choice === "OUTPUT") return true;
+    return false;
+  }
+
   // ---- build cards lazily ----
 
   function buildNodeCard(node, gameKey) {
-    const title = node.choiceText || `Choice #${node.id ?? "?"}`;
-    const subtitle = `Node ${node.id ?? "?"} in conversation ${node.conversationID ?? "?"}`;
+    const title =
+      node.choiceText ||
+      node.npcText ||
+      node.enText ||
+      node.rawTitle ||
+      `Entry #${node.id ?? "?"}`;
+    const subtitle = `${speakerDisplay(node)} — Node ${node.id ?? "?"} in conversation ${node.conversationID ?? "?"}`;
 
     const metaParts = [];
     const gameLabel = gameLabelFromKey(gameKey);
@@ -131,7 +187,8 @@ async function initConversationsPage() {
     if (meta) {
       const metaSpan = document.createElement("span");
       metaSpan.className = "card-meta";
-      metaSpan.textContent = meta;
+      const speaker = speakerDisplay(node);
+      metaSpan.textContent = speaker ? `${speaker}${meta ? " | " + meta : ""}` : meta;
       header.appendChild(metaSpan);
     }
 
@@ -228,16 +285,16 @@ async function initConversationsPage() {
       nodes: groupNodes.sort((a, b) => (a.id ?? 0) - (b.id ?? 0)),
     })).sort((a, b) => a.sortId - b.sortId);
 
-    const frag = document.createDocumentFragment();
-    orderedGroups.forEach(group => {
-      group.nodes.forEach(node => {
-        frag.appendChild(buildNodeCard(node, gameKey));
+      const frag = document.createDocumentFragment();
+      orderedGroups.forEach(group => {
+        group.nodes.forEach(node => {
+          frag.appendChild(buildNodeCard(node, gameKey));
+        });
       });
-    });
 
-    container.innerHTML = "";
-    container.appendChild(frag);
-  }
+      container.innerHTML = "";
+      container.appendChild(frag);
+    }
 
   // ---- data load via worker ----
 
@@ -278,11 +335,11 @@ async function initConversationsPage() {
 
     const { nodes, links, choices } = msg;
 
-    const allNodesLocal = Array.isArray(choices) ? choices : [];
     const nodesLocal = Array.isArray(nodes) ? nodes : [];
     const linksLocal = Array.isArray(links) ? links : [];
 
-    allNodes = allNodesLocal;
+    // Use all nodes (not just choices) so speaker filtering covers every actor
+    allNodes = nodesLocal;
 
     nodeByKey = new Map();
     for (const n of nodesLocal) {
@@ -316,9 +373,10 @@ async function initConversationsPage() {
       parentsByKey.get(destKey).push(parentRef);
     }
 
-    // Group choices by conversationID
+    // Group choices by conversationID (skip START nodes)
     conversations = new Map();
     allNodes.forEach(node => {
+      if (isStartNode(node)) return;
       const convId = node.conversationID;
       if (convId == null) return;
       let bucket = conversations.get(convId);
@@ -350,10 +408,43 @@ async function initConversationsPage() {
       });
     }
 
-    totalChoices = Array.from(conversations.values()).reduce(
-      (sum, b) => sum + b.choices.length,
-      0
-    );
+    totalChoices = allNodes.filter(n => !isStartNode(n)).length;
+
+    // Build speaker options
+    if (speakerSelect) {
+      const speakers = new Map(); // canonicalKey -> label
+      allNodes.forEach(n => {
+        const canon = canonicalSpeakerKey(n);
+        const label = speakerLabel(n);
+        const fallbackLabel = label || canon;
+        if (!fallbackLabel) return;
+        if (canon === "player" || canon === "narrator") return; // handled by Player option
+        if (!speakers.has(canon)) {
+          speakers.set(canon, fallbackLabel);
+        }
+      });
+
+      const sorted = Array.from(speakers.entries()).sort((a, b) =>
+        String(a[1]).localeCompare(String(b[1]), undefined, { sensitivity: "base" })
+      );
+
+      speakerSelect.innerHTML = "";
+
+      const makeOpt = (value, label, selected) => {
+        const o = document.createElement("option");
+        o.value = value;
+        o.textContent = label;
+        if (selected) o.selected = true;
+        return o;
+      };
+
+      speakerSelect.appendChild(makeOpt("__player", "Player", true));
+      speakerSelect.appendChild(makeOpt("", "(All speakers)", false));
+
+      sorted.forEach(([key, label]) => {
+        speakerSelect.appendChild(makeOpt(key, label, false));
+      });
+    }
 
     dataReady = true;
     applyFilters();
@@ -375,7 +466,7 @@ async function initConversationsPage() {
     }
 
     const q = searchInput.value.trim();
-    const speakerValue = speakerSelect.value;
+    const speakerValue = speakerSelect ? speakerSelect.value : "";
     const gameFilter = gameSelect.value; // "RiziaDLC" / "Base" / ""
     const hideNarratorChecked = !!hideNarrator.checked;
     const consequentialOnly = !!onlyConsequential.checked;
@@ -395,11 +486,19 @@ async function initConversationsPage() {
       if (!baseChoices || !baseChoices.length) continue;
 
       const filteredNodes = baseChoices.filter(node => {
-        if (hideNarratorChecked && !(node.isPlayer || node.isPlayerRomus)) return false;
+        if (isStartNode(node)) return false;
+        const nodeSpeakerKey = canonicalSpeakerKey(node);
+
+        if (hideNarratorChecked && nodeSpeakerKey === "narrator") return false;
         if (consequentialOnly && !node.isConsequential) return false;
 
-        if (speakerValue) {
-          // Speaker filtering hook if you ever want it
+        if (speakerValue === "__player") {
+          const isPlayerish =
+            nodeSpeakerKey === "player" ||
+            nodeSpeakerKey === "narrator";
+          if (!isPlayerish) return false;
+        } else if (speakerValue) {
+          if (nodeSpeakerKey !== speakerValue) return false;
         }
 
         if (!hasTextSearch) return true;
@@ -468,4 +567,87 @@ async function initConversationsPage() {
   gameSelect.addEventListener("change", applyFilters);
   hideNarrator.addEventListener("change", applyFilters);
   onlyConsequential.addEventListener("change", applyFilters);
+
+  function toggleExportMenu(show) {
+    if (!exportMenu) return;
+    exportMenu.hidden = !show;
+  }
+
+  function buildExportText(options) {
+    const lines = [];
+    const sortedConvIds = Array.from(filteredByConversation.keys()).sort((a, b) => a - b);
+
+    sortedConvIds.forEach(convId => {
+      lines.push(`Conversation ${convId}`);
+      const nodes = filteredByConversation.get(convId) || [];
+
+      nodes.forEach(node => {
+        const row = [];
+        if (options.speakerText) {
+          const text =
+            node.choiceText ||
+            node.enText ||
+            node.npcText ||
+            node.rawTitle ||
+            "";
+          row.push(`- ${speakerDisplay(node)}: ${text}`.trim());
+        }
+        if (options.position) {
+          row.push(`(Node ${node.id ?? "?"} in conversation ${node.conversationID ?? "?"})`);
+        }
+        if (row.length) lines.push(row.join(" "));
+
+        if (options.conditions) {
+          const conds = getAggregatedConditions(node);
+          if (conds && conds.length) {
+            lines.push(`  Conditions: ${conds.join(" | ")}`);
+          }
+        }
+        if (options.effects) {
+          const effs = getAggregatedEffects(node);
+          if (effs && effs.length) {
+            lines.push(`  Effects: ${effs.join(" | ")}`);
+          }
+        }
+      });
+
+      lines.push(""); // blank line between conversations
+    });
+
+    return lines.join("\n");
+  }
+
+  function handleExport() {
+    const opts = {
+      speakerText: exportSpeakerText?.checked !== false,
+      conditions: exportConditions?.checked !== false,
+      effects: exportEffects?.checked !== false,
+      position: exportPosition?.checked !== false,
+    };
+
+    const content = buildExportText(opts);
+    const blob = new Blob([content], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "conversations_export.txt";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    toggleExportMenu(false);
+  }
+
+  if (exportBtn) exportBtn.addEventListener("click", () => toggleExportMenu(exportMenu?.hidden));
+  if (exportCancel) exportCancel.addEventListener("click", () => toggleExportMenu(false));
+  if (exportConfirm) exportConfirm.addEventListener("click", handleExport);
+
+  document.addEventListener("click", (e) => {
+    if (!exportMenu || exportMenu.hidden) return;
+    const target = e.target;
+    if (target === exportMenu || target === exportBtn || exportMenu.contains(target) || exportBtn.contains(target)) {
+      return;
+    }
+    toggleExportMenu(false);
+  });
 }

@@ -39,8 +39,8 @@
     font-size: 1rem !important;
     font-weight: 600 !important;
     color: var(--text-main) !important;
-    background: linear-gradient(180deg, #27140f, #1c0f0b) !important;
-    border: 1px solid #4f3026 !important;
+    background: linear-gradient(180deg, #1d1111, #271618) !important;
+    border: 1px solid #4e4638 !important;
     border-radius: 8px !important;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) !important;
 }

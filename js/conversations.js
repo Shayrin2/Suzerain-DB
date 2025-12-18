@@ -149,16 +149,35 @@ async function initConversationsPage() {
     return false;
   }
 
+  function normalizeMenuText(raw) {
+    if (!raw) return "";
+    let t = String(raw).trim();
+    while (t.length > 1 && t.startsWith('"') && t.endsWith('"')) {
+      t = t.slice(1, -1).trim();
+    }
+    return t;
+  }
+
+  function normalizeForCompare(raw) {
+    return (raw || "")
+      .replace(/^"+|"+$/g, "")
+      .trim()
+      .toLowerCase();
+  }
+
   // ---- build cards lazily ----
 
   function buildNodeCard(node, gameKey) {
+    const menuText = normalizeMenuText(node.menuText);
+    const spokenText = (node.enText || node.npcText || "").trim();
+    const isPlayerChoice = canonicalSpeakerKey(node) === "player";
     const title =
+      menuText ||
       node.choiceText ||
-      node.npcText ||
-      node.enText ||
+      spokenText ||
       node.rawTitle ||
       `Entry #${node.id ?? "?"}`;
-    const subtitle = `${speakerDisplay(node)} — Node ${node.id ?? "?"} in conversation ${node.conversationID ?? "?"}`;
+    const subtitle = `${speakerDisplay(node)} - Node ${node.id ?? "?"} in conversation ${node.conversationID ?? "?"}`;
 
     const metaParts = [];
     const gameLabel = gameLabelFromKey(gameKey);
@@ -183,6 +202,17 @@ async function initConversationsPage() {
     sub.className = "card-subtitle";
     sub.textContent = subtitle;
     header.appendChild(sub);
+
+    const spokenDiffers =
+      spokenText &&
+      normalizeForCompare(spokenText) !== normalizeForCompare(menuText);
+
+    if (isPlayerChoice && spokenDiffers) {
+      const spoken = document.createElement("p");
+      spoken.className = "card-subline";
+      spoken.textContent = spokenText;
+      header.appendChild(spoken);
+    }
 
     if (meta) {
       const metaSpan = document.createElement("span");

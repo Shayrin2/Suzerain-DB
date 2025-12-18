@@ -55,6 +55,12 @@
     color: var(--text-soft);
 }
 
+.card-subline {
+    margin: 2px 0 0;
+    font-size: 0.82rem;
+    color: var(--text-muted);
+}
+
 .card-meta {
     display: inline-block;
     margin-top: 3px;

@@ -304,7 +304,7 @@ function createPanelCard(opt) {
     } else {
       const group = opt.panelGroup.replace(/ Panel$/, "");
       const sub = opt.panelSub;
-      panelSpan.textContent = group + (sub ? " â€“ " + sub : "");
+      panelSpan.textContent = (group ? " - " + sub : "");
     }
     meta.appendChild(panelSpan);
   }
@@ -364,35 +364,6 @@ function createPanelCard(opt) {
     effBlock.appendChild(list);
     body.appendChild(effBlock);
   }
-
-  // Panel increments
-  if (
-    opt.panelCounterIncrement !== null ||
-    opt.panelBarIncrement !== null
-  ) {
-    const metaBlock = document.createElement("div");
-    metaBlock.className = "card-section meta-row";
-    const pieces = [];
-
-    if (opt.panelCounterIncrement !== null) {
-      pieces.push(
-        `Panel counter: ${opt.panelCounterIncrement >= 0 ? "+" : ""}${
-          opt.panelCounterIncrement
-        }`
-      );
-    }
-    if (opt.panelBarIncrement !== null) {
-      pieces.push(
-        `Panel bar: ${opt.panelBarIncrement >= 0 ? "+" : ""}${
-          opt.panelBarIncrement
-        }`
-      );
-    }
-
-    metaBlock.textContent = pieces.join(" Â· ");
-    body.appendChild(metaBlock);
-  }
-
   card.appendChild(body);
   return card;
 }
@@ -508,3 +479,5 @@ async function initPanelsPage() {
 }
 
 document.addEventListener("DOMContentLoaded", initPanelsPage);
+
+

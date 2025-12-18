@@ -335,4 +335,26 @@ body {
     margin-top: 18px;
 }
 
+/* Back to top button */
+.back-to-top {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    padding: 8px 12px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: #27140f;
+    color: var(--text-main);
+    cursor: pointer;
+    box-shadow: var(--shadow-subtle);
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.15s ease, transform 0.15s ease;
+    z-index: 30;
+}
+
+.back-to-top--visible {
+    opacity: 0.95;
+    transform: translateY(0);
+}
 

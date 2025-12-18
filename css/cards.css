@@ -116,10 +116,6 @@
     color: var(--text-bad);
 }
 
-.card-column-title + .card-list li {
-    /* first column entries a bit brighter */
-}
-
 /* Scrollbar styling for lists */
 
 .card-list::-webkit-scrollbar {

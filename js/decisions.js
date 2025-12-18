@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
 async function initDecisionsPage() {
   const searchInput = document.getElementById("decisionSearchInput");
   const gameSelect = document.getElementById("decisionGameFilter");
+  const turnSelect = document.getElementById("decisionTurnFilter");
   const countInfo = document.getElementById("decisionCountInfo");
   const listEl = document.getElementById("decisionList");
   const exportBtn = document.getElementById("decisionExportBtn");
@@ -23,20 +24,28 @@ async function initDecisionsPage() {
     return;
   }
 
-  const raw = await DataLoader.loadText("../data/DecisionData.txt");
-  const json = JSON.parse(raw);
-  const allDecisions = (json.items || []).map(mapDecisionRecord);
+  const allDecisions = await loadDecisionsFromEntityAsset();
 
   let filtered = allDecisions.slice();
 
   function applyFilters() {
     const q = (searchInput.value || "").trim().toLowerCase();
     const gameFilter = gameSelect ? gameSelect.value : "";
+    const turnFilter = turnSelect ? turnSelect.value : "";
 
     filtered = allDecisions.filter(dec => {
       if (gameFilter && dec.gameKey !== gameFilter) return false;
+      if (turnFilter && String(dec.turn || "") !== turnFilter) return false;
       if (!q) return true;
       return dec.searchText.includes(q);
+    });
+
+    // Sort by turn (asc, nulls last) then title
+    filtered.sort((a, b) => {
+      const ta = a.turn ?? 999;
+      const tb = b.turn ?? 999;
+      if (ta !== tb) return ta - tb;
+      return (a.title || a.nameInDb || "").localeCompare(b.title || b.nameInDb || "");
     });
 
     render();
@@ -70,8 +79,8 @@ async function initDecisionsPage() {
             : `<p class="muted small">No explicit mechanical effect.</p>`;
 
           return `
-            <div class="decision-option">
-              <div class="pill pill-label">${escapeHtml(opt.text || "(no label)")}</div>
+            <div class="decision-option card-subblock">
+              <div class="decision-option__title">${escapeHtml(opt.text || "(no label)")}</div>
               ${condHtml}
               ${effectsHtml}
             </div>
@@ -96,13 +105,12 @@ async function initDecisionsPage() {
         </header>
 
         <div class="card-body">
+          ${dec.description ? `<p class="card-description muted">${escapeHtml(dec.description)}</p>` : ""}
           <div class="card-col">
-            <div class="pill pill-label">Decision conditions</div>
             ${conditionsHtml}
           </div>
 
           <div class="card-col">
-            <div class="pill pill-label">Options & effects</div>
             ${optionsHtml}
           </div>
         </div>
@@ -118,6 +126,7 @@ async function initDecisionsPage() {
 
   searchInput.addEventListener("input", applyFilters);
   if (gameSelect) gameSelect.addEventListener("change", applyFilters);
+  if (turnSelect) turnSelect.addEventListener("change", applyFilters);
 
   applyFilters();
 
@@ -186,11 +195,59 @@ async function initDecisionsPage() {
   });
 }
 
+async function loadDecisionsFromEntityAsset() {
+  try {
+    const raw = await DataLoader.loadText("../data/Entity%20Text%20Asset.txt");
+    const blocks = extractDataBlocks(raw);
+
+    if (blocks && blocks.Decisions) {
+      const data = JSON.parse(blocks.Decisions);
+      const items = (data.items || []).filter(item => /\/Decisions/i.test(item.Path || ""));
+      return items.map(mapDecisionRecord);
+    }
+
+    // If no named block exists, assume the file itself is the decisions JSON.
+    const direct = JSON.parse(raw);
+    if (direct && direct.items) {
+      const items = (direct.items || []).filter(item => /\/Decisions/i.test(item.Path || ""));
+      return items.map(mapDecisionRecord);
+    }
+
+    console.warn("[Decisions] Entity Text Asset did not contain Decisions data.");
+    return [];
+  } catch (e) {
+    console.warn("[Decisions] Failed to load or parse Entity Text Asset:", e);
+    return [];
+  }
+}
+
+  function extractDataBlocks(text) {
+    // Extracts all string FooDataJson = "<json>" into a map { Foo: "<json>" }
+    if (!text) return null;
+    const regex = /string\s+(\w+)DataJson\s*=\s*"/g;
+  const matches = [];
+  let m;
+  while ((m = regex.exec(text)) !== null) {
+    matches.push({ name: m[1], start: m.index, end: m.index + m[0].length });
+  }
+  const blocks = {};
+  for (let i = 0; i < matches.length; i++) {
+    const cur = matches[i];
+    const nextStart = i + 1 < matches.length ? matches[i + 1].start : text.length;
+    const slice = text.substring(cur.end, nextStart);
+    // Strip the trailing closing quote of the string literal
+    const trimmed = slice.lastIndexOf("\"") >= 0 ? slice.substring(0, slice.lastIndexOf("\"")) : slice;
+    blocks[cur.name] = trimmed.trim();
+  }
+  return blocks;
+}
+
 function mapDecisionRecord(raw) {
   const nameInDb = raw.NameInDatabase || "";
   const decProps = raw.DecisionProperties || {};
   const fragProps = raw.StoryFragmentProperties || {};
   const title = decProps.Title || nameInDb;
+  const description = decProps.Description || "";
   const path = raw.Path || "";
 
   let gameKey = "Base";
@@ -233,6 +290,7 @@ function mapDecisionRecord(raw) {
     gameLabel,
     turn,
     conditions,
+    description,
     options,
     searchText
   };

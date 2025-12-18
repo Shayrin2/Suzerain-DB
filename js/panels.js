@@ -1,18 +1,9 @@
-﻿// panels.js
+// panels.js
 // Prologue + Decisions/Budget options viewer
-// Uses MultipleChoiceOptionData.json + CarouselChoiceOptionData.json
+// Loads MultipleChoiceOptionDataJson + CarouselChoiceOptionDataJson from Entity Text Asset
 
 let allPanelOptions = [];
 let lastPanelFiltered = [];
-
-async function loadJson(path) {
-  const res = await fetch(path);
-  if (!res.ok) {
-    console.error("Failed to load", path, res.status, res.statusText);
-    return { items: [] };
-  }
-  return res.json();
-}
 
 function normalizeItems(rawItems, sourceType) {
   if (!rawItems || !Array.isArray(rawItems)) return [];
@@ -32,22 +23,13 @@ function normalizeItems(rawItems, sourceType) {
     const condition = props.Condition || "";
     const instruction = props.Instruction || "";
 
-    // Section: Prologue vs Decisions & Budget
-    // Prologue: things under Prologue / Prologue Skip pages
-    const isPrologue =
-      path.includes("Prologue Skip") ||
-      path.includes("/Prologue ") ||
-      path.endsWith("/Prologue");
-
-    const section = isPrologue ? "Prologue" : "DecisionsBudget";
-
     // Panel name / category from Path, e.g.
     // "Sordland/Paged Decision Panels/Budget Panel/Healthcare"
     const pathParts = path.split("/").filter(Boolean);
     let panelGroup = "";
     let panelSub = "";
 
-    if (pathParts.length >= 3 && pathParts[1] === "Paged Decision Panels") {
+    if (pathParts.length >= 3 && pathParts[1].toLowerCase().includes("paged decision")) {
       panelGroup = pathParts[2]; // e.g. "Promises Panel", "Budget Panel"
       panelSub = pathParts[3] || ""; // e.g. "Diplomacy", "Healthcare"
     } else if (pathParts.length >= 2 && pathParts[1] === "Prologue Skip") {
@@ -58,6 +40,14 @@ function normalizeItems(rawItems, sourceType) {
       panelGroup = pathParts[1] || "";
       panelSub = pathParts[2] || "";
     }
+
+    // Section derived from path / panel group
+    const isPrologue =
+      path.includes("Prologue Skip") ||
+      path.includes("/Prologue ") ||
+      path.endsWith("/Prologue");
+
+    const section = deriveSection(panelGroup, panelSub, path, isPrologue);
 
     // Split instructions into individual operations
     const effects = instruction
@@ -85,6 +75,27 @@ function normalizeItems(rawItems, sourceType) {
   });
 }
 
+function deriveSection(panelGroup, panelSub, path, isPrologue) {
+  if (isPrologue) return "Prologue";
+  const combo = `${panelGroup || ""} ${panelSub || ""} ${path || ""}`.toLowerCase();
+
+  if (
+    combo.includes("negotiation") ||
+    combo.includes("nationalization demands") ||
+    combo.includes("demands panel")
+  )
+    return "Negotiations";
+  if (combo.includes("budget")) return "Budget";
+  if (combo.includes("constitution")) return "Constitution";
+  if (combo.includes("promise")) return "Promises";
+  if (combo.includes("execution")) return "Executions";
+  if (combo.includes("focus")) return "Focus";
+  if (combo.includes("nationalization")) return "Nationalization";
+  if (combo.includes("privatization")) return "Privatization";
+  if (combo.includes("emergency decree")) return "Emergency Decree";
+  return "Other";
+}
+
 function matchesFilters(option, filters) {
   const { search, section, game } = filters;
 
@@ -99,7 +110,7 @@ function matchesFilters(option, filters) {
       option.condition,
       option.instruction,
       option.nameInDb
-    ].join(' ').toLowerCase();
+    ].join(" ").toLowerCase();
     if (!hay.includes(s)) return false;
   }
   return true;
@@ -160,14 +171,17 @@ function renderPanels() {
   for (const opt of filtered) {
     if (!sectionGroups.has(opt.section)) sectionGroups.set(opt.section, new Map());
     const subMap = sectionGroups.get(opt.section);
-    const key = filters.grouping === "Path" ? (() => {
-      if (opt.panelGroup === "Prologue Skip") {
-        return `Prologue - ${prettifyCategory(opt.panelSub)}`;
-      }
-      const group = opt.panelGroup.replace(" Panel", "");
-      const sub = opt.panelSub;
-      return `${prettifyCategory(group)} - ${sub}`;
-    })() : getCategoryKey(opt.panelGroup, opt.panelSub) || "Other";
+    const key =
+      filters.grouping === "Path"
+        ? (() => {
+            if (opt.panelGroup === "Prologue Skip") {
+              return `Prologue - ${prettifyCategory(opt.panelSub)}`;
+            }
+            const group = opt.panelGroup.replace(" Panel", "");
+            const sub = opt.panelSub;
+            return `${prettifyCategory(group)} - ${sub}`;
+          })()
+        : getCategoryKey(opt.panelGroup, opt.panelSub) || "Other";
     if (!subMap.has(key)) subMap.set(key, []);
     subMap.get(key).push(opt);
   }
@@ -180,7 +194,11 @@ function renderPanels() {
         const [aPrefix, aSuffix] = aParts;
         const [bPrefix, bSuffix] = bParts;
         if (aPrefix === bPrefix) {
-          if (aPrefix === "Constitution" && aSuffix.startsWith("Section") && bSuffix.startsWith("Section")) {
+          if (
+            aPrefix === "Constitution" &&
+            aSuffix.startsWith("Section") &&
+            bSuffix.startsWith("Section")
+          ) {
             const numA = parseInt(aSuffix.split(" ")[1]);
             const numB = parseInt(bSuffix.split(" ")[1]);
             return numA - numB;
@@ -233,13 +251,20 @@ function getCategoryKey(panelGroup, panelSub) {
 
 function prettifyCategory(sub) {
   const map = {
-    "Education": "Education Budget",
-    "Healthcare": "Healthcare Budget",
-    "Military": "Military Budget",
-    "Security": "Security Budget",
-    "Diplomacy": "Diplomatic Alignment",
-    "Immigration": "Immigration Policy",
-    "Focus": "Term Focus Area",
+    Budget: "Budget",
+    Constitution: "Constitution",
+    Executions: "Executions",
+    Focus: "Term Focus Area",
+    Promises: "Promises",
+    Negotiations: "Negotiations",
+    Nationalization: "Nationalization",
+    Education: "Education Budget",
+    Healthcare: "Healthcare Budget",
+    Military: "Military Budget",
+    Security: "Security Budget",
+    Diplomacy: "Diplomatic Alignment",
+    Immigration: "Immigration Policy",
+    Focus: "Term Focus Area",
     "Section 1": "Constitution Section 1",
     "Section 2": "Constitution Section 2",
     "Section 3": "Constitution Section 3",
@@ -269,7 +294,7 @@ function prettifyCategory(sub) {
     "Page_RelationshipToPabel": "Relationship to Pabel",
     "Page_Religious": "Religious Alignment",
     "Page_RoyalFamily": "Royal Family Dynamics",
-    "Page_SummersInRizia":  "Summers in Rizia",
+    "Page_SummersInRizia": "Summers in Rizia",
     "Page_TakePower": "Taking Power",
     "Page_University": "University Life",
     "Page_YouthOrganization": "Youth Organization Involvement"
@@ -278,6 +303,57 @@ function prettifyCategory(sub) {
 }
 
 function createPanelCard(opt) {
+  if (opt.focusBundle && Array.isArray(opt.options)) {
+    const card = document.createElement("article");
+    card.className = "card";
+    const header = document.createElement("header");
+    header.className = "card-header";
+    const h3 = document.createElement("h3");
+    h3.className = "card-title";
+    h3.textContent = opt.title;
+    const meta = document.createElement("div");
+    meta.className = "card-meta";
+    const sectionSpan = document.createElement("span");
+    sectionSpan.className = "tag tag--section";
+    sectionSpan.textContent = opt.section;
+    meta.appendChild(sectionSpan);
+    const groupSpan = document.createElement("span");
+    groupSpan.className = "tag";
+    groupSpan.textContent = "Focus";
+    meta.appendChild(groupSpan);
+    const gameSpan = document.createElement("span");
+    gameSpan.className = "tag tag--game";
+    gameSpan.textContent = opt.game === "RiziaDLC" ? "Rizia DLC" : "Base game";
+    meta.appendChild(gameSpan);
+    header.appendChild(h3);
+    header.appendChild(meta);
+    card.appendChild(header);
+
+    const body = document.createElement("div");
+    body.className = "card-body";
+    opt.options.forEach((o) => {
+      const block = document.createElement("div");
+      block.className = "card-section focus-option";
+      const title = document.createElement("div");
+      title.className = "card-section-title";
+      title.textContent = o.title || "(option)";
+      block.appendChild(title);
+      if (o.effects && o.effects.length) {
+        const list = document.createElement("ul");
+        list.className = "effect-list";
+        o.effects.forEach((e) => {
+          const li = document.createElement("li");
+          li.textContent = e;
+          list.appendChild(li);
+        });
+        block.appendChild(list);
+      }
+      body.appendChild(block);
+    });
+    card.appendChild(body);
+    return card;
+  }
+
   const card = document.createElement("article");
   card.className = "card";
 
@@ -293,7 +369,8 @@ function createPanelCard(opt) {
 
   const sectionSpan = document.createElement("span");
   sectionSpan.className = "tag tag--section";
-  sectionSpan.textContent = opt.section === "Prologue" ? "Prologue" : "Decisions & Budget";
+  sectionSpan.textContent =
+    opt.section === "Prologue" ? "Prologue" : prettifyCategory(opt.section);
   meta.appendChild(sectionSpan);
 
   if (opt.panelGroup) {
@@ -304,7 +381,7 @@ function createPanelCard(opt) {
     } else {
       const group = opt.panelGroup.replace(/ Panel$/, "");
       const sub = opt.panelSub;
-      panelSpan.textContent = (group ? " - " + sub : "");
+      panelSpan.textContent = [group, sub].filter(Boolean).join(" — ");
     }
     meta.appendChild(panelSpan);
   }
@@ -321,6 +398,14 @@ function createPanelCard(opt) {
   // Body
   const body = document.createElement("div");
   body.className = "card-body";
+
+  if ((opt.panelGroup || "").toLowerCase().includes("execution") && opt.panelSub) {
+    const execLabel = document.createElement("div");
+    execLabel.className = "card-pill exec-pill";
+    execLabel.textContent =
+      opt.panelSub.toLowerCase().includes("method") ? "Execution method" : "Execution target";
+    body.appendChild(execLabel);
+  }
 
   if (opt.description) {
     const desc = document.createElement("p");
@@ -369,20 +454,17 @@ function createPanelCard(opt) {
 }
 
 async function initPanelsPage() {
-  const [multi, carousel] = await Promise.all([
-    loadJson("../data/MultipleChoiceOptionData.json"),
-    loadJson("../data/CarouselChoiceOptionData.json")
-  ]);
+  allPanelOptions = await loadPanelsFromEntityAsset();
 
-  allPanelOptions = [
-    ...normalizeItems(multi.items, "multiple"),
-    ...normalizeItems(carousel.items, "carousel")
-  ];
+  // Bundle focus options (multiple options under one focus prompt)
+  allPanelOptions = bundleFocusOptions(allPanelOptions);
 
-  // Deduplicate by title and sub to remove repeats
+  // Deduplicate by title/sub, but keep focus bundles intact
   const unique = new Map();
   for (const opt of allPanelOptions) {
-    const key = `${opt.title}-${opt.panelSub}`;
+    const key = opt.focusBundle
+      ? `focus-${opt.panelSub}-${opt.game}`
+      : `${opt.title}-${opt.panelSub}-${opt.game}`;
     if (!unique.has(key)) {
       unique.set(key, opt);
     }
@@ -403,14 +485,10 @@ async function initPanelsPage() {
   const exportEffects = document.getElementById("panelExportEffects");
   const exportMeta = document.getElementById("panelExportMeta");
 
-  if (searchInput)
-    searchInput.addEventListener("input", () => renderPanels());
-  if (sectionSelect)
-    sectionSelect.addEventListener("change", () => renderPanels());
-  if (gameSelect)
-    gameSelect.addEventListener("change", () => renderPanels());
-  if (groupingSelect)
-    groupingSelect.addEventListener("change", () => renderPanels());
+  if (searchInput) searchInput.addEventListener("input", () => renderPanels());
+  if (sectionSelect) sectionSelect.addEventListener("change", () => renderPanels());
+  if (gameSelect) gameSelect.addEventListener("change", () => renderPanels());
+  if (groupingSelect) groupingSelect.addEventListener("change", () => renderPanels());
 
   function toggleExport(show) {
     if (!exportMenu) return;
@@ -425,7 +503,7 @@ async function initPanelsPage() {
     const lines = [];
     lines.push(`Panels export (${list.length} items)`);
     lines.push("");
-    list.forEach(opt => {
+    list.forEach((opt) => {
       lines.push(`- ${opt.title || opt.nameInDb || opt.path || "Panel option"}`);
       if (includeMeta) {
         const meta = [];
@@ -451,7 +529,8 @@ async function initPanelsPage() {
   }
 
   function downloadExport() {
-    const list = (lastPanelFiltered && lastPanelFiltered.length) ? lastPanelFiltered : allPanelOptions;
+    const list =
+      lastPanelFiltered && lastPanelFiltered.length ? lastPanelFiltered : allPanelOptions;
     const content = buildExportText(list);
     const blob = new Blob([content], { type: "text/plain" });
     const url = URL.createObjectURL(blob);
@@ -468,10 +547,11 @@ async function initPanelsPage() {
   exportBtn?.addEventListener("click", () => toggleExport(exportMenu?.hidden));
   exportCancel?.addEventListener("click", () => toggleExport(false));
   exportConfirm?.addEventListener("click", downloadExport);
-  document.addEventListener("click", e => {
+  document.addEventListener("click", (e) => {
     if (!exportMenu || exportMenu.hidden) return;
     const t = e.target;
-    if (t === exportMenu || t === exportBtn || exportMenu.contains(t) || exportBtn.contains(t)) return;
+    if (t === exportMenu || t === exportBtn || exportMenu.contains(t) || exportBtn.contains(t))
+      return;
     toggleExport(false);
   });
 
@@ -480,4 +560,109 @@ async function initPanelsPage() {
 
 document.addEventListener("DOMContentLoaded", initPanelsPage);
 
+// Helper to load JSON blocks from Entity Text Asset
+async function loadPanelsFromEntityAsset() {
+  const paths = ["../data/Entity%20Text%20Asset.txt", "../data/Entity Text Asset.txt"];
+  for (const p of paths) {
+    try {
+      const raw = await fetch(p).then((r) => r.text());
+      const blocks = extractDataBlocks(raw);
+      if (!blocks) continue;
+      const multiRaw =
+        blocks.MultipleChoiceOptionDataJson ||
+        blocks.MultipleChoiceOptionData ||
+        blocks.MultipleChoiceOption ||
+        null;
+      const carouselRaw =
+        blocks.CarouselChoiceOptionDataJson ||
+        blocks.CarouselChoiceOptionData ||
+        blocks.CarouselChoiceOption ||
+        null;
+      const multi = multiRaw ? JSON.parse(multiRaw) : null;
+      const carousel = carouselRaw ? JSON.parse(carouselRaw) : null;
+      const items = [
+        ...normalizeItems((multi && multi.items) || [], "multiple"),
+        ...normalizeItems((carousel && carousel.items) || [], "carousel")
+      ];
+      if (items.length) return items;
+    } catch (e) {
+      console.warn("[Panels] Failed to load from", p, e);
+    }
+  }
+  console.warn("[Panels] No panel data found in Entity Text Asset.");
+  return [];
+}
 
+function extractDataBlocks(text) {
+  if (!text) return null;
+  const regex = /string\s+(\w+)DataJson\s*=\s*"/g;
+  const matches = [];
+  let m;
+  while ((m = regex.exec(text)) !== null) {
+    matches.push({ name: m[1], start: m.index, end: m.index + m[0].length });
+  }
+  if (!matches.length) return null;
+  const blocks = {};
+  for (let i = 0; i < matches.length; i++) {
+    const cur = matches[i];
+    const nextStart = i + 1 < matches.length ? matches[i + 1].start : text.length;
+    const slice = text.substring(cur.end, nextStart);
+    const trimmed = slice.lastIndexOf('"') >= 0 ? slice.substring(0, slice.lastIndexOf('"')) : slice;
+    blocks[cur.name] = trimmed.trim();
+  }
+  return blocks;
+}
+
+function bundleFocusOptions(options) {
+  const focus = options.filter((o) => (o.panelGroup || "").toLowerCase() === "focus panel");
+  if (!focus.length) return options;
+
+  const bundles = new Map();
+  for (const o of focus) {
+    const sub = resolveFocusSub(o);
+    // Normalize original option for downstream grouping (even though we drop originals)
+    o.panelSub = sub;
+    o.panelGroup = "Focus Panel";
+    o.section = "Focus";
+
+    const key = `${sub}-${o.game}`;
+    if (!bundles.has(key)) {
+      bundles.set(key, {
+        id: `focus-${key}`,
+        nameInDb: o.nameInDb,
+        path: o.path,
+        game: o.game,
+        section: "Focus",
+        panelGroup: "Focus Panel",
+        panelSub: sub,
+        title: `Focus: ${prettifyCategory(sub)}`,
+        focusBundle: true,
+        options: [],
+      });
+    }
+    bundles.get(key).options.push({
+      title: o.title,
+      effects: o.effects,
+      condition: o.condition
+    });
+  }
+
+  const nonFocus = options.filter((o) => (o.panelGroup || "").toLowerCase() !== "focus panel");
+  return [...nonFocus, ...bundles.values()];
+}
+
+function resolveFocusSub(opt) {
+  if (opt.panelSub) return opt.panelSub;
+  // try path segment after "Focus Panel"
+  if (opt.path) {
+    const parts = opt.path.split("/").filter(Boolean);
+    const idx = parts.findIndex((p) => p.toLowerCase().includes("focus panel"));
+    if (idx >= 0 && parts[idx + 1]) return parts[idx + 1];
+  }
+  // try NameInDatabase pattern: TurnXX_FocusPanel_<Sub>_...
+  if (opt.nameInDb) {
+    const m = opt.nameInDb.match(/FocusPanel_([^_]+)/i);
+    if (m && m[1]) return m[1];
+  }
+  return "General";
+}

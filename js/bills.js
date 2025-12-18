@@ -1,5 +1,5 @@
 // js/bills.js
-// Reads BillData.txt and renders mechanical bill cards (conditions + sign/veto effects).
+// Loads bills from the consolidated Entity Text Asset and renders them with filters and export.
 
 document.addEventListener("DOMContentLoaded", () => {
   initBillsPage().catch(err => console.error("Bills init error:", err));
@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
 async function initBillsPage() {
   const searchInput = document.getElementById("billSearchInput");
   const gameSelect = document.getElementById("billGameFilter");
+  const turnSelect = document.getElementById("billTurnFilter");
   const countInfo = document.getElementById("billCountInfo");
   const listEl = document.getElementById("billList");
   const exportBtn = document.getElementById("billExportBtn");
@@ -24,20 +25,27 @@ async function initBillsPage() {
     return;
   }
 
-  const raw = await DataLoader.loadText("../data/BillData.txt");
-  const json = JSON.parse(raw);
-  const allBills = (json.items || []).map(mapBillRecord);
-
+  const allBills = await loadBillsFromEntityAsset();
   let filtered = allBills.slice();
 
   function applyFilters() {
     const q = (searchInput.value || "").trim().toLowerCase();
     const gameFilter = gameSelect ? gameSelect.value : "";
+    const turnFilter = turnSelect ? turnSelect.value : "";
 
     filtered = allBills.filter(bill => {
       if (gameFilter && bill.gameKey !== gameFilter) return false;
+      if (turnFilter && String(bill.turn || "") !== turnFilter) return false;
       if (!q) return true;
       return bill.searchText.includes(q);
+    });
+
+    // sort by turn asc, unknowns last, then title
+    filtered.sort((a, b) => {
+      const ta = a.turn ?? 999;
+      const tb = b.turn ?? 999;
+      if (ta !== tb) return ta - tb;
+      return (a.title || a.nameInDb || "").localeCompare(b.title || b.nameInDb || "");
     });
 
     render();
@@ -58,6 +66,24 @@ async function initBillsPage() {
 
       const turnLabel = bill.turn ? `Turn ${bill.turn}` : "Turn: ?";
 
+      const conditionsHtml = bill.conditions.length
+        ? `<ul class="pill-list">
+            ${bill.conditions.map(c => `<li>${escapeHtml(c)}</li>`).join("")}
+           </ul>`
+        : `<p class="muted">No explicit condition (always available once the story reaches this point).</p>`;
+
+      const signHtml = bill.signEffects.length
+        ? `<ul class="pill-list">
+            ${bill.signEffects.map(c => `<li>${escapeHtml(c)}</li>`).join("")}
+           </ul>`
+        : `<p class="muted small">No explicit sign effects.</p>`;
+
+      const vetoHtml = bill.vetoEffects.length
+        ? `<ul class="pill-list">
+            ${bill.vetoEffects.map(c => `<li>${escapeHtml(c)}</li>`).join("")}
+           </ul>`
+        : `<p class="muted small">No explicit veto effects.</p>`;
+
       card.innerHTML = `
         <header class="card-header">
           <h3 class="card-title">${escapeHtml(bill.title || bill.nameInDb)}</h3>
@@ -68,35 +94,17 @@ async function initBillsPage() {
           </div>
         </header>
         <div class="card-body">
+          ${bill.description ? `<p class="card-description muted">${escapeHtml(bill.description)}</p>` : ""}
           <div class="card-col">
-            <div class="pill pill-label">Conditions</div>
-            ${
-              bill.conditions.length
-                ? `<ul class="pill-list">
-                    ${bill.conditions.map(c => `<li>${escapeHtml(c)}</li>`).join("")}
-                   </ul>`
-                : `<p class="muted">No explicit condition (always available once the story reaches this point).</p>`
-            }
+            ${conditionsHtml}
           </div>
-
           <div class="card-col">
-            <div class="pill pill-label">Effects if SIGNED</div>
-            ${
-              bill.signEffects.length
-                ? `<ul class="pill-list">
-                    ${bill.signEffects.map(e => `<li>${escapeHtml(e)}</li>`).join("")}
-                   </ul>`
-                : `<p class="muted">No explicit variables set on sign.</p>`
-            }
-
-            <div class="pill pill-label mt-small">Effects if VETOED</div>
-            ${
-              bill.vetoEffects.length
-                ? `<ul class="pill-list">
-                    ${bill.vetoEffects.map(e => `<li>${escapeHtml(e)}</li>`).join("")}
-                   </ul>`
-                : `<p class="muted">No explicit variables set on veto.</p>`
-            }
+            <div class="pill pill-label">Sign effects</div>
+            ${signHtml}
+          </div>
+          <div class="card-col">
+            <div class="pill pill-label">Veto effects</div>
+            ${vetoHtml}
           </div>
         </div>
       `;
@@ -111,6 +119,7 @@ async function initBillsPage() {
 
   searchInput.addEventListener("input", applyFilters);
   if (gameSelect) gameSelect.addEventListener("change", applyFilters);
+  if (turnSelect) turnSelect.addEventListener("change", applyFilters);
 
   applyFilters();
 
@@ -130,23 +139,23 @@ async function initBillsPage() {
     lines.push(`Bills export (${filtered.length} items)`);
     lines.push("");
     filtered.forEach(bill => {
-      const parts = [`- ${bill.title || bill.nameInDb}`];
+      const row = [`- ${bill.title || bill.nameInDb}`];
       if (include.meta) {
         const meta = [];
         if (bill.turn) meta.push(`Turn ${bill.turn}`);
         if (bill.gameLabel) meta.push(bill.gameLabel);
         if (bill.path) meta.push(bill.path);
-        if (meta.length) parts.push(`(${meta.join(" | ")})`);
+        if (meta.length) row.push(`(${meta.join(" | ")})`);
       }
-      lines.push(parts.join(" "));
+      lines.push(row.join(" "));
       if (include.cond && bill.conditions.length) {
         lines.push(`  Conditions: ${bill.conditions.join(" | ")}`);
       }
       if (include.sign && bill.signEffects.length) {
-        lines.push(`  Sign: ${bill.signEffects.join(" | ")}`);
+        lines.push(`  Sign effects: ${bill.signEffects.join(" | ")}`);
       }
       if (include.veto && bill.vetoEffects.length) {
-        lines.push(`  Veto: ${bill.vetoEffects.join(" | ")}`);
+        lines.push(`  Veto effects: ${bill.vetoEffects.join(" | ")}`);
       }
       lines.push("");
     });
@@ -178,11 +187,70 @@ async function initBillsPage() {
   });
 }
 
+async function loadBillsFromEntityAsset() {
+  try {
+    const raw = await DataLoader.loadText("../data/Entity%20Text%20Asset.txt");
+    const parsed = parseItemsFromText(raw);
+    if (parsed && parsed.items) {
+      const bills = (parsed.items || []).filter(item => /\/Bills/i.test(item.Path || ""));
+      return bills.map(mapBillRecord);
+    }
+    console.warn("[Bills] Entity Text Asset did not contain Bills data.");
+    return [];
+  } catch (e) {
+    console.warn("[Bills] Failed to load or parse Entity Text Asset:", e);
+    return [];
+  }
+}
+
+function parseItemsFromText(raw) {
+  if (!raw) return null;
+
+  // If it's already JSON, try direct parse.
+  const trimmed = raw.trim();
+  if (trimmed.startsWith("{") && trimmed.endsWith("}")) {
+    try {
+      return JSON.parse(trimmed);
+    } catch {
+      // fall through
+    }
+  }
+
+  // Extract the items array from within the text asset.
+  const itemsIdx = raw.indexOf('"items"');
+  if (itemsIdx === -1) return null;
+  const arrayStart = raw.indexOf("[", itemsIdx);
+  if (arrayStart === -1) return null;
+
+  let depth = 0;
+  let arrayEnd = -1;
+  for (let i = arrayStart; i < raw.length; i++) {
+    const ch = raw[i];
+    if (ch === "[") depth++;
+    else if (ch === "]") {
+      depth--;
+      if (depth === 0) {
+        arrayEnd = i;
+        break;
+      }
+    }
+  }
+  if (arrayEnd === -1) return null;
+
+  const jsonStr = `{ "items": ${raw.slice(arrayStart, arrayEnd + 1)} }`;
+  try {
+    return JSON.parse(jsonStr);
+  } catch {
+    return null;
+  }
+}
+
 function mapBillRecord(raw) {
   const nameInDb = raw.NameInDatabase || "";
   const billProps = raw.BillProperties || {};
   const fragProps = raw.StoryFragmentProperties || {};
   const title = billProps.Title || nameInDb;
+  const description = billProps.Description || "";
   const path = raw.Path || "";
 
   let gameKey = "Base";
@@ -198,12 +266,9 @@ function mapBillRecord(raw) {
   if (fragProps.StoryFragmentCondition) {
     conditions.push(fragProps.StoryFragmentCondition);
   }
-  if (billProps.IsVetoDisabledCondition) {
-    conditions.push(`Veto disabled when: ${billProps.IsVetoDisabledCondition}`);
-  }
 
-  const signEffects = splitScript(billProps.SignVariables);
-  const vetoEffects = splitScript(billProps.VetoVariables);
+  const signEffects = splitScript(billProps.SignVariables || billProps.SignInstruction);
+  const vetoEffects = splitScript(billProps.VetoVariables || billProps.VetoInstruction);
 
   const searchText = [
     nameInDb,
@@ -211,7 +276,7 @@ function mapBillRecord(raw) {
     path,
     conditions.join(" "),
     signEffects.join(" "),
-    vetoEffects.join(" ")
+    vetoEffects.join(" "),
   ]
     .join(" || ")
     .toLowerCase();
@@ -219,6 +284,7 @@ function mapBillRecord(raw) {
   return {
     nameInDb,
     title,
+    description,
     path,
     gameKey,
     gameLabel,

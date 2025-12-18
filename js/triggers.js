@@ -15,6 +15,30 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+async function loadTriggerData() {
+  const paths = ["../data/Entity%20Text%20Asset.txt", "../data/Entity Text Asset.txt"];
+  for (const p of paths) {
+    try {
+      const raw = await fetch(p).then(r => r.text());
+      const blocks = extractDataBlocks(raw);
+      if (!blocks) continue;
+      const condRaw =
+        blocks.ConditionalInstruction
+        "";
+      const hudRaw =
+        blocks.HUDPeriodicStatModifier
+        "";
+      if (condRaw || hudRaw) {
+        return { condRaw, hudRaw };
+      }
+    } catch (e) {
+      console.warn("[Triggers] Failed to load from", p, e);
+    }
+  }
+
+  throw new Error("No trigger data found in Entity Text Asset.");
+}
+
 async function initTriggersPage() {
   const searchInput = document.getElementById("triggerSearchInput");
   const gameSelect = document.getElementById("triggerGameFilter");
@@ -35,11 +59,8 @@ async function initTriggersPage() {
 
   countInfo.textContent = "Loading triggers...";
 
-  // ---- Load both files in parallel ----
-  const [condRaw, hudRaw] = await Promise.all([
-    DataLoader.loadText("../data/ConditionalInstructionData.txt"),
-    DataLoader.loadText("../data/HUDPeriodicStatModifierData.txt").catch(() => "")
-  ]);
+  // ---- Load data (prefer Entity Text Asset) ----
+  const { condRaw, hudRaw } = await loadTriggerData();
 
   // ---- Parse ConditionalInstructionData ----
   const condEntries = parseConditionalEntries(condRaw);
@@ -98,7 +119,7 @@ async function initTriggersPage() {
     } else if (trigger.source === "conditional") {
       bits.push("Global rule");
     }
-    subtitle.textContent = bits.join(" Â· ");
+      subtitle.textContent = bits.join(" — ");
     header.appendChild(subtitle);
 
     const meta = document.createElement("span");
@@ -235,6 +256,52 @@ async function initTriggersPage() {
 
   // Initial render
   applyFilters();
+}
+
+function extractDataBlocks(text) {
+  if (!text) return null;
+  const regex = /string\s+(\w+)DataJson\s*=/g;
+  const matches = Array.from(text.matchAll(regex));
+  if (!matches.length) return null;
+
+  const blocks = {};
+  for (const m of matches) {
+    const name = m[1];
+    const braceStart = text.indexOf("{", m.index);
+    if (braceStart === -1) continue;
+    const braceEnd = findMatchingBrace(text, braceStart);
+    if (braceEnd === -1) continue;
+    blocks[name] = text.substring(braceStart, braceEnd + 1);
+  }
+  return blocks;
+}
+
+function findMatchingBrace(str, start) {
+  let depth = 0;
+  let inString = false;
+  let escaped = false;
+  for (let i = start; i < str.length; i++) {
+    const ch = str[i];
+    if (escaped) {
+      escaped = false;
+      continue;
+    }
+    if (ch === "\\") {
+      escaped = true;
+      continue;
+    }
+    if (ch === '"') {
+      inString = !inString;
+      continue;
+    }
+    if (inString) continue;
+    if (ch === "{") depth++;
+    else if (ch === "}") {
+      depth--;
+      if (depth === 0) return i;
+    }
+  }
+  return -1;
 }
 
 /* ---------- Parsing helpers ---------- */

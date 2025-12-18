@@ -109,6 +109,25 @@
     word-break: break-word;
 }
 
+/* Decision option blocks */
+.decision-option {
+    margin: 6px 0;
+}
+
+.card-subblock {
+    border: 1px solid rgba(31, 77, 88, 0.55);
+    background: linear-gradient(180deg, #2c4650 0%, #1f343c 100%);
+    border-radius: var(--radius-sm);
+    padding: 8px 10px;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.35);
+}
+
+.decision-option__title {
+    font-weight: 600;
+    color: #d9e6ea;
+    margin-bottom: 4px;
+}
+
 /* Slight color hints */
 
 .card-column-title:nth-child(1),
@@ -129,4 +148,33 @@
 .card-list::-webkit-scrollbar-thumb {
     background: rgba(110, 88, 60, 0.9);
     border-radius: 4px;
+}
+
+/* Focus bundle option styling */
+.card-section.focus-option {
+    background: linear-gradient(135deg, #1f2429, #1b1f23);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 8px;
+    padding: 10px 12px;
+}
+
+.card-section.focus-option + .card-section.focus-option {
+    margin-top: 8px;
+}
+
+.card-section.focus-option .card-section-title {
+    color: #e3d6aa;
+}
+
+/* Executions meta pill */
+.card-pill.exec-pill {
+    display: inline-block;
+    padding: 4px 10px;
+    margin-bottom: 10px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.06);
+    color: #f2e5b9;
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: 0.2px;
 }

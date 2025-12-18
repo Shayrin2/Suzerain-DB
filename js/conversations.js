@@ -18,10 +18,10 @@ async function initConversationsPage() {
   const exportMenu = document.getElementById("exportMenu");
   const exportConfirm = document.getElementById("exportConfirm");
   const exportCancel = document.getElementById("exportCancel");
-  const exportSpeakerText = document.getElementById("exportSpeakerText");
   const exportConditions = document.getElementById("exportConditions");
   const exportEffects = document.getElementById("exportEffects");
   const exportPosition = document.getElementById("exportPosition");
+  const exportMutex = document.getElementById("exportMutex");
 
   const RIZIA_FIRST_CONVERSATION_ID = 287;
 
@@ -613,15 +613,13 @@ async function initConversationsPage() {
 
       nodes.forEach(node => {
         const row = [];
-        if (options.speakerText) {
-          const text =
-            node.choiceText ||
-            node.enText ||
-            node.npcText ||
-            node.rawTitle ||
-            "";
-          row.push(`- ${speakerDisplay(node)}: ${text}`.trim());
-        }
+        const text =
+          node.choiceText ||
+          node.enText ||
+          node.npcText ||
+          node.rawTitle ||
+          "";
+        row.push(`- ${speakerDisplay(node)}: ${text}`.trim());
         if (options.position) {
           row.push(`(Node ${node.id ?? "?"} in conversation ${node.conversationID ?? "?"})`);
         }
@@ -639,6 +637,9 @@ async function initConversationsPage() {
             lines.push(`  Effects: ${effs.join(" | ")}`);
           }
         }
+        if (options.mutex && node.mutexIds && node.mutexIds.length) {
+          lines.push(`  Mutually exclusive with: ${node.mutexIds.join(", ")}`);
+        }
       });
 
       lines.push(""); // blank line between conversations
@@ -649,10 +650,10 @@ async function initConversationsPage() {
 
   function handleExport() {
     const opts = {
-      speakerText: exportSpeakerText?.checked !== false,
       conditions: exportConditions?.checked !== false,
       effects: exportEffects?.checked !== false,
       position: exportPosition?.checked !== false,
+      mutex: exportMutex?.checked !== false,
     };
 
     const content = buildExportText(opts);

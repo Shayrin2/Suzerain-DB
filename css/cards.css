@@ -150,6 +150,16 @@
     border-radius: 4px;
 }
 
+/* Sub-blocks for options (e.g., triggers/decisions) */
+.card-subblock {
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    background: linear-gradient(180deg, #1f2024 0%, #191a1e 100%);
+    border-radius: var(--radius-sm);
+    padding: 8px 10px;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.35);
+    margin-top: 8px;
+}
+
 /* Focus bundle option styling */
 .card-section.focus-option {
     background: linear-gradient(135deg, #1f2429, #1b1f23);

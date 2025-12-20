@@ -170,6 +170,27 @@ async function initConversationsPage() {
   function buildNodeCard(node, gameKey) {
     const menuText = normalizeMenuText(node.menuText);
     const spokenText = (node.enText || node.npcText || "").trim();
+    const effectsText = (node.effects || []).join("; ").trim();
+    const primaryText =
+      menuText ||
+      node.choiceText ||
+      spokenText ||
+      (node.rawTitle || "").trim();
+    const hasMeaningfulText = primaryText && primaryText.trim();
+    // Drop mechanics-only consequence nodes whose visible text is just the effects string
+    if (!hasMeaningfulText) return null;
+    if (effectsText) {
+      const p = primaryText.trim();
+      const e = effectsText.trim();
+      const normalizedEffects = e.replace(/;\\s*/g, " ");
+      const looksLikeEffects =
+        p === e ||
+        p === normalizedEffects ||
+        normalizedEffects.includes(p) ||
+        p.includes(normalizedEffects);
+      if (looksLikeEffects) return null;
+    }
+
     const isPlayerChoice = canonicalSpeakerKey(node) === "player";
     const title =
       menuText ||
@@ -318,7 +339,8 @@ async function initConversationsPage() {
       const frag = document.createDocumentFragment();
       orderedGroups.forEach(group => {
         group.nodes.forEach(node => {
-          frag.appendChild(buildNodeCard(node, gameKey));
+          const card = buildNodeCard(node, gameKey);
+          if (card) frag.appendChild(card);
         });
       });
 
@@ -503,6 +525,21 @@ async function initConversationsPage() {
 
     const hasTextSearch = q.length > 0;
 
+    const isMechanicsOnly = (node) => {
+      const primaryText =
+        normalizeMenuText(node.menuText) ||
+        node.choiceText ||
+        (node.enText || node.npcText || "").trim() ||
+        (node.rawTitle || "").trim();
+      const effectsText = (node.effects || []).join("; ").trim();
+      if (!primaryText) return !!effectsText; // no text, only mechanics
+      if (!effectsText) return false;
+      const p = primaryText.trim();
+      const eNorm = effectsText.replace(/;\\s*/g, " ").trim();
+      const pNorm = p.replace(/;\\s*/g, " ").trim();
+      return pNorm === eNorm || pNorm.includes(eNorm) || eNorm.includes(pNorm);
+    };
+
     filteredByConversation = new Map();
     let visibleChoices = 0;
 
@@ -531,15 +568,41 @@ async function initConversationsPage() {
           if (nodeSpeakerKey !== speakerValue) return false;
         }
 
-        if (!hasTextSearch) return true;
+        if (!hasTextSearch) {
+          // Skip mechanics-only nodes when not searching
+          if (isMechanicsOnly(node)) return false;
+          return true;
+        }
 
         // Only run expensive text search when q is non-empty
-        return FilterUtils.textMatch(node, q, [
-          "choiceText",
-          "npcText",
-          "conditions",
-          "effects",
-        ]);
+        const aggConds = getAggregatedConditions(node) || [];
+        const aggEffs = getAggregatedEffects(node) || [];
+
+        const matches =
+          FilterUtils.textMatch(node, q, [
+            "choiceText",
+            "npcText",
+            "conditions",
+            "effects",
+            "rawTitle",
+          ]) ||
+          (() => {
+            const hay = [
+              node.choiceText,
+              node.npcText,
+              node.rawTitle,
+              ...aggConds,
+              ...aggEffs,
+            ]
+              .join(" ")
+              .toLowerCase();
+            return hay.includes(q.toLowerCase());
+          })();
+
+        // For effect-only nodes, only show if search matched
+        if (matches) return true;
+        if (isMechanicsOnly(node)) return false;
+        return matches;
       });
 
       if (filteredNodes.length > 0) {

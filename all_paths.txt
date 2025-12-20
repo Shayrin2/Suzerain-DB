@@ -1,0 +1,437 @@
+[conversations] (14)
+Rizia/Conversations/Floating
+Rizia/Conversations/Turn 1
+Rizia/Conversations/Turn 10
+Rizia/Conversations/Turn 11
+Rizia/Conversations/Turn 2
+Rizia/Conversations/Turn 3
+Rizia/Conversations/Turn 4
+Rizia/Conversations/Turn 5
+Rizia/Conversations/Turn 6
+Rizia/Conversations/Turn 7
+Rizia/Conversations/Turn 8
+Rizia/Conversations/Turn 9
+Sordland/Conversations
+Sordland/Conversations/WIP
+
+[decisions] (13)
+Rizia/Decisions
+Rizia/Decisions/Bonuses
+Rizia/Decisions/Crime and Drug
+Rizia/Decisions/Penalties
+Rizia/Decisions/Reform/Protests
+Rizia/Decisions/Religious
+Rizia/Decisions/Religious Approvals and Disapprovals
+Rizia/Decisions/Sanctuary Construction Decisions
+Rizia/Decisions/Trade Deal Energy Payment Failures
+Rizia/Decisions/Vendonesam Chain
+Rizia/Decisions/War Related Decisions
+Rizia/Decisions/Zille
+Sordland/Decisions
+
+[bills] (2)
+Rizia/Bills
+Sordland/Bills
+
+[decrees] (85)
+Rizia/Conditional Instructions/Check Per Step/Narrative/Royal Decrees
+Rizia/Conditional Instructions/Manual/Religion/Royal Decrees
+Rizia/Decisions/Post Decree or Situation Events
+Rizia/News/Royal Decree News/G Royal Decrees
+Rizia/News/Royal Decree News/RH Royal Decrees
+Rizia/News/Royal Decree News/V Royal Decrees
+Rizia/Royal Decrees Panel
+Rizia/Royal Decrees Panel/Construction Decrees
+Rizia/Royal Decrees Panel/Decree Approvals/Angelica Sazon
+Rizia/Royal Decrees Panel/Decree Approvals/Angelica Sazon/Economy
+Rizia/Royal Decrees Panel/Decree Approvals/Angelica Sazon/Order
+Rizia/Royal Decrees Panel/Decree Approvals/Angelica Sazon/Order/New WIP
+Rizia/Royal Decrees Panel/Decree Approvals/Angelica Sazon/Welfare
+Rizia/Royal Decrees Panel/Decree Approvals/Axel Reinhart
+Rizia/Royal Decrees Panel/Decree Approvals/Axel Reinhart/Economy
+Rizia/Royal Decrees Panel/Decree Approvals/Axel Reinhart/Order
+Rizia/Royal Decrees Panel/Decree Approvals/Axel Reinhart/Order/New WIP
+Rizia/Royal Decrees Panel/Decree Approvals/Axel Reinhart/Welfare
+Rizia/Royal Decrees Panel/Decree Approvals/Daria De Rava
+Rizia/Royal Decrees Panel/Decree Approvals/Daria De Rava/Economy
+Rizia/Royal Decrees Panel/Decree Approvals/Daria De Rava/Order
+Rizia/Royal Decrees Panel/Decree Approvals/Daria De Rava/Order/New WIP
+Rizia/Royal Decrees Panel/Decree Approvals/Daria De Rava/Welfare
+Rizia/Royal Decrees Panel/Decree Approvals/Elena Werner
+Rizia/Royal Decrees Panel/Decree Approvals/Elena Werner/Economy
+Rizia/Royal Decrees Panel/Decree Approvals/Elena Werner/Order
+Rizia/Royal Decrees Panel/Decree Approvals/Elena Werner/Order/New WIP
+Rizia/Royal Decrees Panel/Decree Approvals/Elena Werner/Welfare
+Rizia/Royal Decrees Panel/Decree Approvals/Hugo Toras
+Rizia/Royal Decrees Panel/Decree Approvals/Hugo Toras/Economy
+Rizia/Royal Decrees Panel/Decree Approvals/Hugo Toras/Order
+Rizia/Royal Decrees Panel/Decree Approvals/Hugo Toras/Order/New WIP
+Rizia/Royal Decrees Panel/Decree Approvals/Hugo Toras/Welfare
+Rizia/Royal Decrees Panel/Decree Approvals/Laurento Esquibel
+Rizia/Royal Decrees Panel/Decree Approvals/Laurento Esquibel/Economy
+Rizia/Royal Decrees Panel/Decree Approvals/Laurento Esquibel/Order
+Rizia/Royal Decrees Panel/Decree Approvals/Laurento Esquibel/Order/New WIP
+Rizia/Royal Decrees Panel/Decree Approvals/Laurento Esquibel/Welfare
+Rizia/Royal Decrees Panel/Decree Approvals/Lucita Azaro
+Rizia/Royal Decrees Panel/Decree Approvals/Lucita Azaro/Economy
+Rizia/Royal Decrees Panel/Decree Approvals/Lucita Azaro/Order
+Rizia/Royal Decrees Panel/Decree Approvals/Lucita Azaro/Order/New WIP
+Rizia/Royal Decrees Panel/Decree Approvals/Lucita Azaro/Welfare
+Rizia/Royal Decrees Panel/Decree Approvals/Rico Toras
+Rizia/Royal Decrees Panel/Decree Approvals/Rico Toras/Economy
+Rizia/Royal Decrees Panel/Decree Approvals/Rico Toras/Order
+Rizia/Royal Decrees Panel/Decree Approvals/Rico Toras/Order/New WIP
+Rizia/Royal Decrees Panel/Decree Approvals/Rico Toras/Welfare
+Rizia/Royal Decrees Panel/Decree Approvals/Rusty Montoro
+Rizia/Royal Decrees Panel/Decree Approvals/Rusty Montoro/Economy
+Rizia/Royal Decrees Panel/Decree Approvals/Rusty Montoro/Order
+Rizia/Royal Decrees Panel/Decree Approvals/Rusty Montoro/Order/New WIP
+Rizia/Royal Decrees Panel/Decree Approvals/Rusty Montoro/Welfare
+Rizia/Royal Decrees Panel/Decree Approvals/Sal Ignacius
+Rizia/Royal Decrees Panel/Decree Approvals/Sal Ignacius/Economy
+Rizia/Royal Decrees Panel/Decree Approvals/Sal Ignacius/Order
+Rizia/Royal Decrees Panel/Decree Approvals/Sal Ignacius/Order/New WIP
+Rizia/Royal Decrees Panel/Decree Approvals/Sal Ignacius/Welfare
+Rizia/Royal Decrees Panel/Decree Approvals/Taddeus Azaro
+Rizia/Royal Decrees Panel/Decree Approvals/Taddeus Azaro/Economy
+Rizia/Royal Decrees Panel/Decree Approvals/Taddeus Azaro/Order
+Rizia/Royal Decrees Panel/Decree Approvals/Taddeus Azaro/Order/New WIP
+Rizia/Royal Decrees Panel/Decree Approvals/Taddeus Azaro/Welfare
+Rizia/Royal Decrees Panel/Decree Approvals/Titus Gordion
+Rizia/Royal Decrees Panel/Decree Approvals/Titus Gordion/Economy
+Rizia/Royal Decrees Panel/Decree Approvals/Titus Gordion/Order
+Rizia/Royal Decrees Panel/Decree Approvals/Titus Gordion/Order/New WIP
+Rizia/Royal Decrees Panel/Decree Approvals/Titus Gordion/Welfare
+Rizia/Royal Decrees Panel/Decree Approvals/Vina Toras
+Rizia/Royal Decrees Panel/Decree Approvals/Vina Toras/Economy
+Rizia/Royal Decrees Panel/Decree Approvals/Vina Toras/Order
+Rizia/Royal Decrees Panel/Decree Approvals/Vina Toras/Order/New WIP
+Rizia/Royal Decrees Panel/Decree Approvals/Vina Toras/Welfare
+Rizia/Royal Decrees Panel/Economy Decrees
+Rizia/Royal Decrees Panel/Order Decrees
+Rizia/Royal Decrees Panel/Religion Decrees
+Rizia/Royal Decrees Panel/Trade Decrees/Military
+Rizia/Royal Decrees Panel/Trade Decrees/Resource
+Rizia/Royal Decrees Panel/Welfare Decrees
+Sordland/Paged Decision Panels/Emergency Decree Panel
+Sordland/Paged Decision Panels/Emergency Decree Panel/Section 1
+Sordland/Paged Decision Panels/Emergency Decree Panel/Section 2
+Sordland/Paged Decision Panels/Emergency Decree Panel/Section 3
+Sordland/Presidential Decrees Panel
+Sordland/Presidential Decrees Panel/Decrees
+
+[panels] (80)
+Rizia/Paged Decisions Panel/Executions Panel
+Rizia/Paged Decisions Panel/Executions Panel/Arrested People
+Rizia/Paged Decisions Panel/Executions Panel/Execution Method
+Rizia/Paged Decisions Panel/Executions Panel/Publicity
+Rizia/Paged Decisions Panel/Focus Panel
+Rizia/Paged Decisions Panel/Focus Panel/Diplomacy
+Rizia/Paged Decisions Panel/Focus Panel/Economy
+Rizia/Paged Decisions Panel/Focus Panel/Government
+Rizia/Paged Decisions Panel/Focus Panel/Security
+Rizia/Paged Decisions Panel/Morella Nationalization Demands
+Rizia/Paged Decisions Panel/Morella Nationalization Demands/ConcessionOptions
+Rizia/Paged Decisions Panel/Morella Nationalization Demands/DemandOptions
+Rizia/Paged Decisions Panel/Morella Nationalization Demands/Nationalization
+Rizia/Paged Decisions Panel/Morella Nationalization Demands/Renegotiation
+Rizia/Paged Decisions Panel/Wehlen Negotiations Promises Panel
+Rizia/Paged Decisions Panel/Wehlen Negotiations Promises Panel/Section 1 - Import
+Rizia/Paged Decisions Panel/Wehlen Negotiations Promises Panel/Section 2 - Export
+Rizia/Paged Decisions Panel/Wehlen Negotiations Promises Panel/Section 3 - Border Security
+Rizia/Paged Decisions Panel/Wehlen Negotiations Promises Panel/Section 4 - Counter Insurgency
+Rizia/Paged Decisions Panel/Wehlen Negotiations Promises Panel/Section 5 - Rights
+Rizia/Prologue Skip
+Rizia/Prologue Skip/Page_CrownPrinceFocus
+Rizia/Prologue Skip/Page_DiversityOrNationalism
+Rizia/Prologue Skip/Page_DukeValenqiris
+Rizia/Prologue Skip/Page_Education
+Rizia/Prologue Skip/Page_FamilyBoatTrip
+Rizia/Prologue Skip/Page_FormativeYearsRomus
+Rizia/Prologue Skip/Page_Kidnapping
+Rizia/Prologue Skip/Page_PalesRelations
+Rizia/Prologue Skip/Page_ReclamationWarProtests
+Rizia/Prologue Skip/Page_RelationshipFather
+Rizia/Prologue Skip/Page_RelationshipToPabel
+Rizia/Prologue Skip/Page_Religious
+Rizia/Prologue Skip/Page_RoyalFamily
+Rizia/Prologue Skip/Page_SummersInRizia
+Sordland/Paged Decision Panels/Budget Panel
+Sordland/Paged Decision Panels/Budget Panel/Education
+Sordland/Paged Decision Panels/Budget Panel/Healthcare
+Sordland/Paged Decision Panels/Budget Panel/Military
+Sordland/Paged Decision Panels/Budget Panel/Security
+Sordland/Paged Decision Panels/Dictator Constitution Panel
+Sordland/Paged Decision Panels/Dictator Constitution Panel/Section 1
+Sordland/Paged Decision Panels/Dictator Constitution Panel/Section 2
+Sordland/Paged Decision Panels/Dictator Constitution Panel/Section 3
+Sordland/Paged Decision Panels/Dictator Constitution Panel/Section 4
+Sordland/Paged Decision Panels/Dictator Constitution Panel/Section 5
+Sordland/Paged Decision Panels/Dictator Constitution Panel/Section 6
+Sordland/Paged Decision Panels/Dictator Constitution Panel/Section 7
+Sordland/Paged Decision Panels/Dictator Constitution Panel/Section 8
+Sordland/Paged Decision Panels/Dictator Constitution Panel/Section 9
+Sordland/Paged Decision Panels/Nationalization Panel
+Sordland/Paged Decision Panels/Nationalization Panel/BergiaSteel
+Sordland/Paged Decision Panels/Nationalization Panel/HOS
+Sordland/Paged Decision Panels/Privatization Panel
+Sordland/Paged Decision Panels/Privatization Panel/Nedam
+Sordland/Paged Decision Panels/Privatization Panel/SSC
+Sordland/Paged Decision Panels/Promises Panel
+Sordland/Paged Decision Panels/Promises Panel/Diplomacy
+Sordland/Paged Decision Panels/Promises Panel/Economy
+Sordland/Paged Decision Panels/Promises Panel/Focus
+Sordland/Paged Decision Panels/Promises Panel/Immigration
+Sordland/Paged Decision Panels/Reformist Constitution Panel
+Sordland/Paged Decision Panels/Reformist Constitution Panel/Section 1
+Sordland/Paged Decision Panels/Reformist Constitution Panel/Section 2
+Sordland/Paged Decision Panels/Reformist Constitution Panel/Section 3
+Sordland/Paged Decision Panels/Reformist Constitution Panel/Section 4
+Sordland/Paged Decision Panels/Reformist Constitution Panel/Section 5
+Sordland/Paged Decision Panels/Reformist Constitution Panel/Section 6
+Sordland/Paged Decision Panels/Reformist Constitution Panel/Section 7
+Sordland/Paged Decision Panels/Reformist Constitution Panel/Section 8
+Sordland/Paged Decision Panels/Reformist Constitution Panel/Section 9
+Sordland/Prologue Skip
+Sordland/Prologue Skip/Page_CampaignPromise
+Sordland/Prologue Skip/Page_Extracurricular
+Sordland/Prologue Skip/Page_Family
+Sordland/Prologue Skip/Page_FormativeYearsAnton
+Sordland/Prologue Skip/Page_OppositionUSP
+Sordland/Prologue Skip/Page_TakePower
+Sordland/Prologue Skip/Page_University
+Sordland/Prologue Skip/Page_YouthOrganization
+
+[triggers] (57)
+Rizia/Conditional Instructions/Check On Specific Turn + Step
+Rizia/Conditional Instructions/Check On Specific Turn + Step/House of Delegates Election
+Rizia/Conditional Instructions/Check On Specific Turn + Step/Leaning
+Rizia/Conditional Instructions/Check On Specific Turn + Step/NationalDestabilization
+Rizia/Conditional Instructions/Check On Specific Turn + Step/Shared News
+Rizia/Conditional Instructions/Check On Specific Turn + Step/Situations
+Rizia/Conditional Instructions/Check Per Step
+Rizia/Conditional Instructions/Check Per Step/FLOATING
+Rizia/Conditional Instructions/Check Per Step/Housing
+Rizia/Conditional Instructions/Check Per Step/International
+Rizia/Conditional Instructions/Check Per Step/Narrative/Decisions
+Rizia/Conditional Instructions/Check Per Step/Narrative/Housing
+Rizia/Conditional Instructions/Check Per Step/Narrative/Malenyevism Morella Border
+Rizia/Conditional Instructions/Check Per Step/Narrative/National Destabilization
+Rizia/Conditional Instructions/Check Per Step/Narrative/Pales
+Rizia/Conditional Instructions/Check Per Step/Narrative/Religious
+Rizia/Conditional Instructions/Check Per Step/Narrative/Resources
+Rizia/Conditional Instructions/Check Per Step/Narrative/Vina Duchess
+Rizia/Conditional Instructions/Check Per Step/Narrative/Workers Rights
+Rizia/Conditional Instructions/Check Per Step/Narrative/Zille
+Rizia/Conditional Instructions/Check Per Step/PipelineSabotage
+Rizia/Conditional Instructions/Check Per Step/Situations
+Rizia/Conditional Instructions/Check Per Story Fragment
+Rizia/Conditional Instructions/Check Per Story Fragment/Codex
+Rizia/Conditional Instructions/Check Per Story Fragment/Constructions
+Rizia/Conditional Instructions/Check Per Story Fragment/Country Relations
+Rizia/Conditional Instructions/Check Per Story Fragment/Ending
+Rizia/Conditional Instructions/Check Per Story Fragment/House Relations
+Rizia/Conditional Instructions/Check Per Story Fragment/Policies
+Rizia/Conditional Instructions/Check Per Story Fragment/Reform Movement
+Rizia/Conditional Instructions/Check Per Story Fragment/Situations/Diplomacy
+Rizia/Conditional Instructions/Check Per Story Fragment/Situations/Military
+Rizia/Conditional Instructions/Check Per Story Fragment/Situations/Order
+Rizia/Conditional Instructions/Check Per Story Fragment/Situations/Power Projection
+Rizia/Conditional Instructions/Check Per Story Fragment/War
+Rizia/Conditional Instructions/Check Per Turn
+Rizia/Conditional Instructions/Check Per Turn/Policies
+Rizia/Conditional Instructions/Check Per Turn/Resource Cap
+Rizia/Conditional Instructions/Check Per Turn/Resources
+Rizia/Conditional Instructions/Check Per Turn/Situations
+Rizia/Conditional Instructions/Check Per Turn/Trade Deals
+Rizia/Conditional Instructions/Manual
+Rizia/Conditional Instructions/Manual/Economy
+Rizia/Conditional Instructions/Manual/Ending
+Rizia/Conditional Instructions/Manual/Global Perception
+Rizia/Conditional Instructions/Manual/House Opinions
+Rizia/Conditional Instructions/Manual/Human Rights
+Rizia/Conditional Instructions/Manual/Living Standards
+Rizia/Conditional Instructions/Manual/Power Projection
+Rizia/Conditional Instructions/Manual/Reform Movement
+Rizia/Conditional Instructions/Manual/Religion
+Rizia/Conditional Instructions/Manual/Religion/Decisions
+Rizia/Conditional Instructions/Manual/Religion/Sacterian Opinions
+Rizia/Conditional Instructions/Manual/Sanctuary Narrative Support
+Rizia/Conditional Instructions/Manual/War Op Results Triggered from Code
+Sordland/Conditional Instructions/Fiscal Review Set
+Sordland/Conditional Instructions/Manual
+
+[policies & situations] (38)
+Rizia/Policies/Diplomacy/Default Starting Policies
+Rizia/Policies/Economy/Default Starting Policies
+Rizia/Policies/Law/Default Starting Policies
+Rizia/Policies/Military/Default Starting Policies
+Rizia/Policies/Order/Default Starting Policies
+Rizia/Policies/Welfare/Default Starting Policies
+Rizia/Situations/Diplomacy/Starting Situations
+Rizia/Situations/Economy/Starting Situations
+Rizia/Situations/Law/Starting Situations
+Rizia/Situations/Military/Starting Situations
+Rizia/Situations/Order/Starting Situations
+Rizia/Situations/Welfare/Starting Situations
+Rizia/Policies/Diplomacy/Non Default Policies
+Rizia/Policies/Economy/Non Default Policies
+Rizia/Policies/Law/Non Default Policies
+Rizia/Policies/Military/Non Default Policies
+Rizia/Policies/Order/Non Default Policies
+Rizia/Policies/Order/Non Default Policies/WIP
+Rizia/Policies/Welfare/Non Default Policies
+Rizia/Policies/Welfare/Non Default Policies/WIP
+Rizia/Situations/Diplomacy/Non Default Situations
+Rizia/Situations/Economy/Non Default Situations
+Rizia/Situations/Law/Non Default Situations
+Rizia/Situations/Military/Non Default Situations
+Rizia/Situations/Order/Non Default Situations
+Rizia/Situations/Welfare/Non Default Situations
+Rizia/Policies/Economy/WIP
+Rizia/Policies/Law/WIP
+Rizia/Policies/Military/WIP
+Rizia/Situations/Diplomacy/WIP
+Rizia/Situations/Economy/WIP
+Rizia/Situations/Law/WIP
+Rizia/Situations/Military/WIP
+Rizia/Situations/Welfare/WIP
+Sordland/Policies
+Sordland/Policies/2.0
+Sordland/Situations
+Sordland/Situations/2.0
+
+[news] (39)
+Rizia/News Categories
+Rizia/News/Decision News
+Rizia/News/Floating
+Rizia/News/Turn 1
+Rizia/News/Turn 1/WIP_Turn01
+Rizia/News/Turn 10
+Rizia/News/Turn 10/House Gathering and Fallout
+Rizia/News/Turn 10/WIP
+Rizia/News/Turn 11
+Rizia/News/Turn 2
+Rizia/News/Turn 2/WIP_Turn02
+Rizia/News/Turn 3
+Rizia/News/Turn 4
+Rizia/News/Turn 5
+Rizia/News/Turn 6
+Rizia/News/Turn 7
+Rizia/News/Turn 8
+Rizia/News/Turn 8/WIP
+Rizia/News/Turn 9
+Rizia/News/Turn 9/MITZ
+Rizia/News/Turn 9/WIP
+Rizia/News/WarFragment
+Rizia/News/World Narrative G News
+Shared/Shared News
+Shared/Shared News Categories
+Shared/Shared News/NotInRiziaYet
+Sordland/News Categories
+Sordland/News/2.0
+Sordland/News/2.0/WIP
+Sordland/News/Turn 1
+Sordland/News/Turn 10
+Sordland/News/Turn 2
+Sordland/News/Turn 3
+Sordland/News/Turn 4
+Sordland/News/Turn 5
+Sordland/News/Turn 6
+Sordland/News/Turn 7
+Sordland/News/Turn 8
+Sordland/News/Turn 9
+
+[game flow] (22)
+Rizia/Game Flow/Turn_1
+Rizia/Game Flow/Turn_10
+Rizia/Game Flow/Turn_11
+Rizia/Game Flow/Turn_2
+Rizia/Game Flow/Turn_3
+Rizia/Game Flow/Turn_4
+Rizia/Game Flow/Turn_5
+Rizia/Game Flow/Turn_6
+Rizia/Game Flow/Turn_7
+Rizia/Game Flow/Turn_8
+Rizia/Game Flow/Turn_9
+Sordland/Game Flow/Turn_1
+Sordland/Game Flow/Turn_10
+Sordland/Game Flow/Turn_11
+Sordland/Game Flow/Turn_2
+Sordland/Game Flow/Turn_3
+Sordland/Game Flow/Turn_4
+Sordland/Game Flow/Turn_5
+Sordland/Game Flow/Turn_6
+Sordland/Game Flow/Turn_7
+Sordland/Game Flow/Turn_8
+Sordland/Game Flow/Turn_9
+
+[hud & graphs] (13)
+Rizia/HUD Panel
+Rizia/HUD Panel/Modifiers/Authority
+Rizia/HUD Panel/Modifiers/Budget
+Rizia/HUD Panel/Modifiers/Energy
+Rizia/HUD Panel/Modifiers/Military/Aircraft
+Rizia/HUD Panel/Modifiers/Military/Battle Ship
+Rizia/HUD Panel/Modifiers/Military/Equipment
+Rizia/HUD Panel/Modifiers/Military/Manpower
+Rizia/HUD Panel/Modifiers/Military/Submarine
+Rizia/HUD Panel/Modifiers/Military/Support Vehicle
+Rizia/HUD Panel/Modifiers/Military/Tank
+Sordland/Graph Panel
+Sordland/HUD Panel
+
+[journal] (23)
+Rizia/Journal Entries/Floating
+Rizia/Journal Entries/Floating/WIP
+Rizia/Journal Entries/New Decision Journals
+Rizia/Journal Entries/Prologue
+Rizia/Journal Entries/Royal Decrees
+Rizia/Journal Entries/Turn01
+Rizia/Journal Entries/Turn02
+Rizia/Journal Entries/Turn03
+Rizia/Journal Entries/Turn04
+Rizia/Journal Entries/Turn05
+Rizia/Journal Entries/Turn06
+Rizia/Journal Entries/Turn07
+Rizia/Journal Entries/Turn08
+Rizia/Journal Entries/Turn08/WIP
+Rizia/Journal Entries/Turn09
+Rizia/Journal Entries/Turn09/WIP
+Rizia/Journal Entries/Turn10
+Rizia/Journal Entries/Turn10/Birthday Gathering And Fallout
+Rizia/Journal Entries/Turn11
+Rizia/Journal Entries/War Mechanics
+Sordland/Journal Entries
+Sordland/Journal Entries/2.0
+Sordland/Journal Entries/WIP
+
+[prologue/epilogue] (4)
+Rizia/Prologue Epilogue/Prologue Timeline
+Rizia/Prologue Epilogue/Tooltips
+Sordland/Prologue Epilogue/Prologue Timeline
+Sordland/Prologue Epilogue/Tooltips
+
+[reminder panels] (4)
+Rizia/Reminder Panel/Morella Nationalization Demands
+Rizia/Reminder Panel/Wehlen Trade Negotiations
+Sordland/Reminder Panel/Draft Constitutional Changes Panel
+Sordland/Reminder Panel/Emergency Decree Reminder Panel
+
+[war & summary] (4)
+Rizia/Summary
+Rizia/War Fragments
+Rizia/War Production Panel
+Sordland/Summary
+
+[setup/system] (4)
+Setup/App Bundles
+Setup/Conditional Achievements
+Setup/Story Packs
+Sordland/Archetypes
+
+[codex] (4)
+Shared/Codex Categories/Characters
+Shared/Codex Categories/History
+Shared/Codex Categories/Locations
+Shared/Codex Categories/Organisations

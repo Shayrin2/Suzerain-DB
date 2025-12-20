@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Situations & Policies — Suzerain Database</title>
+  <link rel="stylesheet" href="../css/main.css" />
+  <link rel="stylesheet" href="../css/panels.css" />
+  <link rel="stylesheet" href="../css/cards.css" />
+</head>
+<body>
+  <section class="page">
+    <header class="page-header">
+      <h2>Situations & Policies</h2>
+      <p class="page-subtitle">
+        Browse game state conditions and policy toggles, grouped by category.
+      </p>
+    </header>
+
+    <section class="filters">
+      <div class="filters-group">
+        <span class="filters-label">Search</span>
+        <input
+          type="text"
+          id="spSearchInput"
+          placeholder="Title / variable / description"
+        />
+      </div>
+
+      <div class="filters-group">
+        <span class="filters-label">Type</span>
+        <select id="spTypeFilter">
+          <option value="">(All)</option>
+          <option value="Policy">Policy</option>
+          <option value="Situation">Situation</option>
+        </select>
+      </div>
+
+      <div class="filters-group">
+        <span class="filters-label">Category</span>
+        <select id="spCategoryFilter">
+          <option value="">(All)</option>
+        </select>
+      </div>
+
+      <div class="filters-group">
+        <span class="filters-label">Severity</span>
+        <select id="spSeverityFilter">
+          <option value="">(All)</option>
+          <option value="Low">Low</option>
+          <option value="Medium">Medium</option>
+          <option value="High">High</option>
+        </select>
+      </div>
+
+      <div class="filters-group">
+        <span class="filters-label">Game</span>
+        <select id="spGameFilter">
+          <option value="">(All)</option>
+          <option value="Base">Base game</option>
+          <option value="RiziaDLC">Rizia DLC</option>
+        </select>
+      </div>
+
+      <div class="spacer"></div>
+      <span class="count-info" id="spCountInfo"></span>
+
+      <div class="export-wrapper">
+        <button id="spExportBtn" class="btn-secondary">Export</button>
+        <div id="spExportMenu" class="export-menu" hidden>
+          <p class="export-title">Include in export:</p>
+          <label class="export-check">
+            <input type="checkbox" id="spExportDescription" checked />
+            Description
+          </label>
+          <label class="export-check">
+            <input type="checkbox" id="spExportMeta" checked />
+            Meta (category / game / type)
+          </label>
+          <div class="export-actions">
+            <button type="button" id="spExportConfirm" class="btn-primary">Export</button>
+            <button type="button" id="spExportCancel" class="btn-tertiary">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="spRoot">
+      <div id="spList" class="cards-container">
+        <!-- JS will inject cards -->
+      </div>
+    </section>
+  </section>
+
+  <script src="../js/core/loader.js"></script>
+  <script src="../js/situations.js"></script>
+</body>
+</html>

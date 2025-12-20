@@ -11,6 +11,7 @@ async function initConversationsPage() {
   const gameSelect = document.getElementById("gameFilter");
   const hideNarrator = document.getElementById("hideNarrator");
   const onlyConsequential = document.getElementById("onlyConsequential");
+  const hideMechanics = document.getElementById("hideMechanics");
 
   const countInfo = document.getElementById("countInfo");
   const listContainer = document.getElementById("results");
@@ -51,6 +52,76 @@ async function initConversationsPage() {
 
   const RENDERED_CARD_FLAG = Symbol("renderedCards");
   let dataReady = false;
+
+  function isMechanicsOnlyNode(node) {
+    const menu = normalizeMenuText(node.menuText) || "";
+    const spoken = (node.enText || node.npcText || "").trim();
+    const raw = (node.rawTitle || "").trim();
+    const choice = (node.choiceText || "").trim();
+    const primaryText = menu || choice || spoken || raw;
+    const effectsText = (node.effects || []).join("; ").trim();
+    const conditionsText = (node.conditions || []).join("; ").trim();
+
+    const commandLike = (s) => {
+      if (!s) return false;
+      const lower = s.trim().toLowerCase();
+      return (
+        lower.startsWith("end()") ||
+        lower.startsWith("jump to:") ||
+        lower.startsWith("//") ||
+        lower.startsWith("advancetimeline") ||
+        lower.startsWith("lookatmodeoff") ||
+        lower.startsWith("dontplaymapmusic") ||
+        lower.startsWith("dontplaymapambience") ||
+        lower.startsWith("addconversant") ||
+        lower.startsWith("removeconversant") ||
+        lower.startsWith("playsoundeffect") ||
+        lower.startsWith("playloopedmusic") ||
+        lower.startsWith("playloopedmusicfancy") ||
+        lower.startsWith("stopmusic") ||
+        lower.startsWith("startcamera") ||
+        lower.startsWith("stopcamera") ||
+        lower.startsWith("fade") ||
+        lower.startsWith("cutscreen") ||
+        lower.startsWith("basegame.") ||
+        lower.startsWith("riziadlc.")
+      );
+    };
+
+    if (commandLike(raw) || commandLike(choice) || commandLike(spoken)) return true;
+
+    // If there's no readable text at all but mechanics exist
+    if (!menu && !spoken && !choice && node._hasMechanics) return true;
+
+    // If text looks like a pure expression (variable compare) with no spoken/menu text
+    const exprRe = /^!?[A-Za-z0-9_.\[\]"']+\s*(==|=|<=|>=|!=)/;
+    const exprReLoose = /==|!=|<=|>=|=|Variable\[/;
+    if (!spoken && !menu) {
+      if (choice && (exprRe.test(choice) || (choice.startsWith("(") && exprReLoose.test(choice)))) return true;
+      if (!choice && raw && (exprRe.test(raw) || (raw.startsWith("(") && exprReLoose.test(raw)))) return true;
+    }
+
+    // No visible text, only mechanics
+    if (!primaryText) return !!effectsText || !!conditionsText;
+
+    // If text looks like a pure expression and we have mechanics, drop it
+    const looksLikeExpression =
+      !spoken &&
+      !menu &&
+      /\b(==|!=|>=|<=|=)\b/.test(primaryText) &&
+      (node.conditions?.length || node.effects?.length);
+    if (looksLikeExpression) return true;
+
+    // If text matches the effects/conditions blob, drop it
+    const norm = (s) => s.replace(/;\s*/g, " ").trim().toLowerCase();
+    const pNorm = norm(primaryText);
+    const eNorm = norm(effectsText);
+    const cNorm = norm(conditionsText);
+    if (eNorm && (pNorm === eNorm || pNorm.includes(eNorm) || eNorm.includes(pNorm))) return true;
+    if (cNorm && (pNorm === cNorm || pNorm.includes(cNorm) || cNorm.includes(pNorm))) return true;
+
+    return false;
+  }
 
   // ---- tiny helpers ----
 
@@ -555,8 +626,10 @@ async function initConversationsPage() {
       const filteredNodes = baseChoices.filter(node => {
         if (isStartNode(node)) return false;
         const nodeSpeakerKey = canonicalSpeakerKey(node);
+        const hideMechanicsChecked = hideMechanics ? hideMechanics.checked : true;
 
         if (hideNarratorChecked && nodeSpeakerKey === "narrator") return false;
+        if (hideMechanicsChecked && isMechanicsOnlyNode(node)) return false;
         if (consequentialOnly && !node.isConsequential) return false;
 
         if (speakerValue === "__player") {
@@ -570,7 +643,7 @@ async function initConversationsPage() {
 
         if (!hasTextSearch) {
           // Skip mechanics-only nodes when not searching
-          if (isMechanicsOnly(node)) return false;
+          if (hideMechanicsChecked && isMechanicsOnlyNode(node)) return false;
           return true;
         }
 
@@ -601,7 +674,7 @@ async function initConversationsPage() {
 
         // For effect-only nodes, only show if search matched
         if (matches) return true;
-        if (isMechanicsOnly(node)) return false;
+        if (hideMechanicsChecked && isMechanicsOnlyNode(node)) return false;
         return matches;
       });
 
@@ -660,6 +733,7 @@ async function initConversationsPage() {
   gameSelect.addEventListener("change", applyFilters);
   hideNarrator.addEventListener("change", applyFilters);
   onlyConsequential.addEventListener("change", applyFilters);
+  hideMechanics?.addEventListener("change", applyFilters);
 
   function toggleExportMenu(show) {
     if (!exportMenu) return;
@@ -682,6 +756,14 @@ async function initConversationsPage() {
           node.npcText ||
           node.rawTitle ||
           "";
+        // Skip mechanics-only nodes when nothing is selected beyond the base line
+        const nothingExtra = !options.conditions && !options.effects && !options.mutex && !options.position;
+        if (nothingExtra && isMechanicsOnlyNode(node)) return;
+        if (nothingExtra) {
+          // Also skip placeholder End() nodes
+          const t = text.trim().toLowerCase();
+          if (t === "end()" || t === "end") return;
+        }
         row.push(`- ${speakerDisplay(node)}: ${text}`.trim());
         if (options.position) {
           row.push(`(Node ${node.id ?? "?"} in conversation ${node.conversationID ?? "?"})`);

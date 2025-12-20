@@ -243,7 +243,8 @@ function renderList() {
     const summary = document.createElement("summary");
     summary.className = "panel-title";
     const totalCount = Array.from(catMap.values()).reduce((acc, arr) => acc + arr.length, 0);
-    summary.textContent = `${type}s (${totalCount})`;
+    const typeLabel = type === "Policy" ? "Policies" : `${type}s`;
+    summary.textContent = `${typeLabel} (${totalCount})`;
     typePanel.appendChild(summary);
 
     const body = document.createElement("div");

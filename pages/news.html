@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>News & Reports — Suzerain Database</title>
+  <link rel="stylesheet" href="../css/main.css" />
+  <link rel="stylesheet" href="../css/panels.css" />
+  <link rel="stylesheet" href="../css/cards.css" />
+</head>
+<body>
+  <section class="page">
+    <header class="page-header">
+      <h2>News & Reports</h2>
+      <p class="page-subtitle">Browse newspapers and reports across all turns.</p>
+    </header>
+
+    <section class="filters">
+      <div class="filters-group">
+        <span class="filters-label">Search</span>
+        <input
+          type="text"
+          id="nrSearchInput"
+          placeholder="Title / description / variable"
+        />
+      </div>
+
+      <div class="filters-group">
+        <span class="filters-label">Type</span>
+        <select id="nrTypeFilter">
+          <option value="">(All)</option>
+          <option value="News">News</option>
+          <option value="Report">Report</option>
+        </select>
+      </div>
+
+      <div class="filters-group">
+        <span class="filters-label">Game</span>
+        <select id="nrGameFilter">
+          <option value="">(All)</option>
+          <option value="Base">Base game</option>
+          <option value="RiziaDLC">Rizia DLC</option>
+        </select>
+      </div>
+
+      <div class="filters-group">
+        <span class="filters-label">Turn</span>
+        <select id="nrTurnFilter">
+          <option value="">(All)</option>
+        </select>
+      </div>
+
+      <div class="filters-group">
+        <span class="filters-label">Category</span>
+        <select id="nrCategoryFilter">
+          <option value="">(All)</option>
+        </select>
+      </div>
+
+      <div class="spacer"></div>
+      <span class="count-info" id="nrCountInfo"></span>
+    </section>
+
+    <section id="nrResults" class="cards-container">
+      <!-- JS injects cards -->
+    </section>
+  </section>
+
+  <script src="../js/news.js"></script>
+</body>
+</html>

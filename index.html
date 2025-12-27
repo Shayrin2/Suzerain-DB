@@ -5,9 +5,42 @@
   <title>Suzerain – Dialogue Database</title>
   <link rel="stylesheet" href="css/main.css" />
   <link rel="stylesheet" href="css/panels.css" />
+  <script src="js/core/suzerainParser.js"></script>
+  <style>
+    #preload-overlay {
+      position: fixed;
+      inset: 0;
+      background: #0f1014;
+      color: #e6c987;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 10px;
+      font-family: "Segoe UI", sans-serif;
+      z-index: 9999;
+    }
+    #preload-text {
+      max-width: 80vw;
+      text-align: center;
+      white-space: pre-wrap;
+    }
+    /* Hide bar; rely on verbose text + percent instead */
+    #preload-bar { display: none; }
+    #preload-bar span { display: none; }
+    #app-shell.hidden {
+      visibility: hidden;
+    }
+  </style>
 </head>
 <body>
-  <header class="site-header">
+  <div id="preload-overlay">
+    <div id="preload-text">Loading assets...</div>
+    <div id="preload-bar"><span></span></div>
+  </div>
+
+  <div id="app-shell" class="hidden">
+    <header class="site-header">
     <h1>Suzerain – Database</h1>
 
   </header>
@@ -38,18 +71,208 @@
 
   <main class="main-content">
     <!-- This is where child pages are shown -->
-    <iframe
-      id="contentFrame"
-      src="pages/conversations.html"
-      title="Suzerain data viewer"
-      frameborder="0"
-    ></iframe>
+    <div id="frameContainer" style="width:100%;height:100%;position:relative;"></div>
   </main>
+  </div>
 
   <script>
-    function loadSection(path) {
-      const frame = document.getElementById('contentFrame');
+    const iframes = new Map(); // path -> iframe element
+    let currentFrame = null;
+
+    function showFrame(path) {
+      // Hide current
+      if (currentFrame) {
+        currentFrame.style.display = "none";
+      }
+
+      // If already loaded, show and return
+      if (iframes.has(path)) {
+        currentFrame = iframes.get(path);
+        currentFrame.style.display = "block";
+        return;
+      }
+
+      // Create new iframe once
+      const frame = document.createElement("iframe");
       frame.src = path;
+      frame.title = "Suzerain data viewer";
+      frame.style.border = "0";
+      frame.style.width = "100%";
+      frame.style.height = "100%";
+      // eager load; we want pages ready when shown
+      frame.loading = "eager";
+
+      document.getElementById("frameContainer").appendChild(frame);
+      iframes.set(path, frame);
+      currentFrame = frame;
+    }
+
+    (async function preloadAll() {
+      const tasks = [
+        { path: "data/Suzerain.txt", label: "Conversations" },
+        { path: "data/Entity%20Text%20Asset.txt", label: "Entity data" },
+      ];
+      const totalSteps = tasks.length + 2; // fetches + parse + finalize
+      const bar = document.querySelector("#preload-bar span");
+      const text = document.querySelector("#preload-text");
+      const shell = document.getElementById("app-shell");
+      const contents = {};
+      let overallPct = 0;
+      let lastStatusLabel = "";
+      let lastStatusAt = 0;
+
+      function setStatus(label) {
+        if (!text || !label) return;
+        const now = Date.now();
+        if (label === lastStatusLabel && now - lastStatusAt < 150) {
+          return; // skip redundant rapid updates
+        }
+        text.textContent = label;
+        lastStatusLabel = label;
+        lastStatusAt = now;
+      }
+
+      function updateProgress(stepIndex, subPct, label) {
+        const pct = Math.min(
+          100,
+          Math.round(((stepIndex + Math.max(0, subPct)) / totalSteps) * 100)
+        );
+        const newPct = Math.max(overallPct, pct);
+        overallPct = newPct;
+        if (label) setStatus(`${label} (${newPct}%)`);
+      }
+
+      // Kick off conversation frame load early so it can build under the overlay
+      showFrame("pages/conversations.html");
+
+      async function fetchWithProgress(stepIndex, path, label) {
+        try {
+          const res = await fetch(path, { cache: "no-cache" });
+          if (!res.ok) throw new Error(`Failed to fetch ${path}: ${res.status}`);
+          const total = Number(res.headers.get("content-length")) || 0;
+          const reader = res.body?.getReader ? res.body.getReader() : null;
+          if (!reader) {
+            const txt = await res.text();
+            updateProgress(stepIndex, 1, `Loaded ${label}`);
+            return txt;
+          }
+
+          const chunks = [];
+          let received = 0;
+          const decoder = new TextDecoder();
+          while (true) {
+            const { done, value } = await reader.read();
+            if (done) break;
+            if (value) {
+              chunks.push(value);
+              received += value.length;
+              const sub = total
+                ? Math.min(1, received / total)
+                : Math.min(0.95, received / (1024 * 1024 * 8)); // cap at ~8MB heuristically
+              const info = `Loading ${label}... ${Math.round(sub * 100)}%`;
+              updateProgress(stepIndex, sub, info);
+            }
+          }
+          const merged = new Uint8Array(received);
+          let offset = 0;
+          for (const c of chunks) {
+            merged.set(c, offset);
+            offset += c.length;
+          }
+          const txt = decoder.decode(merged);
+          updateProgress(stepIndex, 1, `Loading ${label}... 100%`);
+          return txt;
+        } catch (err) {
+          console.warn(`Streamed fetch failed for ${label}, falling back`, err);
+          const res = await fetch(path, { cache: "no-cache" });
+          const txt = await res.text();
+          updateProgress(stepIndex, 1, `Loading ${label}... 100%`);
+          return txt;
+        }
+      }
+
+      for (let i = 0; i < tasks.length; i++) {
+        const t = tasks[i];
+        updateProgress(i, 0, `Loading ${t.label}...`);
+        const content = await fetchWithProgress(i, t.path, t.label);
+        contents[t.path] = content;
+        try {
+          sessionStorage.setItem(`preload:${t.path}`, content);
+        } catch (e) {
+          // ignore storage errors
+        }
+        updateProgress(i + 1, 0, `Loading ${t.label}... 100%`);
+      }
+
+      // Parse conversations once up front and cache the parsed structure
+      if (window.SuzerainParser && contents["data/Suzerain.txt"]) {
+        try {
+          const stepIndex = tasks.length; // parsing step
+          updateProgress(stepIndex, 0, "Building conversations...");
+          let sawProgress = false;
+          const parsed = SuzerainParser.parseSuzerain(
+            contents["data/Suzerain.txt"],
+            (done, total) => {
+              if (total) {
+                const sub = Math.min(1, done / total);
+                sawProgress = true;
+                updateProgress(stepIndex, sub, `Building conversations... ${Math.round(sub * 100)}%`);
+              }
+            }
+          );
+          if (!sawProgress) {
+            // Fallback to show completion if parser didn't emit progress totals
+            updateProgress(stepIndex, 0.6, "Building conversations... 60%");
+          }
+          updateProgress(stepIndex, 1, "Building conversations... 100%");
+          const cached = {
+            nodes: parsed.nodes || [],
+            links: parsed.links || [],
+            choices: parsed.choices || [],
+          };
+          try {
+            sessionStorage.setItem("parsed:conversations", JSON.stringify(cached));
+          } catch (e) {
+            // ignore quota errors
+          }
+        } catch (e) {
+          console.warn("Failed to pre-parse conversations", e);
+          updateProgress(tasks.length, 1, "Conversations build failed (using live parse)");
+        }
+      }
+
+      // Finalize step
+      const finalize = () => {
+        if (shell.classList.contains("hidden") === false) return;
+        updateProgress(totalSteps - 1, 1, "Finalizing...");
+        updateProgress(totalSteps, 1, "Ready");
+        document.getElementById("preload-overlay").style.display = "none";
+        shell.classList.remove("hidden");
+        // Ensure conversations frame is visible by default
+        showFrame("pages/conversations.html");
+      };
+      const finalizeTimeout = setTimeout(finalize, 6000);
+
+      // Wait for conversations iframe to signal ready, then finalize
+      window.addEventListener("message", (ev) => {
+        if (ev?.data?.type === "conv-ready") {
+          clearTimeout(finalizeTimeout);
+          finalize();
+        }
+      });
+    })();
+
+    // Listen for progress events bubbling up from the conversations iframe
+    window.addEventListener("message", (ev) => {
+      const data = ev?.data;
+      if (!data || data.type !== "conv-progress") return;
+      const { label, pct, phase } = data;
+      if (document.getElementById("preload-overlay")?.style.display === "none") return;
+      if (label) setStatus(label);
+    });
+
+    function loadSection(path) {
+      showFrame(path);
     }
   </script>
 </body>

@@ -41,6 +41,15 @@ async function initConversationsPage() {
   let conversations = new Map();      // convId -> { choices: Node[] }
   let allNodes = [];                  // all choice nodes
   let totalChoices = 0;
+  const PARSED_CACHE_KEY = "parsed:conversations";
+  const RAW_CACHE_KEYS = ["preload:../data/Suzerain.txt", "preload:data/Suzerain.txt"];
+  const storage = (() => {
+    try {
+      return window.top?.sessionStorage || sessionStorage;
+    } catch (e) {
+      return sessionStorage;
+    }
+  })();
 
   // Graph helpers
   let nodeByKey = new Map();          // `${convId}:${id}` -> node
@@ -67,6 +76,7 @@ async function initConversationsPage() {
       const lower = s.trim().toLowerCase();
       return (
         lower.startsWith("end()") ||
+        lower === "end" ||
         lower.startsWith("jump to:") ||
         lower.startsWith("//") ||
         lower.startsWith("advancetimeline") ||
@@ -94,11 +104,15 @@ async function initConversationsPage() {
     if (!menu && !spoken && !choice && node._hasMechanics) return true;
 
     // If text looks like a pure expression (variable compare) with no spoken/menu text
-    const exprRe = /^!?[A-Za-z0-9_.\[\]"']+\s*(==|=|<=|>=|!=)/;
-    const exprReLoose = /==|!=|<=|>=|=|Variable\[/;
+    const exprRe = /^!?[A-Za-z0-9_.\[\]"']+\s*(==|=|<=|>=|!=|<|>)/;
+    const exprReLoose = /(==|!=|<=|>=|=|<|>|Variable\[)/;
+    const startsWithDomain = (txt) => {
+      const t = (txt || "").trim().toLowerCase();
+      return t.startsWith("basegame.") || t.startsWith("riziadlc.");
+    };
     if (!spoken && !menu) {
-      if (choice && (exprRe.test(choice) || (choice.startsWith("(") && exprReLoose.test(choice)))) return true;
-      if (!choice && raw && (exprRe.test(raw) || (raw.startsWith("(") && exprReLoose.test(raw)))) return true;
+      if (choice && (exprRe.test(choice) || startsWithDomain(choice) || (choice.startsWith("(") && exprReLoose.test(choice)))) return true;
+      if (!choice && raw && (exprRe.test(raw) || startsWithDomain(raw) || (raw.startsWith("(") && exprReLoose.test(raw)))) return true;
     }
 
     // No visible text, only mechanics
@@ -419,45 +433,20 @@ async function initConversationsPage() {
       container.appendChild(frag);
     }
 
-  // ---- data load via worker ----
+  // ---- data load via worker or cache ----
 
   countInfo.textContent = "Loading conversations...";
 
-  const worker = new Worker("../js/conversationsWorker.js");
-  worker.addEventListener("message", ev => {
-    const msg = ev.data || {};
-    if (msg.type === "progress") {
-      const pct = msg.total
-        ? Math.min(100, Math.round((msg.received / msg.total) * 100))
-        : null;
-      if (pct != null) {
-        countInfo.textContent = `Loading conversations... ${pct}%`;
-      } else if (msg.received) {
-        const mb = Math.round(msg.received / 1024 / 1024);
-        countInfo.textContent = `Loading conversations... (${mb} MB)`;
-      }
-      return;
+  function persistParsed(payload) {
+    try {
+      storage.setItem(PARSED_CACHE_KEY, JSON.stringify(payload));
+    } catch (e) {
+      // ignore quota errors
     }
-    if (msg.type === "parse-progress") {
-      const pct = msg.total
-        ? Math.min(100, Math.round((msg.processed / msg.total) * 100))
-        : null;
-      if (pct != null) {
-        countInfo.textContent = `Building conversations... ${pct}%`;
-      } else {
-        countInfo.textContent = "Building conversations...";
-      }
-      return;
-    }
-    if (msg.type === "error") {
-      console.error("Conversation worker error:", msg.error);
-      countInfo.textContent = "Failed to load conversations.";
-      return;
-    }
-    if (msg.type !== "data") return;
+  }
 
-    const { nodes, links, choices } = msg;
-
+  async function processData(msg) {
+    const { nodes, links } = msg || {};
     const nodesLocal = Array.isArray(nodes) ? nodes : [];
     const linksLocal = Array.isArray(links) ? links : [];
 
@@ -570,19 +559,111 @@ async function initConversationsPage() {
     }
 
     dataReady = true;
-    applyFilters();
-  });
+    await applyFilters();
+    // Notify parent (preload overlay) that conversations are ready
+    try {
+      window.parent?.postMessage({ type: "conv-ready" }, "*");
+    } catch (e) {
+      // ignore
+    }
+  }
 
-  worker.addEventListener("error", err => {
-    console.error("Conversation worker crashed:", err);
-    countInfo.textContent = "Failed to load conversations.";
-  });
+  async function loadData() {
+    // 1) Try parsed cache
+    try {
+      const cached = storage.getItem(PARSED_CACHE_KEY);
+      if (cached) {
+        const parsed = JSON.parse(cached);
+        processData(parsed);
+        countInfo.textContent = "Conversations ready (cached)";
+        return;
+      }
+    } catch (e) {
+      // ignore parse errors, fall back to worker
+    }
 
-  worker.postMessage({ type: "load" });
+    // 2) Use worker (with preloaded text when available)
+    const worker = new Worker("../js/conversationsWorker.js");
+
+    worker.addEventListener("message", ev => {
+      const msg = ev.data || {};
+    if (msg.type === "progress") {
+      const pct = msg.total
+        ? Math.min(100, Math.round((msg.received / msg.total) * 100))
+        : null;
+      if (pct != null) {
+        countInfo.textContent = `Loading conversations... ${pct}%`;
+        window.parent?.postMessage({ type: "conv-progress", phase: "load", pct, label: countInfo.textContent }, "*");
+      } else if (msg.received) {
+        const mb = Math.round(msg.received / 1024 / 1024);
+        countInfo.textContent = `Loading conversations... (${mb} MB)`;
+        window.parent?.postMessage({ type: "conv-progress", phase: "load", pct: null, label: countInfo.textContent }, "*");
+      }
+      return;
+    }
+    if (msg.type === "parse-progress") {
+      const pct = msg.total
+        ? Math.min(100, Math.round((msg.processed / msg.total) * 100))
+        : null;
+      if (pct != null) {
+        countInfo.textContent = `Building conversations... ${pct}%`;
+        window.parent?.postMessage({ type: "conv-progress", phase: "parse", pct, label: countInfo.textContent }, "*");
+      } else {
+        countInfo.textContent = "Building conversations...";
+        window.parent?.postMessage({ type: "conv-progress", phase: "parse", pct: null, label: countInfo.textContent }, "*");
+      }
+      return;
+    }
+    if (msg.type === "error") {
+      console.error("Conversation worker error:", msg.error);
+      countInfo.textContent = "Failed to load conversations.";
+      window.parent?.postMessage({ type: "conv-progress", phase: "error", label: countInfo.textContent }, "*");
+      return;
+    }
+    if (msg.type !== "data") return;
+
+      persistParsed({ nodes: msg.nodes || [], links: msg.links || [], choices: msg.choices || [] });
+      processData(msg).catch(err => {
+        console.error("Failed to process conversations data", err);
+        countInfo.textContent = "Failed to load conversations.";
+      });
+    });
+
+    worker.addEventListener("error", err => {
+      console.error("Conversation worker crashed:", err);
+      countInfo.textContent = "Failed to load conversations.";
+    });
+
+    // Prefer preloaded raw text to avoid refetching
+    let raw = null;
+    for (const key of RAW_CACHE_KEYS) {
+      try {
+        const val = storage.getItem(key);
+        if (val) {
+          raw = val;
+          break;
+        }
+      } catch (e) {
+        // ignore storage errors
+      }
+    }
+
+    // Post the message immediately so we see progress events early
+    if (raw) {
+      worker.postMessage({ type: "parseText", text: raw });
+    } else {
+      worker.postMessage({ type: "load" });
+    }
+  }
+
+  loadData();
 
   // ---- filtering & shell rendering ----
 
-  function applyFilters() {
+  let filterToken = 0;
+
+  async function applyFilters() {
+    const myToken = ++filterToken;
     if (!dataReady) {
       countInfo.textContent = "Loading conversations...";
       return;
@@ -596,25 +677,22 @@ async function initConversationsPage() {
 
     const hasTextSearch = q.length > 0;
 
-    const isMechanicsOnly = (node) => {
-      const primaryText =
-        normalizeMenuText(node.menuText) ||
-        node.choiceText ||
-        (node.enText || node.npcText || "").trim() ||
-        (node.rawTitle || "").trim();
-      const effectsText = (node.effects || []).join("; ").trim();
-      if (!primaryText) return !!effectsText; // no text, only mechanics
-      if (!effectsText) return false;
-      const p = primaryText.trim();
-      const eNorm = effectsText.replace(/;\\s*/g, " ").trim();
-      const pNorm = p.replace(/;\\s*/g, " ").trim();
-      return pNorm === eNorm || pNorm.includes(eNorm) || eNorm.includes(pNorm);
-    };
-
     filteredByConversation = new Map();
     let visibleChoices = 0;
 
-    for (const [convIdRaw, bucket] of conversations.entries()) {
+    const entries = Array.from(conversations.entries());
+    const totalConv = entries.length || 1;
+    // Hide noisy messages while building; we'll show the final count at the end
+    countInfo.textContent = "";
+
+    for (let idx = 0; idx < entries.length; idx++) {
+      // Yield to the event loop every 40 conversations to reduce blocking
+      if (idx % 40 === 0) {
+        await new Promise(r => setTimeout(r, 0));
+        if (myToken !== filterToken) return;
+      }
+
+      const [convIdRaw, bucket] = entries[idx];
       const convId = Number(convIdRaw);
       const convGameKey = conversationGameKey(convId);
 
@@ -686,44 +764,74 @@ async function initConversationsPage() {
 
     // Update counts
     countInfo.textContent = `Showing ${visibleChoices} of ${totalChoices} choices`;
+    try {
+      window.parent?.postMessage({ type: "conv-progress", phase: "filter", pct: 100, label: countInfo.textContent }, "*");
+    } catch (e) {
+      // ignore
+    }
 
-    // Build / update conversation shells (headers only)
+    // Build / update conversation shells (headers only) in chunks to avoid blocking
     listContainer.innerHTML = "";
     const sortedConvIds = Array.from(filteredByConversation.keys()).sort(
       (a, b) => a - b
     );
+    const chunkSize = 40;
+    let renderIndex = 0;
 
-    sortedConvIds.forEach(convId => {
-      const nodes = filteredByConversation.get(convId);
+    await new Promise(resolve => {
+      function renderChunk() {
+        // If a newer filter run started, abort this one
+        if (myToken !== filterToken) return resolve();
 
-      const convDetails = document.createElement("details");
-      convDetails.className = "panel";
-      convDetails.open = false;
-      convDetails.dataset.convId = String(convId);
+        const frag = document.createDocumentFragment();
+        const end = Math.min(sortedConvIds.length, renderIndex + chunkSize);
+        for (let i = renderIndex; i < end; i++) {
+          const convId = sortedConvIds[i];
+          const nodes = filteredByConversation.get(convId);
 
-      const summary = document.createElement("summary");
-      summary.className = "panel-title";
-      summary.textContent = `Conversation ${convId}`;
+          const convDetails = document.createElement("details");
+          convDetails.className = "panel";
+          convDetails.open = false;
+          convDetails.dataset.convId = String(convId);
 
-      const metaSpan = document.createElement("span");
-      metaSpan.className = "panel-meta";
-      metaSpan.textContent = `${nodes.length} choices`;
-      summary.appendChild(metaSpan);
+          const summary = document.createElement("summary");
+          summary.className = "panel-title";
+          summary.textContent = `Conversation ${convId}`;
 
-      convDetails.appendChild(summary);
+          const metaSpan = document.createElement("span");
+          metaSpan.className = "panel-meta";
+          metaSpan.textContent = `${nodes.length} choices`;
+          summary.appendChild(metaSpan);
 
-      const cardsDiv = document.createElement("div");
-      cardsDiv.className = "cards-container conv-cards";
-      cardsDiv.dataset.convId = String(convId);
-      convDetails.appendChild(cardsDiv);
+          convDetails.appendChild(summary);
 
-      convDetails.addEventListener("toggle", () => {
-        if (convDetails.open) {
-          renderConversationCards(convId, cardsDiv);
+          const cardsDiv = document.createElement("div");
+          cardsDiv.className = "cards-container conv-cards";
+          cardsDiv.dataset.convId = String(convId);
+          convDetails.appendChild(cardsDiv);
+
+          convDetails.addEventListener("toggle", () => {
+            if (convDetails.open) {
+              renderConversationCards(convId, cardsDiv);
+            }
+          });
+
+          frag.appendChild(convDetails);
         }
-      });
 
-      listContainer.appendChild(convDetails);
+        listContainer.appendChild(frag);
+        renderIndex = end;
+
+        if (renderIndex < sortedConvIds.length) {
+          // Yield to UI thread
+          setTimeout(renderChunk, 0);
+        } else {
+          // Finished
+          resolve();
+        }
+      }
+
+      renderChunk();
     });
   }
 

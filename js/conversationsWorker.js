@@ -7,7 +7,37 @@ importScripts("./core/suzerainParser.js");
 
 self.addEventListener("message", async event => {
   const msg = event.data || {};
-  if (msg.type !== "load") return;
+  const { type } = msg;
+
+  // Helper: parse provided text and post progress updates
+  async function parseText(text) {
+    const parsed = SuzerainParser.parseSuzerain(text, (done, total) => {
+      self.postMessage({
+        type: "parse-progress",
+        processed: done,
+        total
+      });
+    });
+
+    self.postMessage({
+      type: "data",
+      nodes: parsed.nodes || [],
+      links: parsed.links || [],
+      choices: parsed.choices || []
+    });
+  }
+
+  // If the main thread already has the text (preloaded), just parse it.
+  if (type === "parseText" && typeof msg.text === "string") {
+    try {
+      await parseText(msg.text);
+    } catch (err) {
+      self.postMessage({ type: "error", error: err?.message || String(err) });
+    }
+    return;
+  }
+
+  if (type !== "load") return;
 
   try {
     const res = await fetch("../data/Suzerain.txt", { cache: "no-cache" });
@@ -42,20 +72,7 @@ self.addEventListener("message", async event => {
       text = await res.text();
     }
 
-    const parsed = SuzerainParser.parseSuzerain(text, (done, total) => {
-      self.postMessage({
-        type: "parse-progress",
-        processed: done,
-        total
-      });
-    });
-
-    self.postMessage({
-      type: "data",
-      nodes: parsed.nodes || [],
-      links: parsed.links || [],
-      choices: parsed.choices || []
-    });
+    await parseText(text);
   } catch (err) {
     self.postMessage({ type: "error", error: err?.message || String(err) });
   }

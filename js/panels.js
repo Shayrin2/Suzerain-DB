@@ -109,7 +109,8 @@ function matchesFilters(option, filters) {
       option.description,
       option.condition,
       option.instruction,
-      option.nameInDb
+      option.nameInDb,
+      (option.effects || []).join(" ")
     ].join(" ").toLowerCase();
     if (!hay.includes(s)) return false;
   }

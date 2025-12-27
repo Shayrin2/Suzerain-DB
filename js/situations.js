@@ -195,7 +195,13 @@ function applyFilters() {
     if (severity && item.type === "Situation" && item.severity !== severity) return false;
     if (game && item.game !== game) return false;
     if (search) {
-      const hay = [item.title, item.description, item.variable, item.nameInDb, item.path]
+      const hay = [
+        item.title,
+        item.description,
+        item.variable,
+        item.nameInDb,
+        item.path
+      ]
         .join(" ")
         .toLowerCase();
       if (!hay.includes(search)) return false;

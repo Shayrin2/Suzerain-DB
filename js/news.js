@@ -116,7 +116,7 @@ function normalizeNews(item) {
     turn: Number.isFinite(props.TurnNo) ? props.TurnNo : null,
     category: deriveCategory(base.path),
     newspaper: props.Newspaper || "",
-    variable: props.IsEnabledVariable || "",
+    condition: props.IsEnabledVariable || "",
   };
 }
 
@@ -132,7 +132,7 @@ function normalizeReport(item) {
     description: props.Description || "",
     turn: Number.isFinite(props.TurnNo) ? props.TurnNo : null,
     category: deriveCategory(base.path),
-    variable: props.IsEnabledVariable || "",
+    condition: props.IsEnabledVariable || "",
     token: item.AssignedTokenProperties?.AssignedToken || "",
   };
 }
@@ -150,9 +150,9 @@ function applyFilters() {
   const type = document.getElementById("nrTypeFilter")?.value || "";
   const game = document.getElementById("nrGameFilter")?.value || "";
   const turn = document.getElementById("nrTurnFilter")?.value || "";
-  const cat = document.getElementById("nrCategoryFilter")?.value || "";
+    const cat = document.getElementById("nrCategoryFilter")?.value || "";
 
-  nrFiltered = nrAllItems.filter((item) => {
+    nrFiltered = nrAllItems.filter((item) => {
     if (type && item.type !== type) return false;
     if (game && item.game !== game) return false;
     if (turn) {
@@ -161,16 +161,16 @@ function applyFilters() {
     }
     if (cat && item.category !== cat) return false;
     if (!search) return true;
-    const hay = [
-      item.title,
-      item.description,
-      item.nameInDb,
-      item.path,
-      item.variable,
-      item.newspaper,
-      item.token,
-      ...(item.tags || []),
-    ]
+      const hay = [
+        item.title,
+        item.description,
+        item.nameInDb,
+        item.path,
+        item.condition,
+        item.newspaper,
+        item.token,
+        ...(item.tags || []),
+      ]
       .join(" ")
       .toLowerCase();
     return hay.includes(search);
@@ -226,7 +226,7 @@ function renderList() {
       desc.textContent = item.description || "(No description)";
       body.appendChild(desc);
 
-      if (item.variable) {
+      if (item.condition) {
         const cols = document.createElement("div");
         cols.className = "card-columns";
 
@@ -239,7 +239,7 @@ function renderList() {
         const ul = document.createElement("ul");
         ul.className = "card-list";
         const li = document.createElement("li");
-        li.textContent = item.variable;
+        li.textContent = item.condition;
         ul.appendChild(li);
         condWrap.appendChild(ul);
         cols.appendChild(condWrap);

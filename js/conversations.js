@@ -71,6 +71,7 @@ async function initConversationsPage() {
   const RENDERED_CARD_FLAG = Symbol("renderedCards");
   let dataReady = false;
   let filterToken = 0;
+  let usedFallbackFetch = false;
 
   function isMechanicsOnlyNode(node) {
     const menu = normalizeMenuText(node.menuText) || "";
@@ -594,6 +595,42 @@ async function initConversationsPage() {
 
     // 2) Use worker (with preloaded text when available)
     const worker = new Worker("../js/conversationsWorker.js");
+    const fallbackPaths = [
+      "../data/Suzerain.txt",
+      "../data/suzerain.txt",
+      "data/Suzerain.txt",
+      "data/suzerain.txt",
+      "/data/Suzerain.txt",
+      "/data/suzerain.txt"
+    ];
+
+    async function fetchRawInMainThread() {
+      let lastErr = null;
+      for (const path of fallbackPaths) {
+        try {
+          const res = await fetch(path, { cache: "no-cache" });
+          if (!res.ok) throw new Error(`Failed to fetch ${path}: ${res.status} ${res.statusText}`);
+          return await res.text();
+        } catch (err) {
+          lastErr = err;
+        }
+      }
+      throw lastErr || new Error("Failed to fetch Suzerain.txt");
+    }
+
+    async function tryFallbackFetch() {
+      if (usedFallbackFetch) return false;
+      usedFallbackFetch = true;
+      try {
+        countInfo.textContent = "Retrying conversations...";
+        const text = await fetchRawInMainThread();
+        worker.postMessage({ type: "parseText", text });
+        return true;
+      } catch (err) {
+        console.error("Fallback fetch failed:", err);
+        return false;
+      }
+    }
 
     worker.addEventListener("message", ev => {
       const msg = ev.data || {};
@@ -627,6 +664,7 @@ async function initConversationsPage() {
     if (msg.type === "error") {
       console.error("Conversation worker error:", msg.error);
       countInfo.textContent = "Failed to load conversations.";
+      tryFallbackFetch();
       window.parent?.postMessage({ type: "conv-progress", phase: "error", label: countInfo.textContent }, "*");
       return;
     }
@@ -642,6 +680,7 @@ async function initConversationsPage() {
     worker.addEventListener("error", err => {
       console.error("Conversation worker crashed:", err);
       countInfo.textContent = "Failed to load conversations.";
+      tryFallbackFetch();
     });
 
     // Prefer preloaded raw text to avoid refetching

@@ -595,7 +595,12 @@ async function initConversationsPage() {
 
     // 2) Use worker (with preloaded text when available)
     const worker = new Worker("../js/conversationsWorker.js");
-    const strictPaths = ["data/Suzerain.txt", "./data/Suzerain.txt"];
+    const baseOrigin = window.location?.origin || "";
+    const strictPaths = [
+      `${baseOrigin}/data/Suzerain.txt`,
+      `${baseOrigin}/data/suzerain.txt`,
+      "../data/Suzerain.txt"
+    ];
 
     async function parseInMainThread() {
       if (fallbackAttempted) return;

@@ -49,10 +49,12 @@ self.addEventListener("message", async event => {
       "/data/suzerain.txt"
     ];
     let lastErr = null;
+    let lastPath = null;
     let text = null;
 
     for (const path of paths) {
       try {
+        lastPath = path;
         const res = await fetch(path, { cache: "no-cache" });
         if (!res.ok) throw new Error(`Failed to fetch ${path}: ${res.status} ${res.statusText}`);
 
@@ -91,7 +93,10 @@ self.addEventListener("message", async event => {
     }
 
     if (lastErr) throw lastErr;
-    if (!text) throw new Error("Failed to fetch Suzerain.txt");
+    if (text == null) throw new Error(`Failed to fetch Suzerain.txt (${lastPath || "no path"})`);
+    if (text.length === 0) {
+      throw new Error(`Loaded Suzerain.txt but got 0 bytes (${lastPath || "no path"})`);
+    }
 
     await parseText(text);
   } catch (err) {

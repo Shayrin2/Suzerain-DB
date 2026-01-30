@@ -71,6 +71,7 @@ async function initConversationsPage() {
   const RENDERED_CARD_FLAG = Symbol("renderedCards");
   let dataReady = false;
   let filterToken = 0;
+  let fallbackAttempted = false;
 
   function isMechanicsOnlyNode(node) {
     const menu = normalizeMenuText(node.menuText) || "";
@@ -594,6 +595,39 @@ async function initConversationsPage() {
 
     // 2) Use worker (with preloaded text when available)
     const worker = new Worker("../js/conversationsWorker.js");
+    const strictPaths = ["data/Suzerain.txt", "./data/Suzerain.txt"];
+
+    async function parseInMainThread() {
+      if (fallbackAttempted) return;
+      fallbackAttempted = true;
+      try {
+        countInfo.textContent = "Retrying conversations...";
+        let text = null;
+        let lastErr = null;
+        for (const path of strictPaths) {
+          try {
+            const res = await fetch(path, { cache: "no-cache" });
+            if (!res.ok) throw new Error(`Failed to fetch ${path}: ${res.status} ${res.statusText}`);
+            text = await res.text();
+            break;
+          } catch (err) {
+            lastErr = err;
+          }
+        }
+        if (!text) throw lastErr || new Error("Failed to fetch Suzerain.txt");
+        const parsed = SuzerainParser.parseSuzerain(text, (done, total) => {
+          if (!total) return;
+          const pct = Math.min(100, Math.round((done / total) * 100));
+          countInfo.textContent = `Building conversations... ${pct}%`;
+          window.parent?.postMessage({ type: "conv-progress", phase: "parse", pct, label: countInfo.textContent }, "*");
+        });
+        persistParsed({ nodes: parsed.nodes || [], links: parsed.links || [], choices: parsed.choices || [] });
+        await processData(parsed);
+      } catch (err) {
+        console.error("Fallback parse failed:", err);
+        countInfo.textContent = "Failed to load conversations.";
+      }
+    }
 
     worker.addEventListener("message", ev => {
       const msg = ev.data || {};
@@ -627,6 +661,7 @@ async function initConversationsPage() {
     if (msg.type === "error") {
       console.error("Conversation worker error:", msg.error);
       countInfo.textContent = "Failed to load conversations.";
+      parseInMainThread();
       window.parent?.postMessage({ type: "conv-progress", phase: "error", label: countInfo.textContent }, "*");
       return;
     }
@@ -642,6 +677,7 @@ async function initConversationsPage() {
     worker.addEventListener("error", err => {
       console.error("Conversation worker crashed:", err);
       countInfo.textContent = "Failed to load conversations.";
+      parseInMainThread();
     });
 
     // Prefer preloaded raw text to avoid refetching

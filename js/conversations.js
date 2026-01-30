@@ -598,8 +598,7 @@ async function initConversationsPage() {
     const baseOrigin = window.location?.origin || "";
     const strictPaths = [
       `${baseOrigin}/data/Suzerain.txt`,
-      `${baseOrigin}/data/suzerain.txt`,
-      "../data/Suzerain.txt"
+      `${baseOrigin}/data/suzerain.txt`
     ];
 
     async function parseInMainThread() {

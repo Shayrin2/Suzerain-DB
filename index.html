@@ -129,8 +129,28 @@
 
     (async function preloadAll() {
       const tasks = [
-        { paths: ["data/Suzerain.txt", "data/suzerain.txt"], label: "Conversations" },
-        { paths: ["data/Entity%20Text%20Asset.txt", "data/Entity Text Asset.txt"], label: "Entity data" },
+        {
+          paths: [
+            "data/Suzerain.txt",
+            "./data/Suzerain.txt",
+            "/data/Suzerain.txt",
+            "data/suzerain.txt",
+            "./data/suzerain.txt",
+            "/data/suzerain.txt",
+          ],
+          label: "Conversations",
+        },
+        {
+          paths: [
+            "data/Entity%20Text%20Asset.txt",
+            "data/Entity Text Asset.txt",
+            "./data/Entity%20Text%20Asset.txt",
+            "./data/Entity Text Asset.txt",
+            "/data/Entity%20Text%20Asset.txt",
+            "/data/Entity Text Asset.txt",
+          ],
+          label: "Entity data",
+        },
       ];
       const totalSteps = tasks.length + 2; // fetches + parse + finalize
       const bar = document.querySelector("#preload-bar span");
@@ -159,52 +179,52 @@
           try {
             const res = await fetch(path, { cache: "no-cache" });
             if (!res.ok) throw new Error(`Failed to fetch ${path}: ${res.status}`);
-          const total = Number(res.headers.get("content-length")) || 0;
-          const reader = res.body?.getReader ? res.body.getReader() : null;
-          if (!reader) {
-            const txt = await res.text();
-            updateProgress(stepIndex, 1, `Loaded ${label}`);
-            return { text: txt, path };
-          }
-
-          const chunks = [];
-          let received = 0;
-          const decoder = new TextDecoder();
-          while (true) {
-            const { done, value } = await reader.read();
-            if (done) break;
-            if (value) {
-              chunks.push(value);
-              received += value.length;
-              const sub = total
-                ? Math.min(1, received / total)
-                : Math.min(0.95, received / (1024 * 1024 * 8)); // cap at ~8MB heuristically
-              const info = `Loading ${label}... ${Math.round(sub * 100)}%`;
-              updateProgress(stepIndex, sub, info);
+            const total = Number(res.headers.get("content-length")) || 0;
+            const reader = res.body?.getReader ? res.body.getReader() : null;
+            if (!reader) {
+              const txt = await res.text();
+              updateProgress(stepIndex, 1, `Loaded ${label}`);
+              return { text: txt, path };
             }
-          }
-          const merged = new Uint8Array(received);
-          let offset = 0;
-          for (const c of chunks) {
-            merged.set(c, offset);
-            offset += c.length;
-          }
-          const txt = decoder.decode(merged);
-          updateProgress(stepIndex, 1, `Loading ${label}... 100%`);
-          return { text: txt, path };
-        } catch (err) {
-          lastErr = err;
-          console.warn(`Streamed fetch failed for ${label} (${path}), trying next`, err);
-          try {
-            const res = await fetch(path, { cache: "no-cache" });
-            if (!res.ok) throw new Error(`Failed to fetch ${path}: ${res.status}`);
-            const txt = await res.text();
+
+            const chunks = [];
+            let received = 0;
+            const decoder = new TextDecoder();
+            while (true) {
+              const { done, value } = await reader.read();
+              if (done) break;
+              if (value) {
+                chunks.push(value);
+                received += value.length;
+                const sub = total
+                  ? Math.min(1, received / total)
+                  : Math.min(0.95, received / (1024 * 1024 * 8)); // cap at ~8MB heuristically
+                const info = `Loading ${label}... ${Math.round(sub * 100)}%`;
+                updateProgress(stepIndex, sub, info);
+              }
+            }
+            const merged = new Uint8Array(received);
+            let offset = 0;
+            for (const c of chunks) {
+              merged.set(c, offset);
+              offset += c.length;
+            }
+            const txt = decoder.decode(merged);
             updateProgress(stepIndex, 1, `Loading ${label}... 100%`);
             return { text: txt, path };
-          } catch (fallbackErr) {
-            lastErr = fallbackErr;
+          } catch (err) {
+            lastErr = err;
+            console.warn(`Streamed fetch failed for ${label} (${path}), trying next`, err);
+            try {
+              const res = await fetch(path, { cache: "no-cache" });
+              if (!res.ok) throw new Error(`Failed to fetch ${path}: ${res.status}`);
+              const txt = await res.text();
+              updateProgress(stepIndex, 1, `Loading ${label}... 100%`);
+              return { text: txt, path };
+            } catch (fallbackErr) {
+              lastErr = fallbackErr;
+            }
           }
-        }
         }
         throw lastErr || new Error(`Failed to fetch ${label}`);
       }
@@ -215,8 +235,20 @@
         const result = await fetchWithProgress(i, t.paths, t.label);
         contents[result.path] = result.text;
         try {
+          const seen = new Set();
           t.paths.forEach((p) => {
-            sessionStorage.setItem(`preload:${p}`, result.text);
+            const key = `preload:${p}`;
+            if (!seen.has(key)) {
+              sessionStorage.setItem(key, result.text);
+              seen.add(key);
+            }
+            if (p.startsWith("data/")) {
+              const alt = `preload:../${p}`;
+              if (!seen.has(alt)) {
+                sessionStorage.setItem(alt, result.text);
+                seen.add(alt);
+              }
+            }
           });
         } catch (e) {
           // ignore storage errors
@@ -225,7 +257,13 @@
       }
 
       // Parse conversations once up front and cache the parsed structure
-      const suzerainText = contents["data/Suzerain.txt"] || contents["data/suzerain.txt"];
+      const suzerainText =
+        contents["data/Suzerain.txt"] ||
+        contents["./data/Suzerain.txt"] ||
+        contents["/data/Suzerain.txt"] ||
+        contents["data/suzerain.txt"] ||
+        contents["./data/suzerain.txt"] ||
+        contents["/data/suzerain.txt"];
       if (window.SuzerainParser && suzerainText) {
         try {
           const stepIndex = tasks.length; // parsing step

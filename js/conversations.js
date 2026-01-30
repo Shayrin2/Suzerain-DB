@@ -42,7 +42,14 @@ async function initConversationsPage() {
   let allNodes = [];                  // all choice nodes
   let totalChoices = 0;
   const PARSED_CACHE_KEY = "parsed:conversations";
-  const RAW_CACHE_KEYS = ["preload:../data/Suzerain.txt", "preload:data/Suzerain.txt"];
+  const RAW_CACHE_KEYS = [
+    "preload:../data/Suzerain.txt",
+    "preload:data/Suzerain.txt",
+    "preload:../data/suzerain.txt",
+    "preload:data/suzerain.txt",
+    "preload:./data/Suzerain.txt",
+    "preload:./data/suzerain.txt"
+  ];
   const storage = (() => {
     try {
       return window.top?.sessionStorage || sessionStorage;

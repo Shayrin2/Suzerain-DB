@@ -40,37 +40,58 @@ self.addEventListener("message", async event => {
   if (type !== "load") return;
 
   try {
-    const res = await fetch("../data/Suzerain.txt", { cache: "no-cache" });
-    if (!res.ok) throw new Error(`Failed to fetch Suzerain.txt: ${res.status} ${res.statusText}`);
+    const paths = [
+      "../data/Suzerain.txt",
+      "../data/suzerain.txt",
+      "data/Suzerain.txt",
+      "data/suzerain.txt",
+      "/data/Suzerain.txt",
+      "/data/suzerain.txt"
+    ];
+    let lastErr = null;
+    let text = null;
 
-    let text;
+    for (const path of paths) {
+      try {
+        const res = await fetch(path, { cache: "no-cache" });
+        if (!res.ok) throw new Error(`Failed to fetch ${path}: ${res.status} ${res.statusText}`);
 
-    if (res.body && typeof res.body.getReader === "function") {
-      const reader = res.body.getReader();
-      const total = Number(res.headers.get("content-length")) || 0;
-      const chunks = [];
-      let received = 0;
+        if (res.body && typeof res.body.getReader === "function") {
+          const reader = res.body.getReader();
+          const total = Number(res.headers.get("content-length")) || 0;
+          const chunks = [];
+          let received = 0;
 
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        if (value) {
-          chunks.push(value);
-          received += value.length;
-          self.postMessage({ type: "progress", received, total });
+          while (true) {
+            const { done, value } = await reader.read();
+            if (done) break;
+            if (value) {
+              chunks.push(value);
+              received += value.length;
+              self.postMessage({ type: "progress", received, total });
+            }
+          }
+
+          const merged = new Uint8Array(received);
+          let offset = 0;
+          for (const c of chunks) {
+            merged.set(c, offset);
+            offset += c.length;
+          }
+          text = new TextDecoder().decode(merged);
+        } else {
+          text = await res.text();
         }
-      }
 
-      const merged = new Uint8Array(received);
-      let offset = 0;
-      for (const c of chunks) {
-        merged.set(c, offset);
-        offset += c.length;
+        lastErr = null;
+        break;
+      } catch (err) {
+        lastErr = err;
       }
-      text = new TextDecoder().decode(merged);
-    } else {
-      text = await res.text();
     }
+
+    if (lastErr) throw lastErr;
+    if (!text) throw new Error("Failed to fetch Suzerain.txt");
 
     await parseText(text);
   } catch (err) {

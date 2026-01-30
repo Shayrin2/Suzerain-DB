@@ -61,6 +61,7 @@ async function initConversationsPage() {
 
   const RENDERED_CARD_FLAG = Symbol("renderedCards");
   let dataReady = false;
+  let filterToken = 0;
 
   function isMechanicsOnlyNode(node) {
     const menu = normalizeMenuText(node.menuText) || "";
@@ -659,8 +660,6 @@ async function initConversationsPage() {
   loadData();
 
   // ---- filtering & shell rendering ----
-
-  let filterToken = 0;
 
   async function applyFilters() {
     const myToken = ++filterToken;

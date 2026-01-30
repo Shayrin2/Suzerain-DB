@@ -129,8 +129,8 @@
 
     (async function preloadAll() {
       const tasks = [
-        { path: "data/Suzerain.txt", label: "Conversations" },
-        { path: "data/Entity%20Text%20Asset.txt", label: "Entity data" },
+        { paths: ["data/Suzerain.txt", "data/suzerain.txt"], label: "Conversations" },
+        { paths: ["data/Entity%20Text%20Asset.txt", "data/Entity Text Asset.txt"], label: "Entity data" },
       ];
       const totalSteps = tasks.length + 2; // fetches + parse + finalize
       const bar = document.querySelector("#preload-bar span");
@@ -152,16 +152,19 @@
       // Kick off conversation frame load early so it can build under the overlay
       showFrame("pages/conversations.html");
 
-      async function fetchWithProgress(stepIndex, path, label) {
-        try {
-          const res = await fetch(path, { cache: "no-cache" });
-          if (!res.ok) throw new Error(`Failed to fetch ${path}: ${res.status}`);
+      async function fetchWithProgress(stepIndex, paths, label) {
+        const pathList = Array.isArray(paths) ? paths : [paths];
+        let lastErr = null;
+        for (const path of pathList) {
+          try {
+            const res = await fetch(path, { cache: "no-cache" });
+            if (!res.ok) throw new Error(`Failed to fetch ${path}: ${res.status}`);
           const total = Number(res.headers.get("content-length")) || 0;
           const reader = res.body?.getReader ? res.body.getReader() : null;
           if (!reader) {
             const txt = await res.text();
             updateProgress(stepIndex, 1, `Loaded ${label}`);
-            return txt;
+            return { text: txt, path };
           }
 
           const chunks = [];
@@ -188,23 +191,33 @@
           }
           const txt = decoder.decode(merged);
           updateProgress(stepIndex, 1, `Loading ${label}... 100%`);
-          return txt;
+          return { text: txt, path };
         } catch (err) {
-          console.warn(`Streamed fetch failed for ${label}, falling back`, err);
-          const res = await fetch(path, { cache: "no-cache" });
-          const txt = await res.text();
-          updateProgress(stepIndex, 1, `Loading ${label}... 100%`);
-          return txt;
+          lastErr = err;
+          console.warn(`Streamed fetch failed for ${label} (${path}), trying next`, err);
+          try {
+            const res = await fetch(path, { cache: "no-cache" });
+            if (!res.ok) throw new Error(`Failed to fetch ${path}: ${res.status}`);
+            const txt = await res.text();
+            updateProgress(stepIndex, 1, `Loading ${label}... 100%`);
+            return { text: txt, path };
+          } catch (fallbackErr) {
+            lastErr = fallbackErr;
+          }
         }
+        }
+        throw lastErr || new Error(`Failed to fetch ${label}`);
       }
 
       for (let i = 0; i < tasks.length; i++) {
         const t = tasks[i];
         updateProgress(i, 0, `Loading ${t.label}...`);
-        const content = await fetchWithProgress(i, t.path, t.label);
-        contents[t.path] = content;
+        const result = await fetchWithProgress(i, t.paths, t.label);
+        contents[result.path] = result.text;
         try {
-          sessionStorage.setItem(`preload:${t.path}`, content);
+          t.paths.forEach((p) => {
+            sessionStorage.setItem(`preload:${p}`, result.text);
+          });
         } catch (e) {
           // ignore storage errors
         }
@@ -212,13 +225,14 @@
       }
 
       // Parse conversations once up front and cache the parsed structure
-      if (window.SuzerainParser && contents["data/Suzerain.txt"]) {
+      const suzerainText = contents["data/Suzerain.txt"] || contents["data/suzerain.txt"];
+      if (window.SuzerainParser && suzerainText) {
         try {
           const stepIndex = tasks.length; // parsing step
           updateProgress(stepIndex, 0, "Building conversations...");
           let sawProgress = false;
           const parsed = SuzerainParser.parseSuzerain(
-            contents["data/Suzerain.txt"],
+            suzerainText,
             (done, total) => {
               if (total) {
                 const sub = Math.min(1, done / total);

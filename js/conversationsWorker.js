@@ -80,7 +80,16 @@ self.addEventListener("message", async event => {
             merged.set(c, offset);
             offset += c.length;
           }
-          text = new TextDecoder().decode(merged);
+          if (received > 0) {
+            text = new TextDecoder().decode(merged);
+          } else {
+            // Some servers return an empty stream in workers; refetch without streaming.
+            const retry = await fetch(path, { cache: "no-cache" });
+            if (!retry.ok) {
+              throw new Error(`Failed to fetch ${path}: ${retry.status} ${retry.statusText}`);
+            }
+            text = await retry.text();
+          }
         } else {
           text = await res.text();
         }

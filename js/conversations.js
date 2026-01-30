@@ -48,7 +48,9 @@ async function initConversationsPage() {
     "preload:../data/suzerain.txt",
     "preload:data/suzerain.txt",
     "preload:./data/Suzerain.txt",
-    "preload:./data/suzerain.txt"
+    "preload:./data/suzerain.txt",
+    "preload:/data/Suzerain.txt",
+    "preload:/data/suzerain.txt"
   ];
   const storage = (() => {
     try {

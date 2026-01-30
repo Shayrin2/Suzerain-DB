@@ -25,6 +25,38 @@
       text-align: center;
       white-space: pre-wrap;
     }
+    #preload-manual {
+      display: none;
+      margin-top: 16px;
+      padding: 12px 16px;
+      border: 1px solid #3b2a1c;
+      border-radius: 8px;
+      background: #141118;
+      max-width: 520px;
+      text-align: center;
+    }
+    #preload-manual.visible {
+      display: block;
+    }
+    #preload-manual-title {
+      margin-bottom: 8px;
+      color: #e6c987;
+      font-size: 15px;
+    }
+    #preload-manual-note {
+      margin-top: 8px;
+      color: #cdbb93;
+      font-size: 12px;
+    }
+    #preload-manual-pick {
+      background: #2a1f18;
+      border: 1px solid #7a5a32;
+      color: #f2dcac;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+    }
     /* Hide bar; rely on verbose text + percent instead */
     #preload-bar { display: none; }
     #preload-bar span { display: none; }
@@ -37,6 +69,12 @@
   <div id="preload-overlay">
     <div id="preload-text">Loading assets...</div>
     <div id="preload-bar"><span></span></div>
+    <div id="preload-manual">
+      <div id="preload-manual-title"></div>
+      <button id="preload-manual-pick" type="button">Select file</button>
+      <div id="preload-manual-note"></div>
+      <input id="preload-manual-input" type="file" accept=".txt" style="display:none;" />
+    </div>
   </div>
 
   <div id="app-shell" class="hidden">
@@ -125,6 +163,41 @@
       text.textContent = label;
       preloadState.lastStatusLabel = label;
       preloadState.lastStatusAt = now;
+    }
+
+    function requestManualFile(label, accept, note) {
+      const wrap = document.getElementById("preload-manual");
+      const title = document.getElementById("preload-manual-title");
+      const pick = document.getElementById("preload-manual-pick");
+      const input = document.getElementById("preload-manual-input");
+      const noteEl = document.getElementById("preload-manual-note");
+      if (!wrap || !title || !pick || !input) {
+        throw new Error(`Manual picker unavailable for ${label}`);
+      }
+
+      wrap.classList.add("visible");
+      title.textContent = `Unable to load ${label}. Select the file manually.`;
+      noteEl.textContent = note || "";
+      input.accept = accept || ".txt";
+
+      return new Promise((resolve) => {
+        const onPick = () => input.click();
+        const onChange = () => {
+          const file = input.files && input.files[0];
+          if (!file) return;
+          const reader = new FileReader();
+          reader.onload = () => {
+            pick.removeEventListener("click", onPick);
+            input.removeEventListener("change", onChange);
+            input.value = "";
+            wrap.classList.remove("visible");
+            resolve({ text: String(reader.result || ""), path: label });
+          };
+          reader.readAsText(file);
+        };
+        pick.addEventListener("click", onPick);
+        input.addEventListener("change", onChange);
+      });
     }
 
     (async function preloadAll() {
@@ -232,8 +305,25 @@
       for (let i = 0; i < tasks.length; i++) {
         const t = tasks[i];
         updateProgress(i, 0, `Loading ${t.label}...`);
-        const result = await fetchWithProgress(i, t.paths, t.label);
-        contents[result.path] = result.text;
+        let result = null;
+        try {
+          result = await fetchWithProgress(i, t.paths, t.label);
+        } catch (err) {
+          console.warn(`Fetch failed for ${t.label}`, err);
+          updateProgress(i, 0, `Waiting for ${t.label} file...`);
+          const note =
+            t.label === "Conversations"
+              ? "Select data/Suzerain.txt"
+              : "Select data/Entity Text Asset.txt";
+          result = await requestManualFile(t.label, ".txt", note);
+          updateProgress(i, 1, `Loaded ${t.label}`);
+        }
+        if (result && result.text != null) {
+          contents[result.path] = result.text;
+          if (!t.paths.includes(result.path) && t.paths.length) {
+            contents[t.paths[0]] = result.text;
+          }
+        }
         try {
           const seen = new Set();
           t.paths.forEach((p) => {

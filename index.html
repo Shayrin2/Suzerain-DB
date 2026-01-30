@@ -110,23 +110,6 @@
       currentFrame = frame;
     }
 
-    const preloadState = {
-      overallPct: 0,
-      lastStatusLabel: "",
-      lastStatusAt: 0,
-    };
-    function setStatus(label) {
-      const text = document.querySelector("#preload-text");
-      if (!text || !label) return;
-      const now = Date.now();
-      if (label === preloadState.lastStatusLabel && now - preloadState.lastStatusAt < 150) {
-        return; // skip redundant rapid updates
-      }
-      text.textContent = label;
-      preloadState.lastStatusLabel = label;
-      preloadState.lastStatusAt = now;
-    }
-
     (async function preloadAll() {
       const tasks = [
         { path: "data/Suzerain.txt", label: "Conversations" },
@@ -138,6 +121,19 @@
       const shell = document.getElementById("app-shell");
       const contents = {};
       let overallPct = 0;
+      let lastStatusLabel = "";
+      let lastStatusAt = 0;
+
+      function setStatus(label) {
+        if (!text || !label) return;
+        const now = Date.now();
+        if (label === lastStatusLabel && now - lastStatusAt < 150) {
+          return; // skip redundant rapid updates
+        }
+        text.textContent = label;
+        lastStatusLabel = label;
+        lastStatusAt = now;
+      }
 
       function updateProgress(stepIndex, subPct, label) {
         const pct = Math.min(

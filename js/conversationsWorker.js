@@ -58,41 +58,7 @@ self.addEventListener("message", async event => {
         const res = await fetch(path, { cache: "no-cache" });
         if (!res.ok) throw new Error(`Failed to fetch ${path}: ${res.status} ${res.statusText}`);
 
-        if (res.body && typeof res.body.getReader === "function") {
-          const reader = res.body.getReader();
-          const total = Number(res.headers.get("content-length")) || 0;
-          const chunks = [];
-          let received = 0;
-
-          while (true) {
-            const { done, value } = await reader.read();
-            if (done) break;
-            if (value) {
-              chunks.push(value);
-              received += value.length;
-              self.postMessage({ type: "progress", received, total });
-            }
-          }
-
-          const merged = new Uint8Array(received);
-          let offset = 0;
-          for (const c of chunks) {
-            merged.set(c, offset);
-            offset += c.length;
-          }
-          if (received > 0) {
-            text = new TextDecoder().decode(merged);
-          } else {
-            // Some servers return an empty stream in workers; refetch without streaming.
-            const retry = await fetch(path, { cache: "no-cache" });
-            if (!retry.ok) {
-              throw new Error(`Failed to fetch ${path}: ${retry.status} ${retry.statusText}`);
-            }
-            text = await retry.text();
-          }
-        } else {
-          text = await res.text();
-        }
+        text = await res.text();
 
         lastErr = null;
         break;

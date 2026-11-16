@@ -15,7 +15,6 @@ async function initNewsPage() {
   nrAllItems = await loadNewsAndReports();
   nrFiltered = nrAllItems.slice();
 
-  // Populate filters
   const turnSelect = document.getElementById("nrTurnFilter");
   const catSelect = document.getElementById("nrCategoryFilter");
   const gameSelect = document.getElementById("nrGameFilter");
@@ -47,53 +46,14 @@ async function initNewsPage() {
   renderList();
 }
 
-function extractDataBlocks(text) {
-  if (!text) return null;
-  const regex = /string\s+(\w+)DataJson\s*=\s*"/g;
-  const matches = [];
-  let m;
-  while ((m = regex.exec(text)) !== null) {
-    matches.push({ name: m[1], start: m.index, end: m.index + m[0].length });
-  }
-  if (!matches.length) return null;
-  const blocks = {};
-  for (let i = 0; i < matches.length; i++) {
-    const cur = matches[i];
-    const nextStart = i + 1 < matches.length ? matches[i + 1].start : text.length;
-    const slice = text.substring(cur.end, nextStart);
-    const trimmed = slice.lastIndexOf('"') >= 0 ? slice.substring(0, slice.lastIndexOf('"')) : slice;
-    blocks[cur.name] = trimmed.trim();
-  }
-  return blocks;
-}
-
 async function loadNewsAndReports() {
-  const paths = ["../data/Entity%20Text%20Asset.txt", "../data/Entity Text Asset.txt"];
-  for (const p of paths) {
-    try {
-      const raw = await fetch(p).then(r => r.text());
-      const blocks = extractDataBlocks(raw);
-      if (!blocks) continue;
-
-      const items = [];
-
-      if (blocks.News) {
-        const parsed = JSON.parse(blocks.News);
-        const list = parsed?.items || [];
-        list.forEach(item => items.push(normalizeNews(item)));
-      }
-      if (blocks.Reports) {
-        const parsed = JSON.parse(blocks.Reports);
-        const list = parsed?.items || [];
-        list.forEach(item => items.push(normalizeReport(item)));
-      }
-
-      if (items.length) return items.filter(Boolean);
-    } catch (e) {
-      console.warn("[News] Failed to load from", p, e);
-    }
+  const { blocks } = await DataLoader.loadEntityAsset();
+  const news = blocks.News ? JSON.parse(blocks.News).items || [] : [];
+  const reports = blocks.Reports ? JSON.parse(blocks.Reports).items || [] : [];
+  if (!news.length && !reports.length) {
+    throw new Error("No News/Reports data found in Entity Text Asset.");
   }
-  throw new Error("No News/Reports data found in Entity Text Asset.");
+  return [...news.map(normalizeNews), ...reports.map(normalizeReport)].filter(Boolean);
 }
 
 function normalizeCommon(item) {

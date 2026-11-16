@@ -1,4 +1,3 @@
-// js/core/suzerainParser.js
 (function (global) {
   function normSpeaker(value) {
     return (value || "")
@@ -104,7 +103,7 @@
     node.choiceText = isChoice ? cleanChoiceText(textSource) : null;
   }
 
-  function parseSuzerain(text, onProgress) {
+  function createParser() {
     const actorById = new Map();
 
     let inActor = false;
@@ -121,15 +120,6 @@
       currentActorName = null;
       lastActorFieldTitle = null;
     }
-
-    const lines = text.split(/\r?\n/);
-    const totalLines = lines.length || 1;
-    let processedLines = 0;
-    const notify = () => {
-      if (typeof onProgress === "function") {
-        onProgress(processedLines, totalLines);
-      }
-    };
 
     const nodes = [];
     const links = [];
@@ -150,7 +140,6 @@
       if (!currentNode) return;
       finalizeNode(currentNode, actorById);
 
-      // Mark mechanics
       currentNode._hasMechanics =
         (currentNode.conditions && currentNode.conditions.length > 0) ||
         (currentNode.effects && currentNode.effects.length > 0);
@@ -161,270 +150,253 @@
       lastFieldTitle = null;
     }
 
-    for (const raw of lines) {
-      processedLines++;
-      if (processedLines % 5000 === 0) {
-        notify();
-      }
+    function consume(lines) {
+      for (const raw of lines) {
+        const line = raw.trim();
+        if (!line) continue;
 
-      const line = raw.trim();
-      if (!line) continue;
-
-      // Actor definitions (outside conversations)
-      if (line.startsWith("Actor data")) {
-        flushNode();
-        flushActor();
-        inActor = true;
-        continue;
-      }
-
-      if (inActor) {
-        let mActor;
-        mActor = line.match(/^int id = (\d+)/);
-        if (mActor) {
-          currentActorId = parseInt(mActor[1], 10);
+        // Actor definitions (outside conversations)
+        if (line.startsWith("Actor data")) {
+          flushNode();
+          flushActor();
+          inActor = true;
           continue;
         }
 
-        mActor = line.match(/^string title = "(.*)"/);
-        if (mActor) {
-          lastActorFieldTitle = mActor[1];
+        if (inActor) {
+          let mActor;
+          mActor = line.match(/^int id = (\d+)/);
+          if (mActor) {
+            currentActorId = parseInt(mActor[1], 10);
+            continue;
+          }
+
+          mActor = line.match(/^string title = "(.*)"/);
+          if (mActor) {
+            lastActorFieldTitle = mActor[1];
+            continue;
+          }
+
+          mActor = line.match(/^string value = "(.*)"/);
+          if (mActor) {
+            const val = mActor[1];
+            if (lastActorFieldTitle === "Name") {
+              currentActorName = val;
+            }
+            continue;
+          }
+
+          if (line.startsWith("Conversation data") || line.startsWith("DialogueEntry data")) {
+            flushActor();
+            // fall through to process this line in the main logic
+          } else {
+            continue;
+          }
+        }
+
+        // Start of a Conversation block
+        if (line.startsWith("Conversation data")) {
+          flushNode();
+          inConversation = true;
+          currentConversationID = null;
+          inDialogue = false;
           continue;
         }
 
-        mActor = line.match(/^string value = "(.*)"/);
-        if (mActor) {
-          const val = mActor[1];
-          if (lastActorFieldTitle === "Name") {
-            currentActorName = val;
+        // Inside a Conversation before dialogue entries: grab its id once
+        if (inConversation && !inDialogue && currentConversationID == null) {
+          const mConv = line.match(/^int id = (\d+)/);
+          if (mConv) {
+            currentConversationID = parseInt(mConv[1], 10);
+            continue;
+          }
+        }
+
+        // Start of a DialogueEntry inside the current conversation
+        if (line.startsWith("DialogueEntry data")) {
+          flushNode();
+          if (currentConversationID == null) {
+            inDialogue = false;
+            continue;
+          }
+          currentNode = createEmptyNode(currentConversationID);
+          inDialogue = true;
+          lastFieldTitle = null;
+          continue;
+        }
+
+        if (!inDialogue) continue;
+
+        let m;
+
+        // Local node id inside this conversation
+        m = line.match(/^int id = (\d+)/);
+        if (m) {
+          currentNode.id = parseInt(m[1], 10);
+          continue;
+        }
+
+        // (There is also an "int conversationID =" inside the entry, but we already know it
+        // from the Conversation block. We can ignore it, or cross-check:)
+        m = line.match(/^int conversationID = (\d+)/);
+        if (m) {
+          const convIdInner = parseInt(m[1], 10);
+          if (
+            currentNode.conversationID != null &&
+            currentNode.conversationID !== convIdInner
+          ) {
+            console.warn(
+              "conversationID mismatch for entry",
+              currentNode.id,
+              "conv block",
+              currentNode.conversationID,
+              "entry says",
+              convIdInner
+            );
           }
           continue;
         }
 
-        if (line.startsWith("Conversation data") || line.startsWith("DialogueEntry data")) {
-          flushActor();
-          // fall through to process this line in the main logic
-        } else {
+        // Field title / value pairs
+        m = line.match(/^string title = "(.*)"/);
+        if (m) {
+          lastFieldTitle = m[1];
+          continue;
+        }
+
+        m = line.match(/^string value = "(.*)"/);
+        if (m) {
+          const val = m[1];
+
+          switch (lastFieldTitle) {
+            case "Title":
+              currentNode.rawTitle = val;
+              break;
+            case "Actor":
+              currentNode.actorId = val ? parseInt(val, 10) : null;
+              break;
+            case "Menu Text":
+            case "Menu Text en":
+              currentNode.menuText = val;
+              break;
+            case "Dialogue Text":
+              currentNode.npcText = val;
+              break;
+            case "en":
+              currentNode.enText = val;
+              break;
+            default:
+              break;
+          }
+          continue;
+        }
+
+        // Conditions
+        m = line.match(/^string\s+conditionsString\s*=\s*"(.*)"/i);
+        if (m) {
+          const cond = m[1];
+          if (cond && cond.trim() !== "") {
+            currentNode.conditions.push(cond);
+          }
+          continue;
+        }
+
+        // Effects (userScript / onExecute): Variable["X"] = / += / -= value;
+        m = line.match(/Variable\["([^"]+)"\]\s*(=|\+=|-=)\s*([^;]+)/);
+        if (m) {
+          const variable = m[1];
+          const op = m[2];
+          const value = m[3].trim();
+          currentNode.effects.push(`${variable} ${op} ${value}`);
+          continue;
+        }
+
+        // === Link data (inside this DialogueEntry) ===
+        m = line.match(/^int originConversationID = (\d+)/);
+        if (m) {
+          tmpOriginConv = parseInt(m[1], 10);
+          continue;
+        }
+
+        m = line.match(/^int originDialogueID = (\d+)/);
+        if (m) {
+          tmpOriginId = parseInt(m[1], 10);
+          continue;
+        }
+
+        m = line.match(/^int destinationConversationID = (\d+)/);
+        if (m) {
+          tmpDestConv = parseInt(m[1], 10);
+          continue;
+        }
+
+        m = line.match(/^int destinationDialogueID = (\d+)/);
+        if (m) {
+          const destId = parseInt(m[1], 10);
+          const originConv = tmpOriginConv != null ? tmpOriginConv : currentNode.conversationID;
+          const originId = tmpOriginId != null ? tmpOriginId : currentNode.id;
+          const destConv = tmpDestConv != null ? tmpDestConv : currentNode.conversationID;
+
+          links.push({
+            originConversationID: originConv,
+            originDialogueID: originId,
+            destinationConversationID: destConv,
+            destinationDialogueID: destId,
+          });
+
+          tmpOriginConv = null;
+          tmpOriginId = null;
+          tmpDestConv = null;
           continue;
         }
       }
+    }
 
-      // Start of a Conversation block
-      if (line.startsWith("Conversation data")) {
-        flushNode();
-        inConversation = true;
-        currentConversationID = null;
-        inDialogue = false;
-        continue;
+    function finish() {
+      flushNode();
+      flushActor();
+
+      const nodeByKey = new Map();
+      for (const n of nodes) {
+        if (n.conversationID == null || n.id == null) continue;
+        const key = `${n.conversationID}:${n.id}`;
+        nodeByKey.set(key, n);
       }
 
-      // Inside a Conversation before dialogue entries: grab its id once
-      if (inConversation && !inDialogue && currentConversationID == null) {
-        const mConv = line.match(/^int id = (\d+)/);
-        if (mConv) {
-          currentConversationID = parseInt(mConv[1], 10);
-          continue;
-        }
-      }
-
-      // Start of a DialogueEntry inside the current conversation
-      if (line.startsWith("DialogueEntry data")) {
-        flushNode();
-        if (currentConversationID == null) {
-          // Should not happen, but guard anyway
-          inDialogue = false;
-          continue;
-        }
-        currentNode = createEmptyNode(currentConversationID);
-        inDialogue = true;
-        lastFieldTitle = null;
-        continue;
-      }
-
-      // Conversation end: next Conversation or leaving the section
-      if (inConversation && line.startsWith("[") && line.endsWith("]")) {
-        // new sub-array index line; we don't flush conversation here, only nodes.
-        // We'll detect new Conversation data when it appears.
-      }
-
-      if (!inDialogue) {
-        // Outside any DialogueEntry, ignore lines except when they start a new Conversation
-        continue;
-      }
-
-      // === We are inside a DialogueEntry ===
-      let m;
-
-      // Local node id inside this conversation
-      m = line.match(/^int id = (\d+)/);
-      if (m) {
-        currentNode.id = parseInt(m[1], 10);
-        continue;
-      }
-
-      // (There is also an "int conversationID =" inside the entry, but we already know it
-      // from the Conversation block. We can ignore it, or cross-check:)
-      m = line.match(/^int conversationID = (\d+)/);
-      if (m) {
-        const convIdInner = parseInt(m[1], 10);
-        if (
-          currentNode.conversationID != null &&
-          currentNode.conversationID !== convIdInner
-        ) {
-          console.warn(
-            "conversationID mismatch for entry",
-            currentNode.id,
-            "conv block",
-            currentNode.conversationID,
-            "entry says",
-            convIdInner
-          );
-        }
-        continue;
-      }
-
-      // Field title / value pairs
-      m = line.match(/^string title = "(.*)"/);
-      if (m) {
-        lastFieldTitle = m[1];
-        continue;
-      }
-
-      m = line.match(/^string value = "(.*)"/);
-      if (m) {
-        const val = m[1];
-
-        switch (lastFieldTitle) {
-          case "Title":
-            currentNode.rawTitle = val;
-            break;
-          case "Actor":
-            currentNode.actorId = val ? parseInt(val, 10) : null;
-            break;
-          case "Menu Text":
-          case "Menu Text en":
-            currentNode.menuText = val;
-            break;
-          case "Dialogue Text":
-            currentNode.npcText = val;
-            break;
-          case "en":
-            currentNode.enText = val;
-            break;
-          default:
-            break;
-        }
-        continue;
-      }
-
-      // Conditions
-      m = line.match(/^string\s+conditionsString\s*=\s*"(.*)"/i);
-      if (m) {
-        const cond = m[1];
-        if (cond && cond.trim() !== "") {
-          currentNode.conditions.push(cond);
-        }
-        continue;
-      }
-
-      // Effects (userScript / onExecute): Variable["X"] = / += / -= value;
-      m = line.match(/Variable\["([^"]+)"\]\s*(=|\+=|-=)\s*([^;]+)/);
-      if (m) {
-        const variable = m[1];
-        const op = m[2];
-        const value = m[3].trim();
-        currentNode.effects.push(`${variable} ${op} ${value}`);
-        continue;
-      }
-
-      // === Link data (inside this DialogueEntry) ===
-      m = line.match(/^int originConversationID = (\d+)/);
-      if (m) {
-        tmpOriginConv = parseInt(m[1], 10);
-        continue;
-      }
-
-      m = line.match(/^int originDialogueID = (\d+)/);
-      if (m) {
-        tmpOriginId = parseInt(m[1], 10);
-        continue;
-      }
-
-      m = line.match(/^int destinationConversationID = (\d+)/);
-      if (m) {
-        tmpDestConv = parseInt(m[1], 10);
-        continue;
-      }
-
-      m = line.match(/^int destinationDialogueID = (\d+)/);
-      if (m) {
-        const destId = parseInt(m[1], 10);
-        const originConv = tmpOriginConv != null ? tmpOriginConv : currentNode.conversationID;
-        const originId = tmpOriginId != null ? tmpOriginId : currentNode.id;
-        const destConv = tmpDestConv != null ? tmpDestConv : currentNode.conversationID;
-
-        links.push({
-          originConversationID: originConv,
-          originDialogueID: originId,
-          destinationConversationID: destConv,
-          destinationDialogueID: destId,
+      // Attach outgoing links to origin nodes
+      for (const link of links) {
+        const key = `${link.originConversationID}:${link.originDialogueID}`;
+        const originNode = nodeByKey.get(key);
+        if (!originNode) continue;
+        originNode.outgoing.push({
+          conversationID: link.destinationConversationID,
+          id: link.destinationDialogueID,
         });
-
-        // reset temp link state
-        tmpOriginConv = null;
-        tmpOriginId = null;
-        tmpDestConv = null;
-        continue;
       }
-    }
 
-    // Flush last node / actor
-    flushNode();
-    flushActor();
+      const choices = [];
+      const triggers = [];
 
-    // Final progress update
-    notify();
-
-    // Build node lookup by (conversationID, id)
-    const nodeByKey = new Map();
-    for (const n of nodes) {
-      if (n.conversationID == null || n.id == null) continue;
-      const key = `${n.conversationID}:${n.id}`;
-      nodeByKey.set(key, n);
-    }
-
-    // Attach outgoing links to origin nodes
-    for (const link of links) {
-      const key = `${link.originConversationID}:${link.originDialogueID}`;
-      const originNode = nodeByKey.get(key);
-      if (!originNode) continue;
-      originNode.outgoing.push({
-        conversationID: link.destinationConversationID,
-        id: link.destinationDialogueID,
-      });
-    }
-
-    // Build choices / triggers lists
-    const choices = [];
-    const triggers = [];
-
-    for (const n of nodes) {
-      if (n.choiceText) {
-        choices.push(n);
-      } else if (n._hasMechanics) {
-        triggers.push(n);
+      for (const n of nodes) {
+        if (n.choiceText) {
+          choices.push(n);
+        } else if (n._hasMechanics) {
+          triggers.push(n);
+        }
       }
+
+      return {
+        nodes,
+        links,
+        choices,
+        triggers,
+      };
     }
 
-    return {
-      nodes,
-      links,
-      choices,
-      triggers,
-    };
+    return { consume, finish };
   }
 
   global.SuzerainParser = {
-    parseSuzerain,
+    createParser,
   };
-})(window);
+})(self);

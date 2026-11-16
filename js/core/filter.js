@@ -1,4 +1,3 @@
-// js/core/filter.js
 (function (global) {
   function norm(value) {
     return (value == null ? "" : String(value)).toLowerCase();

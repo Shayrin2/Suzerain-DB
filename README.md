@@ -1,55 +1,54 @@
 # Suzerain – Database
 
-A local, browser-based database viewer for **Suzerain** (Base Game + Rizia DLC), designed to inspect dialogue choices, conditions, effects, triggers, decisions, decrees, and other mechanical systems extracted from the game files.
+A local browser-based viewer for the **Suzerain** base game and **Kingdom of Rizia** DLC. Browse game dialogue and inspect the conditions and effects behind player choices, decisions, and events.
 
-This tool is aimed at **analysis, modding, planning, and research**, not at reproducing the in-game narrative experience.
+## Run locally
 
----
+Install Python 3 and use a modern browser with gzip decompression support.
+The repository includes the exports needed to run the viewer:
+
+| File | Used by |
+| --- | --- |
+| `data/Suzerain.txt.gz` | Conversations |
+| `data/Entity Text Asset.txt` | The other seven sections |
+
+The viewer also accepts a local `data/Suzerain.txt` when the gzip file is
+absent.
+
+Run the bundled launcher from the repository folder:
+
+```sh
+./start.sh
+```
+
+The launcher starts a server on an available local port and opens the app.
+If the browser doesn't open, use the URL printed in the terminal. Keep the
+terminal open while using the viewer and press Ctrl+C to stop the server.
+
+You can also start the server manually:
+
+```sh
+python3 -m http.server 8000 --bind 127.0.0.1
+```
+
+Then open [the local app](http://127.0.0.1:8000/). Conversations loads in the
+background while you browse other sections.
 
 ## Features
 
-- **Conversations / Player Choices**
-  - Grouped by conversation
-  - Conditions and effects merged into a single card per choice
-  - Mutual exclusivity detection
-  - Filters by speaker (not yet implemented), DLC vs Base Game, consequential choices, narrator on/off, text search
-
-- **Bills, Decisions, Decrees**
-  - Mechanical effects and requirements
-  - Base Game vs Rizia DLC filtering
-
-- **Triggers / Events**
-  - Conditional instruction logic
-  - Periodic stat modifiers
-  - Clear separation of conditions vs outcomes
-
-- **Prologue & Global Panels**
-  - Prologue origin choices
-  - Budget, privatization, nationalization, and other global decision panels
-
-
----
-
-## Requirements
-
-This repository **does not include Suzerain.txt**, as it is too big (560MB) for GitHub anyway, nor any of the other data files needed for it to work.
-
-I will provide a way for the full file to be downloaded if Torpor gives the green light.
-
-For legal reasons, I may also have to forgo this approach and instead opt to make a script which extracts the data directly from your game's folders.
-
-Otherwise, once the project is complete I am opened to hosting a permanent web-site instead of the "local" format.
-
----
+- **Conversations** groups alternatives under a nearby dialogue prompt when available. Each card shows its conditions and effects. Expand a group to see alternatives hidden by filters. Filter by speaker, game, consequential choices, narration, and text. Export matching dialogue with optional conditions, effects, node positions, and alternative IDs.
+- **Bills, Decisions, and Decrees** show requirements and mechanical effects. Decision options are grouped under their decision.
+- **Triggers and Events** show when conditional instructions are checked and what they can do.
+- **News and Reports** show articles and reports with their conditions.
+- **Situations and Policies** show the conditions and effects attached to policy and situation entries.
+- **Prologue and Global Panels** show origin choices and options for panels such as budget, privatization, and nationalization.
 
 ## Legal / Disclaimer
 
 Suzerain and all associated content are the property of their respective owners.
 
 This project provides tools for inspecting and analyzing Suzerain game data.
-For convenience, extracted text-based data files may be made available separately or within the repository with the rightfull owner's approval.
-
-These files contain copyrighted material and are provided solely for
+The included game exports contain copyrighted material and are provided for
 personal research, analysis, and educational purposes.
 
 If you are the copyright holder and believe this distribution is inappropriate,

@@ -16,7 +16,6 @@ async function initSituationsPage() {
   spAllItems = await loadSituationsAndPolicies();
   spFiltered = spAllItems.slice();
 
-  // Populate category filter
   const categorySelect = document.getElementById("spCategoryFilter");
   if (categorySelect) {
     const categories = Array.from(new Set(spAllItems.map((i) => i.category).filter(Boolean))).sort();
@@ -39,7 +38,6 @@ async function initSituationsPage() {
   if (severitySelect) severitySelect.addEventListener("change", applyFilters);
   if (categorySelect) categorySelect.addEventListener("change", applyFilters);
 
-  // Export wiring
   const exportBtn = document.getElementById("spExportBtn");
   const exportMenu = document.getElementById("spExportMenu");
   const exportConfirm = document.getElementById("spExportConfirm");
@@ -67,34 +65,13 @@ async function initSituationsPage() {
 }
 
 async function loadSituationsAndPolicies() {
-  const paths = ["../data/Entity%20Text%20Asset.txt", "../data/Entity Text Asset.txt"];
-  for (const p of paths) {
-    try {
-      const raw = await fetch(p).then((r) => r.text());
-      const blocks = extractDataBlocks(raw);
-      if (!blocks) continue;
-
-      const policiesRaw = blocks.Policies || null;
-      const situationsRaw = blocks.Situations || null;
-      if (!policiesRaw && !situationsRaw) continue;
-
-      const items = [];
-      if (policiesRaw) {
-        const parsed = JSON.parse(policiesRaw);
-        const list = (parsed && parsed.items) || [];
-        list.forEach((item) => items.push(normalizePolicy(item)));
-      }
-      if (situationsRaw) {
-        const parsed = JSON.parse(situationsRaw);
-        const list = (parsed && parsed.items) || [];
-        list.forEach((item) => items.push(normalizeSituation(item)));
-      }
-      return items.filter(Boolean);
-    } catch (e) {
-      console.warn("[Situations] Failed to load from", p, e);
-    }
+  const { blocks } = await DataLoader.loadEntityAsset();
+  if (!blocks.Policies && !blocks.Situations) {
+    throw new Error("No Policies/Situations data found in Entity Text Asset.");
   }
-  throw new Error("No Policies/Situations data found in Entity Text Asset.");
+  const policies = blocks.Policies ? JSON.parse(blocks.Policies).items || [] : [];
+  const situations = blocks.Situations ? JSON.parse(blocks.Situations).items || [] : [];
+  return [...policies.map(normalizePolicy), ...situations.map(normalizeSituation)].filter(Boolean);
 }
 
 function normalizePolicy(item) {
@@ -135,51 +112,6 @@ function normalizeSituation(item) {
     severity: props.SituationSeverityString || "",
     category: catProps.OverviewCategoryString || "Other",
   };
-}
-
-function extractDataBlocks(text) {
-  if (!text) return null;
-  const regex = /string\s+(\w+)DataJson\s*=/g;
-  const matches = Array.from(text.matchAll(regex));
-  if (!matches.length) return null;
-  const blocks = {};
-  for (const m of matches) {
-    const name = m[1];
-    const braceStart = text.indexOf("{", m.index);
-    if (braceStart === -1) continue;
-    const braceEnd = findMatchingBrace(text, braceStart);
-    if (braceEnd === -1) continue;
-    blocks[name] = text.substring(braceStart, braceEnd + 1);
-  }
-  return blocks;
-}
-
-function findMatchingBrace(str, start) {
-  let depth = 0;
-  let inString = false;
-  let escaped = false;
-  for (let i = start; i < str.length; i++) {
-    const ch = str[i];
-    if (escaped) {
-      escaped = false;
-      continue;
-    }
-    if (ch === "\\") {
-      escaped = true;
-      continue;
-    }
-    if (ch === '"') {
-      inString = !inString;
-      continue;
-    }
-    if (inString) continue;
-    if (ch === "{") depth++;
-    else if (ch === "}") {
-      depth--;
-      if (depth === 0) return i;
-    }
-  }
-  return -1;
 }
 
 function applyFilters() {

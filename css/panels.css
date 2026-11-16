@@ -77,3 +77,16 @@
     flex-direction: column;
     gap: 10px;
 }
+
+.conv-cards > .choice-group:has(+ *) {
+    position: relative;
+    margin-block-end: 14px;
+}
+
+.conv-cards > .choice-group:has(+ *)::after {
+    content: "";
+    position: absolute;
+    inset-inline: 0;
+    bottom: -12px;
+    border-bottom: 1px solid rgba(217, 191, 120, 0.22);
+}

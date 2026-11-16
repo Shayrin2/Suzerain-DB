@@ -41,7 +41,6 @@ async function initTriggersPage() {
   searchInput?.addEventListener("input", applyFilters);
   gameSelect?.addEventListener("change", applyFilters);
 
-  // Export (if present)
   const exportBtn = document.getElementById("triggerExportBtn");
   const exportMenu = document.getElementById("triggerExportMenu");
   const exportConfirm = document.getElementById("triggerExportConfirm");
@@ -108,30 +107,15 @@ async function initTriggersPage() {
 }
 
 async function loadConditionalInstructions() {
-  const paths = ["../data/Entity%20Text%20Asset.txt", "../data/Entity Text Asset.txt"];
-  for (const p of paths) {
-    try {
-      const raw = await fetch(p).then((r) => r.text());
-      const blocks = extractDataBlocks(raw);
-      if (!blocks) continue;
-      const condRaw =
-        blocks.ConditionalInstruction ||
-        blocks.ConditionalInstructionDataJson ||
-        blocks.ConditionalInstructionData ||
-        null;
-      if (!condRaw) continue;
-      const parsed = JSON.parse(condRaw);
-      const items = parsed.items || [];
-      const filtered = items.filter((it) => {
-        const path = it.Path || "";
-        return path.startsWith("Rizia/Conditional Instructions/") || path.startsWith("Sordland/Conditional Instructions/");
-      });
-      return filtered.map(normalizeTrigger).filter(Boolean);
-    } catch (e) {
-      console.warn("[Triggers] Failed to load from", p, e);
-    }
-  }
-  throw new Error("No ConditionalInstruction data found in Entity Text Asset.");
+  const { blocks } = await DataLoader.loadEntityAsset();
+  const raw = blocks.ConditionalInstruction || blocks.ConditionalInstructionData || blocks.ConditionalInstructionDataJson;
+  if (!raw) throw new Error("No ConditionalInstruction data found in Entity Text Asset.");
+
+  const { items = [] } = JSON.parse(raw);
+  return items.filter(item => {
+    const path = item.Path || "";
+    return path.startsWith("Rizia/Conditional Instructions/") || path.startsWith("Sordland/Conditional Instructions/");
+  }).map(normalizeTrigger).filter(Boolean);
 }
 
 function normalizeTrigger(item) {
@@ -229,7 +213,6 @@ function buildTriggerCard(trigger) {
   const body = document.createElement("div");
   body.className = "card-body";
 
-  // Checks block (flags)
   const checksBlock = document.createElement("div");
   checksBlock.className = "card-section";
   const checksLabel = document.createElement("div");
@@ -248,7 +231,6 @@ function buildTriggerCard(trigger) {
   checksBlock.appendChild(checksInfo);
   body.appendChild(checksBlock);
 
-  // Options list
   const optionsBlock = document.createElement("div");
   optionsBlock.className = "card-section";
   const optLabel = document.createElement("div");
@@ -290,49 +272,3 @@ function buildTriggerCard(trigger) {
   card.appendChild(body);
   return card;
 }
-
-function extractDataBlocks(text) {
-  if (!text) return null;
-  const regex = /string\s+(\w+)DataJson\s*=/g;
-  const matches = Array.from(text.matchAll(regex));
-  if (!matches.length) return null;
-  const blocks = {};
-  for (const m of matches) {
-    const name = m[1];
-    const braceStart = text.indexOf("{", m.index);
-    if (braceStart === -1) continue;
-    const braceEnd = findMatchingBrace(text, braceStart);
-    if (braceEnd === -1) continue;
-    blocks[name] = text.substring(braceStart, braceEnd + 1);
-  }
-  return blocks;
-}
-
-function findMatchingBrace(str, start) {
-  let depth = 0;
-  let inString = false;
-  let escaped = false;
-  for (let i = start; i < str.length; i++) {
-    const ch = str[i];
-    if (escaped) {
-      escaped = false;
-      continue;
-    }
-    if (ch === "\\") {
-      escaped = true;
-      continue;
-    }
-    if (ch === '"') {
-      inString = !inString;
-      continue;
-    }
-    if (inString) continue;
-    if (ch === "{") depth++;
-    else if (ch === "}") {
-      depth--;
-      if (depth === 0) return i;
-    }
-  }
-  return -1;
-}
-

@@ -1,4 +1,3 @@
-// js/decrees.js
 // Loads decrees from the consolidated Entity Text Asset and renders with filters/export.
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -223,48 +222,23 @@ async function initDecreesPage() {
 }
 
 async function loadDecreesFromEntityAsset() {
-  // Try encoded path first, then unencoded as a fallback in case the server
-  // doesn’t like %20 in the URL.
-  const paths = ["../data/Entity Text Asset.txt", "../data/Entity Text Asset.txt"];
-  for (const p of paths) {
-    try {
-      const raw = await DataLoader.loadText(p);
-      const parsed = parseItemsFromText(raw);
-      if (parsed && parsed.items) {
-        const items = (parsed.items || []).filter(item => {
-          const path = (item.Path || "").toLowerCase();
-          return path.includes("decrees");
-        });
-        if (items.length) return items.map(item => mapDecreeRecord(item, parsed.stepCounts));
-      }
-    } catch (e) {
-      console.warn(`[Decrees] Failed to load or parse Entity Text Asset at ${p}:`, e);
-    }
+  try {
+    const { raw, blocks } = await DataLoader.loadEntityAsset();
+    const parsed = parseItemsFromText(raw, blocks);
+    const items = (parsed?.items || []).filter(item => (item.Path || "").toLowerCase().includes("decrees"));
+    if (items.length) return items.map(item => mapDecreeRecord(item, parsed.stepCounts));
+  } catch (error) {
+    console.warn("[Decrees] Failed to load or parse Entity Text Asset:", error);
   }
 
   console.warn("[Decrees] Entity Text Asset did not contain Decrees data.");
   return [];
 }
 
-function parseItemsFromText(raw) {
+function parseItemsFromText(raw, blocks) {
   if (!raw) return null;
 
-  // Precompute blocks and step counts (if present)
-  const blocks = extractDataBlocks(raw);
   const stepCounts = buildStepCounts(blocks);
-
-  // Prefer the explicit DecreesDataJson block if present.
-  const explicit = raw.match(/string\s+DecreesDataJson\s*=\s*\"([\s\S]*?)\"/);
-  if (explicit) {
-    try {
-      const parsed = JSON.parse(explicit[1]);
-      return { items: parsed.items || [], stepCounts };
-    } catch {
-      // fall through to other parsing paths
-    }
-  }
-
-  // If we have named blocks, try DecreesDataJson first.
   if (blocks && blocks.Decrees) {
     try {
       const parsed = JSON.parse(blocks.Decrees);
@@ -310,26 +284,6 @@ function parseItemsFromText(raw) {
   } catch {
     return null;
   }
-}
-
-function extractDataBlocks(text) {
-  if (!text) return null;
-  const regex = /string\s+(\w+)DataJson\s*=\s*"/g;
-  const matches = [];
-  let m;
-  while ((m = regex.exec(text)) !== null) {
-    matches.push({ name: m[1], start: m.index, end: m.index + m[0].length });
-  }
-  if (!matches.length) return null;
-  const blocks = {};
-  for (let i = 0; i < matches.length; i++) {
-    const cur = matches[i];
-    const nextStart = i + 1 < matches.length ? matches[i + 1].start : text.length;
-    const slice = text.substring(cur.end, nextStart);
-    const trimmed = slice.lastIndexOf("\"") >= 0 ? slice.substring(0, slice.lastIndexOf("\"")) : slice;
-    blocks[cur.name] = trimmed.trim();
-  }
-  return blocks;
 }
 
 function buildStepCounts(blocks) {

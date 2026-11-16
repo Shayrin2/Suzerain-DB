@@ -1,4 +1,3 @@
-// js/conversations.js
 document.addEventListener("DOMContentLoaded", () => {
   initConversationsPage().catch(err => {
     console.error("Error initializing conversations page", err);
@@ -37,41 +36,19 @@ async function initConversationsPage() {
     return "";
   }
 
-  // Master data
   let conversations = new Map();      // convId -> { choices: Node[] }
   let allNodes = [];                  // all choice nodes
   let totalChoices = 0;
-  const PARSED_CACHE_KEY = "parsed:conversations";
-  const RAW_CACHE_KEYS = [
-    "preload:../data/Suzerain.txt",
-    "preload:data/Suzerain.txt",
-    "preload:../data/suzerain.txt",
-    "preload:data/suzerain.txt",
-    "preload:./data/Suzerain.txt",
-    "preload:./data/suzerain.txt",
-    "preload:/data/Suzerain.txt",
-    "preload:/data/suzerain.txt"
-  ];
-  const storage = (() => {
-    try {
-      return window.top?.sessionStorage || sessionStorage;
-    } catch (e) {
-      return sessionStorage;
-    }
-  })();
-
-  // Graph helpers
   let nodeByKey = new Map();          // `${convId}:${id}` -> node
   let childrenByKey = new Map();      // `${convId}:${id}` -> [{conversationID,id}]
   let parentsByKey = new Map();       // `${convId}:${id}` -> [{conversationID,id}]
 
-  // Filtered results - which choices are visible in each conversation
   let filteredByConversation = new Map();
+  let alternativesByNode = new Map();
 
   const RENDERED_CARD_FLAG = Symbol("renderedCards");
   let dataReady = false;
   let filterToken = 0;
-  let fallbackAttempted = false;
 
   function isMechanicsOnlyNode(node) {
     const menu = normalizeMenuText(node.menuText) || "";
@@ -148,7 +125,6 @@ async function initConversationsPage() {
     return false;
   }
 
-  // ---- tiny helpers ----
 
   function uniqueStrings(list) {
     const seen = new Set();
@@ -376,85 +352,156 @@ async function initConversationsPage() {
     card.appendChild(header);
     card.appendChild(body);
 
-    if (node.mutexIds && node.mutexIds.length) {
-      const footer = document.createElement("div");
-      footer.className = "card-footer";
-      footer.textContent = `Mutually exclusive with: ${node.mutexIds.join(", ")}`;
-      card.appendChild(footer);
-    }
-
     return card;
   }
 
-  function renderConversationCards(convId, container) {
-    // If we've already rendered cards for this conversation, don't do it again
-    if (container[RENDERED_CARD_FLAG]) {
-      return;
-    }
-    container[RENDERED_CARD_FLAG] = true;
+  function preferredParent(node) {
+    const parents = parentsByKey.get(`${node.conversationID}:${node.id}`) || [];
+    return parents.find(ref => ref.conversationID === node.conversationID) || parents[0];
+  }
 
-    const nodes = filteredByConversation.get(convId) || [];
-    const gameKey = conversationGameKey(convId);
+  function findChoicePrompt(node) {
+    let frontier = [preferredParent(node)].filter(Boolean);
+    const visited = new Set();
 
-    const groups = new Map(); // groupKey -> nodes[]
-    nodes.forEach(node => {
-      const nodeKey = `${convId}:${node.id}`;
-      const parentRefs = parentsByKey.get(nodeKey) || [];
+    for (let depth = 0; frontier.length && depth < 8; depth++) {
+      const next = [];
+      let playerPrompt = null;
 
-      let gk;
-      const sameConvParent = parentRefs.find(p => p.conversationID === convId);
-      if (sameConvParent) {
-        gk = `${sameConvParent.conversationID}:${sameConvParent.id}`;
-      } else if (parentRefs[0]) {
-        gk = `${parentRefs[0].conversationID}:${parentRefs[0].id}`;
-      } else {
-        gk = `self:${nodeKey}`;
+      for (const ref of frontier) {
+        const key = `${ref.conversationID}:${ref.id}`;
+        if (visited.has(key)) continue;
+        visited.add(key);
+
+        const parent = nodeByKey.get(key);
+        const text = (parent?.enText || parent?.npcText || parent?.choiceText || "")
+          .replace(/\s+/g, " ").trim();
+        if (text && !isStartNode(parent) && !isMechanicsOnlyNode(parent)) {
+          const prompt = { text, speaker: speakerDisplay(parent) };
+          if (canonicalSpeakerKey(parent) !== "player") return prompt;
+          playerPrompt ??= prompt;
+        }
+
+        for (const incoming of parentsByKey.get(key) || []) {
+          if (incoming.conversationID === ref.conversationID) next.push(incoming);
+        }
       }
 
-      if (!groups.has(gk)) groups.set(gk, []);
-      groups.get(gk).push(node);
-    });
-
-    // Assign mutex ids inside each group lazily
-    for (const groupNodes of groups.values()) {
-      if (groupNodes.length <= 1) {
-        groupNodes[0].mutexIds = [];
-        continue;
-      }
-      const ids = groupNodes.map(n => n.id);
-      for (const n of groupNodes) {
-        n.mutexIds = ids.filter(id => id !== n.id);
-      }
+      if (playerPrompt) return playerPrompt;
+      frontier = next;
     }
+    return null;
+  }
 
-    const orderedGroups = Array.from(groups.values()).map(groupNodes => ({
-      sortId: Math.min(...groupNodes.map(n => n.id ?? 0)),
-      nodes: groupNodes.sort((a, b) => (a.id ?? 0) - (b.id ?? 0)),
-    })).sort((a, b) => a.sortId - b.sortId);
+  function indexAlternatives() {
+    alternativesByNode = new Map();
+    for (const [convId, { choices }] of conversations) {
+      const groups = new Map();
+      for (const node of choices) {
+        const parent = preferredParent(node);
+        if (!parent) continue;
 
-      const frag = document.createDocumentFragment();
-      orderedGroups.forEach(group => {
-        group.nodes.forEach(node => {
-          const card = buildNodeCard(node, gameKey);
-          if (card) frag.appendChild(card);
-        });
-      });
-
-      container.innerHTML = "";
-      container.appendChild(frag);
-    }
-
-  // ---- data load via worker or cache ----
-
-  countInfo.textContent = "Loading conversations...";
-
-  function persistParsed(payload) {
-    try {
-      storage.setItem(PARSED_CACHE_KEY, JSON.stringify(payload));
-    } catch (e) {
-      // ignore quota errors
+        const key = `${parent.conversationID}:${parent.id}`;
+        if (!groups.has(key)) groups.set(key, []);
+        const group = groups.get(key);
+        group.push(node);
+        alternativesByNode.set(node, group);
+      }
     }
   }
+
+  function renderConversationCards(convId, container) {
+    if (container[RENDERED_CARD_FLAG]) return;
+    container[RENDERED_CARD_FLAG] = true;
+
+    const gameKey = conversationGameKey(convId);
+    const nodes = [...(filteredByConversation.get(convId) || [])];
+    nodes.sort((a, b) => (a.id ?? 0) - (b.id ?? 0));
+
+    const matchingNodes = new Set(nodes);
+    const groups = new Map();
+    for (const node of nodes) {
+      const card = buildNodeCard(node, gameKey);
+      if (!card) continue;
+      const group = alternativesByNode.get(node);
+      const key = group?.length > 1 ? group : node;
+      if (!groups.has(key)) groups.set(key, []);
+      groups.get(key).push(card);
+    }
+
+    const fragment = document.createDocumentFragment();
+    for (const [key, cards] of groups) {
+      if (!Array.isArray(key)) {
+        fragment.appendChild(cards[0]);
+        continue;
+      }
+
+      const hiddenCards = key
+        .filter(node => !matchingNodes.has(node))
+        .sort((a, b) => (a.id ?? 0) - (b.id ?? 0))
+        .map(node => buildNodeCard(node, gameKey))
+        .filter(Boolean);
+      const total = cards.length + hiddenCards.length;
+      if (total === 1) {
+        fragment.appendChild(cards[0]);
+        continue;
+      }
+
+      const section = document.createElement("section");
+      section.className = "choice-group";
+      const heading = document.createElement("h4");
+      heading.className = "choice-group__title";
+      const prompt = findChoicePrompt(key[0]);
+      if (prompt) {
+        const limit = 80;
+        const excerpt = prompt.text.slice(0, limit);
+        const wordEnd = excerpt.lastIndexOf(" ");
+        heading.textContent = prompt.text.length <= limit
+          ? prompt.text
+          : `${excerpt.slice(0, wordEnd > 0 ? wordEnd : limit)}…`;
+        const metadata = document.createElement("p");
+        metadata.className = "choice-group__meta";
+        metadata.textContent = `${prompt.speaker} · ${total} options`;
+        section.append(heading, metadata);
+
+        if (prompt.text.length > limit) {
+          const context = document.createElement("details");
+          const summary = document.createElement("summary");
+          summary.textContent = "Read full dialogue";
+          const line = document.createElement("p");
+          line.textContent = prompt.text;
+          context.append(summary, line);
+          section.appendChild(context);
+        }
+      } else {
+        const parent = preferredParent(key[0]);
+        heading.textContent = parent
+          ? `Choices after node ${parent.id} · ${total} options`
+          : `Mutually exclusive choices · ${total} options`;
+        section.appendChild(heading);
+      }
+      section.append(...cards);
+
+      if (hiddenCards.length) {
+        const details = document.createElement("details");
+        const summary = document.createElement("summary");
+        summary.textContent = hiddenCards.length === 1
+          ? "Show 1 alternative hidden by filters"
+          : `Show ${hiddenCards.length} alternatives hidden by filters`;
+        const alternatives = document.createElement("div");
+        alternatives.className = "choice-group__alternatives";
+        alternatives.append(...hiddenCards);
+        details.append(summary, alternatives);
+        section.appendChild(details);
+      }
+      fragment.appendChild(section);
+    }
+    container.replaceChildren(fragment);
+  }
+
+  // ---- data load ----
+
+  countInfo.textContent = "Loading conversations...";
 
   async function processData(msg) {
     const { nodes, links } = msg || {};
@@ -510,6 +557,8 @@ async function initConversationsPage() {
       bucket.choices.push(node);
     });
 
+    indexAlternatives();
+
     // Mark consequential choices
     for (const [convId, bucket] of conversations.entries()) {
       bucket.choices.forEach(node => {
@@ -533,7 +582,6 @@ async function initConversationsPage() {
 
     totalChoices = allNodes.filter(n => !isStartNode(n)).length;
 
-    // Build speaker options
     if (speakerSelect) {
       const speakers = new Map(); // canonicalKey -> label
       allNodes.forEach(n => {
@@ -571,139 +619,39 @@ async function initConversationsPage() {
 
     dataReady = true;
     await applyFilters();
-    // Notify parent (preload overlay) that conversations are ready
-    try {
-      window.parent?.postMessage({ type: "conv-ready" }, "*");
-    } catch (e) {
-      // ignore
-    }
   }
 
-  async function loadData() {
-    // 1) Try parsed cache
+  function loadData() {
+    let worker;
+
+    function showLoadError(error) {
+      worker?.terminate();
+      console.error("Failed to load conversations:", error);
+      countInfo.textContent = "Could not load conversations. Check that data/Suzerain.txt.gz or data/Suzerain.txt is available and reload.";
+    }
+
     try {
-      const cached = storage.getItem(PARSED_CACHE_KEY);
-      if (cached) {
-        const parsed = JSON.parse(cached);
-        processData(parsed);
-        countInfo.textContent = "Conversations ready (cached)";
-        return;
-      }
-    } catch (e) {
-      // ignore parse errors, fall back to worker
-    }
-
-    // 2) Use worker (with preloaded text when available)
-    const worker = new Worker("../js/conversationsWorker.js");
-    const baseOrigin = window.location?.origin || "";
-    const strictPaths = [
-      `${baseOrigin}/data/Suzerain.txt`,
-      `${baseOrigin}/data/suzerain.txt`
-    ];
-
-    async function parseInMainThread() {
-      if (fallbackAttempted) return;
-      fallbackAttempted = true;
-      try {
-        countInfo.textContent = "Retrying conversations...";
-        let text = null;
-        let lastErr = null;
-        for (const path of strictPaths) {
-          try {
-            const res = await fetch(path, { cache: "no-cache" });
-            if (!res.ok) throw new Error(`Failed to fetch ${path}: ${res.status} ${res.statusText}`);
-            text = await res.text();
-            break;
-          } catch (err) {
-            lastErr = err;
-          }
-        }
-        if (!text) throw lastErr || new Error("Failed to fetch Suzerain.txt");
-        const parsed = SuzerainParser.parseSuzerain(text, (done, total) => {
-          if (!total) return;
-          const pct = Math.min(100, Math.round((done / total) * 100));
-          countInfo.textContent = `Building conversations... ${pct}%`;
-          window.parent?.postMessage({ type: "conv-progress", phase: "parse", pct, label: countInfo.textContent }, "*");
-        });
-        persistParsed({ nodes: parsed.nodes || [], links: parsed.links || [], choices: parsed.choices || [] });
-        await processData(parsed);
-      } catch (err) {
-        console.error("Fallback parse failed:", err);
-        countInfo.textContent = "Failed to load conversations.";
-      }
-    }
-
-    worker.addEventListener("message", ev => {
-      const msg = ev.data || {};
-    if (msg.type === "progress") {
-      const pct = msg.total
-        ? Math.min(100, Math.round((msg.received / msg.total) * 100))
-        : null;
-      if (pct != null) {
-        countInfo.textContent = `Loading conversations... ${pct}%`;
-        window.parent?.postMessage({ type: "conv-progress", phase: "load", pct, label: countInfo.textContent }, "*");
-      } else if (msg.received) {
-        const mb = Math.round(msg.received / 1024 / 1024);
-        countInfo.textContent = `Loading conversations... (${mb} MB)`;
-        window.parent?.postMessage({ type: "conv-progress", phase: "load", pct: null, label: countInfo.textContent }, "*");
-      }
+      worker = new Worker("../js/conversationsWorker.js");
+    } catch (error) {
+      showLoadError(error);
       return;
     }
-    if (msg.type === "parse-progress") {
-      const pct = msg.total
-        ? Math.min(100, Math.round((msg.processed / msg.total) * 100))
-        : null;
-      if (pct != null) {
-        countInfo.textContent = `Building conversations... ${pct}%`;
-        window.parent?.postMessage({ type: "conv-progress", phase: "parse", pct, label: countInfo.textContent }, "*");
-      } else {
-        countInfo.textContent = "Building conversations...";
-        window.parent?.postMessage({ type: "conv-progress", phase: "parse", pct: null, label: countInfo.textContent }, "*");
-      }
-      return;
-    }
-    if (msg.type === "error") {
-      console.error("Conversation worker error:", msg.error);
-      countInfo.textContent = "Failed to load conversations.";
-      parseInMainThread();
-      window.parent?.postMessage({ type: "conv-progress", phase: "error", label: countInfo.textContent }, "*");
-      return;
-    }
-    if (msg.type !== "data") return;
 
-      persistParsed({ nodes: msg.nodes || [], links: msg.links || [], choices: msg.choices || [] });
-      processData(msg).catch(err => {
-        console.error("Failed to process conversations data", err);
-        countInfo.textContent = "Failed to load conversations.";
-      });
+    worker.addEventListener("message", ({ data }) => {
+      if (data.type === "progress") {
+        const progress = data.total
+          ? `${Math.round(data.received / data.total * 100)}%`
+          : `${Math.round(data.received / 1024 / 1024)} MiB`;
+        countInfo.textContent = `Loading conversations… ${progress}`;
+      } else if (data.type === "data") {
+        worker.terminate();
+        processData(data).catch(showLoadError);
+      } else if (data.type === "error") {
+        showLoadError(data.error);
+      }
     });
-
-    worker.addEventListener("error", err => {
-      console.error("Conversation worker crashed:", err);
-      countInfo.textContent = "Failed to load conversations.";
-      parseInMainThread();
-    });
-
-    // Prefer preloaded raw text to avoid refetching
-    let raw = null;
-    for (const key of RAW_CACHE_KEYS) {
-      try {
-        const val = storage.getItem(key);
-        if (val) {
-          raw = val;
-          break;
-        }
-      } catch (e) {
-        // ignore storage errors
-      }
-    }
-
-    // Post the message immediately so we see progress events early
-    if (raw) {
-      worker.postMessage({ type: "parseText", text: raw });
-    } else {
-      worker.postMessage({ type: "load" });
-    }
+    worker.addEventListener("error", showLoadError);
+    worker.postMessage({ type: "load" });
   }
 
   loadData();
@@ -712,10 +660,7 @@ async function initConversationsPage() {
 
   async function applyFilters() {
     const myToken = ++filterToken;
-    if (!dataReady) {
-      countInfo.textContent = "Loading conversations...";
-      return;
-    }
+    if (!dataReady) return;
 
     const q = searchInput.value.trim();
     const speakerValue = speakerSelect ? speakerSelect.value : "";
@@ -730,7 +675,6 @@ async function initConversationsPage() {
 
     const entries = Array.from(conversations.entries());
     const totalConv = entries.length || 1;
-    // Hide noisy messages while building; we'll show the final count at the end
     countInfo.textContent = "";
 
     for (let idx = 0; idx < entries.length; idx++) {
@@ -767,17 +711,13 @@ async function initConversationsPage() {
           if (nodeSpeakerKey !== speakerValue) return false;
         }
 
-        if (!hasTextSearch) {
-          // Skip mechanics-only nodes when not searching
-          if (hideMechanicsChecked && isMechanicsOnlyNode(node)) return false;
-          return true;
-        }
+        if (!hasTextSearch) return true;
 
         // Only run expensive text search when q is non-empty
         const aggConds = getAggregatedConditions(node) || [];
         const aggEffs = getAggregatedEffects(node) || [];
 
-        const matches =
+        return (
           FilterUtils.textMatch(node, q, [
             "choiceText",
             "npcText",
@@ -796,12 +736,8 @@ async function initConversationsPage() {
               .join(" ")
               .toLowerCase();
             return hay.includes(q.toLowerCase());
-          })();
-
-        // For effect-only nodes, only show if search matched
-        if (matches) return true;
-        if (hideMechanicsChecked && isMechanicsOnlyNode(node)) return false;
-        return matches;
+          })()
+        );
       });
 
       if (filteredNodes.length > 0) {
@@ -810,14 +746,7 @@ async function initConversationsPage() {
       }
     }
 
-    // Update counts
     countInfo.textContent = `Showing ${visibleChoices} of ${totalChoices} choices`;
-    try {
-      window.parent?.postMessage({ type: "conv-progress", phase: "filter", pct: 100, label: countInfo.textContent }, "*");
-    } catch (e) {
-      // ignore
-    }
-
     // Build / update conversation shells (headers only) in chunks to avoid blocking
     listContainer.innerHTML = "";
     const sortedConvIds = Array.from(filteredByConversation.keys()).sort(
@@ -874,7 +803,6 @@ async function initConversationsPage() {
           // Yield to UI thread
           setTimeout(renderChunk, 0);
         } else {
-          // Finished
           resolve();
         }
       }
@@ -883,7 +811,6 @@ async function initConversationsPage() {
     });
   }
 
-  // Hook filters
   searchInput.addEventListener("input", applyFilters);
   speakerSelect.addEventListener("change", applyFilters);
   gameSelect.addEventListener("change", applyFilters);
@@ -938,8 +865,12 @@ async function initConversationsPage() {
             lines.push(`  Effects: ${effs.join(" | ")}`);
           }
         }
-        if (options.mutex && node.mutexIds && node.mutexIds.length) {
-          lines.push(`  Mutually exclusive with: ${node.mutexIds.join(", ")}`);
+        if (options.mutex) {
+          const alternatives = alternativesByNode.get(node);
+          if (alternatives?.length > 1) {
+            const ids = alternatives.filter(other => other !== node).map(other => other.id);
+            lines.push(`  Mutually exclusive with: ${ids.join(", ")}`);
+          }
         }
       });
 

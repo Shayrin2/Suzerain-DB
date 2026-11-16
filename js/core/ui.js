@@ -1,4 +1,3 @@
-// js/core/ui.js
 // Shared UI helpers
 
 (function () {

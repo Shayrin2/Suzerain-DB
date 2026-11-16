@@ -1,5 +1,3 @@
-// js/decisions.js
-// Reads DecisionData.txt and renders decision cards with options, conditions, and effects.
 
 document.addEventListener("DOMContentLoaded", () => {
   initDecisionsPage().catch(err => console.error("Decisions init error:", err));
@@ -40,7 +38,6 @@ async function initDecisionsPage() {
       return dec.searchText.includes(q);
     });
 
-    // Sort by turn (asc, nulls last) then title
     filtered.sort((a, b) => {
       const ta = a.turn ?? 999;
       const tb = b.turn ?? 999;
@@ -110,9 +107,12 @@ async function initDecisionsPage() {
             ${conditionsHtml}
           </div>
 
-          <div class="card-col">
-            ${optionsHtml}
-          </div>
+          ${dec.options.length > 1
+            ? `<section class="choice-group">
+                 <h4 class="choice-group__title">Choose one · ${dec.options.length} options</h4>
+                 ${optionsHtml}
+               </section>`
+            : `<div class="card-col">${optionsHtml}</div>`}
         </div>
       `;
 
@@ -197,8 +197,7 @@ async function initDecisionsPage() {
 
 async function loadDecisionsFromEntityAsset() {
   try {
-    const raw = await DataLoader.loadText("../data/Entity%20Text%20Asset.txt");
-    const blocks = extractDataBlocks(raw);
+    const { raw, blocks } = await DataLoader.loadEntityAsset();
 
     if (blocks && blocks.Decisions) {
       const data = JSON.parse(blocks.Decisions);
@@ -219,27 +218,6 @@ async function loadDecisionsFromEntityAsset() {
     console.warn("[Decisions] Failed to load or parse Entity Text Asset:", e);
     return [];
   }
-}
-
-  function extractDataBlocks(text) {
-    // Extracts all string FooDataJson = "<json>" into a map { Foo: "<json>" }
-    if (!text) return null;
-    const regex = /string\s+(\w+)DataJson\s*=\s*"/g;
-  const matches = [];
-  let m;
-  while ((m = regex.exec(text)) !== null) {
-    matches.push({ name: m[1], start: m.index, end: m.index + m[0].length });
-  }
-  const blocks = {};
-  for (let i = 0; i < matches.length; i++) {
-    const cur = matches[i];
-    const nextStart = i + 1 < matches.length ? matches[i + 1].start : text.length;
-    const slice = text.substring(cur.end, nextStart);
-    // Strip the trailing closing quote of the string literal
-    const trimmed = slice.lastIndexOf("\"") >= 0 ? slice.substring(0, slice.lastIndexOf("\"")) : slice;
-    blocks[cur.name] = trimmed.trim();
-  }
-  return blocks;
 }
 
 function mapDecisionRecord(raw) {

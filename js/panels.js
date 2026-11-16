@@ -1,4 +1,3 @@
-// panels.js
 // Prologue + Decisions/Budget options viewer
 // Loads MultipleChoiceOptionDataJson + CarouselChoiceOptionDataJson from Entity Text Asset
 
@@ -36,7 +35,6 @@ function normalizeItems(rawItems, sourceType) {
       panelGroup = "Prologue Skip";
       panelSub = pathParts[2] || "";
     } else {
-      // Fallback
       panelGroup = pathParts[1] || "";
       panelSub = pathParts[2] || "";
     }
@@ -212,7 +210,6 @@ function renderPanels() {
     });
     for (const [sub, opts] of sortedSubs) {
       if (sub !== "Other") {
-        // Group into a panel
         const panel = document.createElement("details");
         panel.className = "panel";
         panel.open = false;
@@ -230,7 +227,6 @@ function renderPanels() {
         }
         container.appendChild(panel);
       } else {
-        // Render individual cards
         for (const opt of opts) {
           const card = createPanelCard(opt);
           container.appendChild(card);
@@ -396,7 +392,6 @@ function createPanelCard(opt) {
   header.appendChild(meta);
   card.appendChild(header);
 
-  // Body
   const body = document.createElement("div");
   body.className = "card-body";
 
@@ -415,7 +410,6 @@ function createPanelCard(opt) {
     body.appendChild(desc);
   }
 
-  // Condition
   if (opt.condition) {
     const condBlock = document.createElement("div");
     condBlock.className = "card-section";
@@ -430,7 +424,6 @@ function createPanelCard(opt) {
     body.appendChild(condBlock);
   }
 
-  // Effects (instruction)
   if (opt.effects && opt.effects.length) {
     const effBlock = document.createElement("div");
     effBlock.className = "card-section";
@@ -472,7 +465,6 @@ async function initPanelsPage() {
   }
   allPanelOptions = Array.from(unique.values());
 
-  // Wire filters
   const searchInput = document.getElementById("panelSearchInput");
   const sectionSelect = document.getElementById("panelSectionFilter");
   const gameSelect = document.getElementById("panelGameFilter");
@@ -563,55 +555,20 @@ document.addEventListener("DOMContentLoaded", initPanelsPage);
 
 // Helper to load JSON blocks from Entity Text Asset
 async function loadPanelsFromEntityAsset() {
-  const paths = ["../data/Entity%20Text%20Asset.txt", "../data/Entity Text Asset.txt"];
-  for (const p of paths) {
-    try {
-      const raw = await fetch(p).then((r) => r.text());
-      const blocks = extractDataBlocks(raw);
-      if (!blocks) continue;
-      const multiRaw =
-        blocks.MultipleChoiceOptionDataJson ||
-        blocks.MultipleChoiceOptionData ||
-        blocks.MultipleChoiceOption ||
-        null;
-      const carouselRaw =
-        blocks.CarouselChoiceOptionDataJson ||
-        blocks.CarouselChoiceOptionData ||
-        blocks.CarouselChoiceOption ||
-        null;
-      const multi = multiRaw ? JSON.parse(multiRaw) : null;
-      const carousel = carouselRaw ? JSON.parse(carouselRaw) : null;
-      const items = [
-        ...normalizeItems((multi && multi.items) || [], "multiple"),
-        ...normalizeItems((carousel && carousel.items) || [], "carousel")
-      ];
-      if (items.length) return items;
-    } catch (e) {
-      console.warn("[Panels] Failed to load from", p, e);
-    }
+  try {
+    const { blocks } = await DataLoader.loadEntityAsset();
+    const multiRaw = blocks.MultipleChoiceOptionDataJson || blocks.MultipleChoiceOptionData || blocks.MultipleChoiceOption;
+    const multi = multiRaw ? JSON.parse(multiRaw) : null;
+    const carouselRaw = blocks.CarouselChoiceOptionDataJson || blocks.CarouselChoiceOptionData || blocks.CarouselChoiceOption;
+    const carousel = carouselRaw ? JSON.parse(carouselRaw) : null;
+    return [
+      ...normalizeItems(multi?.items || [], "multiple"),
+      ...normalizeItems(carousel?.items || [], "carousel"),
+    ];
+  } catch (error) {
+    console.warn("[Panels] Failed to load or parse Entity Text Asset:", error);
+    return [];
   }
-  console.warn("[Panels] No panel data found in Entity Text Asset.");
-  return [];
-}
-
-function extractDataBlocks(text) {
-  if (!text) return null;
-  const regex = /string\s+(\w+)DataJson\s*=\s*"/g;
-  const matches = [];
-  let m;
-  while ((m = regex.exec(text)) !== null) {
-    matches.push({ name: m[1], start: m.index, end: m.index + m[0].length });
-  }
-  if (!matches.length) return null;
-  const blocks = {};
-  for (let i = 0; i < matches.length; i++) {
-    const cur = matches[i];
-    const nextStart = i + 1 < matches.length ? matches[i + 1].start : text.length;
-    const slice = text.substring(cur.end, nextStart);
-    const trimmed = slice.lastIndexOf('"') >= 0 ? slice.substring(0, slice.lastIndexOf('"')) : slice;
-    blocks[cur.name] = trimmed.trim();
-  }
-  return blocks;
 }
 
 function bundleFocusOptions(options) {

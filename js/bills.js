@@ -1,4 +1,3 @@
-// js/bills.js
 // Loads bills from the consolidated Entity Text Asset and renders them with filters and export.
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -40,7 +39,6 @@ async function initBillsPage() {
       return bill.searchText.includes(q);
     });
 
-    // sort by turn asc, unknowns last, then title
     filtered.sort((a, b) => {
       const ta = a.turn ?? 999;
       const tb = b.turn ?? 999;
@@ -189,8 +187,8 @@ async function initBillsPage() {
 
 async function loadBillsFromEntityAsset() {
   try {
-    const raw = await DataLoader.loadText("../data/Entity%20Text%20Asset.txt");
-    const parsed = parseItemsFromText(raw);
+    const { raw, blocks } = await DataLoader.loadEntityAsset();
+    const parsed = parseItemsFromText(blocks.Bills || raw);
     if (parsed && parsed.items) {
       const bills = (parsed.items || []).filter(item => /\/Bills/i.test(item.Path || ""));
       return bills.map(mapBillRecord);

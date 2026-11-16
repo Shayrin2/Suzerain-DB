@@ -12,7 +12,8 @@ This tool is aimed at **analysis, modding, planning, and research**, not at repr
   - Grouped by conversation
   - Conditions and effects merged into a single card per choice
   - Mutual exclusivity detection
-  - Filters by speaker (not yet implemented), DLC vs Base Game, consequential choices, narrator on/off, text search
+  - Text export with optional conditions, effects, position, and mutual exclusivity details
+  - Filters by speaker, DLC vs Base Game, consequential choices, narrator on/off, text search
 
 - **Bills, Decisions, Decrees**
   - Mechanical effects and requirements
@@ -30,15 +31,29 @@ This tool is aimed at **analysis, modding, planning, and research**, not at repr
 
 ---
 
-## Requirements
+## Run locally
 
-This repository **does not include Suzerain.txt**, as it is too big (560MB) for GitHub anyway, nor any of the other data files needed for it to work.
+Use Python 3 and a modern browser. Place the two game exports in the app's
+`data/` directory, next to `index.html`:
 
-I will provide a way for the full file to be downloaded if Torpor gives the green light.
+- `data/Suzerain.txt.gz` or `data/Suzerain.txt` for Conversations (gzip is preferred when both exist)
+- `data/Entity Text Asset.txt` for the other sections
 
-For legal reasons, I may also have to forgo this approach and instead opt to make a script which extracts the data directly from your game's folders.
+The Git repository excludes the game exports. If your workspace has a separate
+`data/` folder next to `Suzerain DB/`, the app does not read from that folder.
 
-Otherwise, once the project is complete I am opened to hosting a permanent web-site instead of the "local" format.
+From inside `Suzerain DB`, run `./start.sh`. The launcher starts a local server
+and opens the app in your default browser. Press Ctrl+C to stop the server.
+
+To start the server manually, run this from inside `Suzerain DB`:
+
+```sh
+python3 -m http.server 8000 --bind 127.0.0.1
+```
+
+Open [the local app](http://127.0.0.1:8000/). Keep the server running while
+you use the viewer. The Conversations page reads the dialogue export in the
+background, and you can open the other sections while it loads.
 
 ---
 

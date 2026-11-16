@@ -1,44 +1,43 @@
-// js/core/loader.js
 (function (global) {
-  const cache = {};
-  const storage = (() => {
-    try {
-      return global.top?.sessionStorage || global.sessionStorage;
-    } catch (e) {
-      return global.sessionStorage;
-    }
-  })();
+  const script = document.currentScript;
+  const assetUrl = new URL("../../data/Entity%20Text%20Asset.txt", script.src);
+  let entityAsset;
 
-  async function loadText(path) {
-    if (cache[path]) return cache[path];
-
-    // Try sessionStorage cache (preloaded on index)
-    try {
-      const stored = storage.getItem(`preload:${path}`);
-      if (stored) {
-        cache[path] = stored;
-        return stored;
-      }
-    } catch (e) {
-      // ignore storage errors
+  function extractDataBlocks(text) {
+    const blocks = Object.create(null);
+    const headers = [...text.matchAll(/^[\t ]*string\s+(\w+)DataJson\s*=\s*"/gm)];
+    for (const [index, header] of headers.entries()) {
+      const start = header.index + header[0].length;
+      const segment = text.slice(start, headers[index + 1]?.index);
+      const closingQuote = segment.lastIndexOf('"');
+      blocks[header[1]] = (closingQuote === -1 ? segment : segment.slice(0, closingQuote)).trim();
     }
-
-    const res = await fetch(path, { cache: "no-cache" });
-    if (!res.ok) {
-      throw new Error(`Failed to load "${path}": ${res.status} ${res.statusText}`);
-    }
-
-    const text = await res.text();
-    cache[path] = text;
-    try {
-      storage.setItem(`preload:${path}`, text);
-    } catch (e) {
-      // ignore storage quota errors
-    }
-    return text;
+    return blocks;
   }
 
-  global.DataLoader = {
-    loadText,
-  };
+  async function fetchEntityAsset() {
+    const response = await fetch(assetUrl);
+    if (!response.ok) {
+      throw new Error(`Failed to load Entity Text Asset (HTTP ${response.status})`);
+    }
+    const raw = await response.text();
+    return { raw, blocks: extractDataBlocks(raw) };
+  }
+
+  function loadEntityAsset() {
+    if (global.parent && global.parent !== global) {
+      try {
+        if (global.parent.DataLoader) return global.parent.DataLoader.loadEntityAsset();
+      } catch {
+        // A standalone page can also be embedded by a different origin.
+      }
+    }
+    entityAsset ??= fetchEntityAsset().catch(error => {
+      entityAsset = undefined;
+      throw error;
+    });
+    return entityAsset;
+  }
+
+  global.DataLoader = { loadEntityAsset };
 })(window);

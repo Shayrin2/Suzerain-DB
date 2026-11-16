@@ -21,6 +21,12 @@ Run the bundled launcher from the repository folder:
 ./start.sh
 ```
 
+On Windows, run this from PowerShell in the repository folder:
+
+```powershell
+.\start.ps1
+```
+
 The launcher starts a server on an available local port and opens the app.
 If the browser doesn't open, use the URL printed in the terminal. Keep the
 terminal open while using the viewer and press Ctrl+C to stop the server.

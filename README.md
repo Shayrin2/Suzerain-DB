@@ -1,70 +1,54 @@
 # Suzerain – Database
 
-A local, browser-based database viewer for **Suzerain** (Base Game + Rizia DLC), designed to inspect dialogue choices, conditions, effects, triggers, decisions, decrees, and other mechanical systems extracted from the game files.
-
-This tool is aimed at **analysis, modding, planning, and research**, not at reproducing the in-game narrative experience.
-
----
-
-## Features
-
-- **Conversations / Player Choices**
-  - Grouped by conversation
-  - Conditions and effects merged into a single card per choice
-  - Mutual exclusivity detection
-  - Text export with optional conditions, effects, position, and mutual exclusivity details
-  - Filters by speaker, DLC vs Base Game, consequential choices, narrator on/off, text search
-
-- **Bills, Decisions, Decrees**
-  - Mechanical effects and requirements
-  - Base Game vs Rizia DLC filtering
-
-- **Triggers / Events**
-  - Conditional instruction logic
-  - Periodic stat modifiers
-  - Clear separation of conditions vs outcomes
-
-- **Prologue & Global Panels**
-  - Prologue origin choices
-  - Budget, privatization, nationalization, and other global decision panels
-
-
----
+A local browser-based viewer for the **Suzerain** base game and **Kingdom of Rizia** DLC. Browse game dialogue and inspect the conditions and effects behind player choices, decisions, and events.
 
 ## Run locally
 
-Use Python 3 and a modern browser. Place the two game exports in the app's
-`data/` directory, next to `index.html`:
+Install Python 3 and use a modern browser with gzip decompression support.
+The repository includes the exports needed to run the viewer:
 
-- `data/Suzerain.txt.gz` or `data/Suzerain.txt` for Conversations (gzip is preferred when both exist)
-- `data/Entity Text Asset.txt` for the other sections
+| File | Used by |
+| --- | --- |
+| `data/Suzerain.txt.gz` | Conversations |
+| `data/Entity Text Asset.txt` | The other seven sections |
 
-The Git repository excludes the game exports. If your workspace has a separate
-`data/` folder next to `Suzerain DB/`, the app does not read from that folder.
+The viewer also accepts a local `data/Suzerain.txt` when the gzip file is
+absent.
 
-From inside `Suzerain DB`, run `./start.sh`. The launcher starts a local server
-and opens the app in your default browser. Press Ctrl+C to stop the server.
+Run the bundled launcher from the repository folder:
 
-To start the server manually, run this from inside `Suzerain DB`:
+```sh
+./start.sh
+```
+
+The launcher starts a server on an available local port and opens the app.
+If the browser doesn't open, use the URL printed in the terminal. Keep the
+terminal open while using the viewer and press Ctrl+C to stop the server.
+
+You can also start the server manually:
 
 ```sh
 python3 -m http.server 8000 --bind 127.0.0.1
 ```
 
-Open [the local app](http://127.0.0.1:8000/). Keep the server running while
-you use the viewer. The Conversations page reads the dialogue export in the
-background, and you can open the other sections while it loads.
+Then open [the local app](http://127.0.0.1:8000/). Conversations loads in the
+background while you browse other sections.
 
----
+## Features
+
+- **Conversations** groups alternatives under a nearby dialogue prompt when available. Each card shows its conditions and effects. Expand a group to see alternatives hidden by filters. Filter by speaker, game, consequential choices, narration, and text. Export matching dialogue with optional conditions, effects, node positions, and alternative IDs.
+- **Bills, Decisions, and Decrees** show requirements and mechanical effects. Decision options are grouped under their decision.
+- **Triggers and Events** show when conditional instructions are checked and what they can do.
+- **News and Reports** show articles and reports with their conditions.
+- **Situations and Policies** show the conditions and effects attached to policy and situation entries.
+- **Prologue and Global Panels** show origin choices and options for panels such as budget, privatization, and nationalization.
 
 ## Legal / Disclaimer
 
 Suzerain and all associated content are the property of their respective owners.
 
 This project provides tools for inspecting and analyzing Suzerain game data.
-For convenience, extracted text-based data files may be made available separately or within the repository with the rightfull owner's approval.
-
-These files contain copyrighted material and are provided solely for
+The included game exports contain copyrighted material and are provided for
 personal research, analysis, and educational purposes.
 
 If you are the copyright holder and believe this distribution is inappropriate,

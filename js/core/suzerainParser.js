@@ -46,7 +46,6 @@
 
       conditions: [],
       effects: [],
-      outgoing: [], // filled later from links
 
       isPlayerRomus: false,
       choiceText: null,
@@ -356,41 +355,7 @@
       flushNode();
       flushActor();
 
-      const nodeByKey = new Map();
-      for (const n of nodes) {
-        if (n.conversationID == null || n.id == null) continue;
-        const key = `${n.conversationID}:${n.id}`;
-        nodeByKey.set(key, n);
-      }
-
-      // Attach outgoing links to origin nodes
-      for (const link of links) {
-        const key = `${link.originConversationID}:${link.originDialogueID}`;
-        const originNode = nodeByKey.get(key);
-        if (!originNode) continue;
-        originNode.outgoing.push({
-          conversationID: link.destinationConversationID,
-          id: link.destinationDialogueID,
-        });
-      }
-
-      const choices = [];
-      const triggers = [];
-
-      for (const n of nodes) {
-        if (n.choiceText) {
-          choices.push(n);
-        } else if (n._hasMechanics) {
-          triggers.push(n);
-        }
-      }
-
-      return {
-        nodes,
-        links,
-        choices,
-        triggers,
-      };
+      return { nodes, links };
     }
 
     return { consume, finish };
